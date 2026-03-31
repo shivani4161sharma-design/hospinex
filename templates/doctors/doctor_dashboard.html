@@ -1,0 +1,394 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="doctor-dashboard">
+
+    <!-- HEADER -->
+    <div class="dashboard-top">
+        <h2>
+            Welcome Dr. {{ request.user.first_name|default:request.user.username }}
+        </h2>
+
+        <a href="{% url 'doctor_logout' %}" class="btn-logout">Logout</a>
+    </div>
+
+    <!-- ================= EMERGENCY ================= -->
+ {% if emergencies %}
+<div style="background:#ffebee; padding:20px; border-radius:12px; margin-bottom:20px;">
+    <h3 style="color:#c62828;"> Emergency Alerts</h3>
+
+    {% for emergency in emergencies %}
+        <div style="margin-top:10px; padding:10px; background:#ffcdd2; border-radius:8px;">
+            <strong>{{ emergency.patient_name }}</strong>
+            <p>{{ emergency.message }}</p>
+
+            <a href="{% url 'resolve_emergency' emergency.id %}"
+               style="background:#c62828; color:white; padding:6px 12px; border-radius:6px; text-decoration:none;">
+                Mark Resolved
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+    <!-- ================= APPOINTMENTS ================= -->
+    <div class="card">
+        <h3> Appointments</h3>
+
+        {% if active_emergency %}
+            <p class="muted">
+                 Appointment queue paused due to active emergency
+            </p>
+        {% endif %}
+
+        <table class="appointment-table">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.patient_name }}</td>
+                    <td>{{ appointment.appointment_date }}</td>
+
+                    <td>
+                        {% if appointment.status == "completed" %}
+                            <span class="status completed">✔ Completed</span>
+                        {% else %}
+                            <span class="status waiting">Waiting</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if appointment.status != "completed" and not active_emergency %}
+                            <a href="{% url 'mark_completed' appointment.id %}" class="btn-complete">
+                                Mark Completed
+                            </a>
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="muted center">No appointments</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div class="card" style="background:#fff3cd;">
+    <h3>Now Serving</h3>
+
+    {% if current_patient %}
+        <h2>Token #{{ current_patient.queue_number }}</h2>
+        <p>{{ current_patient.patient_name }}</p>
+    {% else %}
+        <p>No patient in progress</p>
+    {% endif %}
+    <a href="{% url 'next_patient' %}">
+    <button style="
+        background:#2e7d32;
+        color:white;
+        padding:10px 20px;
+        border:none;
+        border-radius:8px;
+        font-size:16px;
+        margin-bottom:20px;">
+        Next Patient →
+    </button>
+</a>
+</div>
+
+<!-- ================= STYLES ================= -->
+<style>
+.doctor-dashboard {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* HEADER */
+.dashboard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.btn-logout {
+    background: #c62828;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 22px;
+    margin-bottom: 30px;
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+}
+
+/* EMERGENCY */
+.emergency-card {
+    border-left: 6px solid #c62828;
+}
+
+.emergency-title {
+    color: #b71c1c;
+}
+
+.emergency-box {
+    background: #fff5f5;
+    border: 1px solid #f5c6cb;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.emergency-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.emergency-message {
+    background: white;
+    border-left: 4px solid #c62828;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+
+.emergency-time {
+    font-size: 12px;
+    color: #777;
+    margin-top: 8px;
+}
+
+.resolve-btn {
+    margin-top: 15px;
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* TABLE */
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.appointment-table th,
+.appointment-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.appointment-table th {
+    background: #f1f8f5;
+}
+
+.status.completed {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.status.waiting {
+    background: #fff3e0;
+    color: #ef6c00;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.btn-complete {
+    background: #2e7d32;
+    color: white;
+    padding: 7px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.muted {
+    color: #777;
+}
+
+.center {
+    text-align: center;
+}
+.notification-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.notification-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f9fafb;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.notification-card:hover {
+    background: #eef6ff;
+    transform: translateY(-2px);
+}
+
+.notification-card .icon {
+    font-size: 22px;
+}
+
+.notification-card .middle {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.notification-card .title {
+    font-size: 14px;
+    margin: 0;
+}
+
+.notification-card .sub {
+    font-size: 12px;
+    color: gray;
+}
+
+.notification-card .right a {
+    color: #2e7d32;
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+{% if notifications %}
+<div class="notification-box">
+    <h3>🔔 New Appointments</h3>
+
+    {% for note in notifications %}
+    <div class="notification-card">
+        <div class="left">
+            <div class="icon">👤</div>
+        </div>
+
+        <div class="middle">
+            <p class="title">
+                <strong>{{ note.appointment.patient_name }}</strong>
+                booked an appointment
+            </p>
+            <p class="sub">
+                Queue No: {{ note.appointment.queue_number }}
+            </p>
+        </div>
+
+        <div class="right">
+            <a href="{% url 'view_notification_appointment' note.appointment.id %}">
+                View →
+            </a>
+        </div>
+    </div>
+    {% empty %}
+        <p>No new notifications</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<style>
+.notification-card {
+    max-width: 520px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.notification-header {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f6fbf7;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+}
+
+.notification-text {
+    font-size: 15px;
+    color: #333;
+}
+
+.notification-text strong {
+    color: #1b5e20;
+}
+
+.view-btn {
+    position: relative;
+    background: #2e7d32;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-btn:hover {
+    background: #256528;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: red;
+    border-radius: 50%;
+    animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.6); opacity: 0.4; }
+    100% { transform: scale(1); opacity: 1; }
+}
+</style>
+
+
+{% endblock %}

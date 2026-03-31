@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div style="
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+">
+
+    <div style="
+        width: 420px;
+        padding: 40px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        text-align: center;
+    ">
+
+        <h2 style="color:#2e7d32; margin-bottom: 10px;">
+            Receptionist Login
+        </h2>
+
+        <p style="color:#555; margin-bottom: 25px;">
+            Login to access receptionist dashboard
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}   <!-- ✅ THIS FIXES THE ERROR -->
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+                style="width:100%; padding:10px; margin-bottom:15px;"
+            >
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                style="width:100%; padding:10px; margin-bottom:20px;"
+            >
+
+            <button type="submit" style="
+                width:100%;
+                padding:10px;
+                background:#2e7d32;
+                color:white;
+                border:none;
+                border-radius:6px;
+                font-size:16px;
+            ">
+                Login
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

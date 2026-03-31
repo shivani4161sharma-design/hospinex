@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Hero Section for Departments */
+    .dep-hero {
+        background: linear-gradient(rgba(46, 125, 50, 0.05), rgba(46, 125, 50, 0.02));
+        padding: 80px 20px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    .dep-title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--hospinex-dark);
+        margin-bottom: 15px;
+    }
+
+    .dep-subtitle {
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    /* Grid Layout */
+    .dep-container {
+        max-width: 1200px;
+        margin: -50px auto 80px; /* Pulls cards up into hero slightly */
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    /* Styled Department Card */
+    .dep-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(0,0,0,0.03);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dep-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 20px 40px rgba(46, 125, 50, 0.12);
+        border-color: var(--hospinex-green);
+    }
+
+    /* Icon Styling */
+    .dep-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        background: #f1f8e9;
+        color: var(--hospinex-green);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px;
+        font-size: 35px;
+        transition: 0.3s;
+    }
+
+    .dep-card:hover .dep-icon-wrapper {
+        background: var(--hospinex-green);
+        color: white;
+        transform: rotateY(360deg);
+    }
+
+    .dep-card h3 {
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    .dep-card p {
+        color: #777;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    /* Learn More Link */
+    .dep-link {
+        color: var(--hospinex-green);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.3s;
+    }
+
+    .dep-link:hover {
+        gap: 12px;
+    }
+
+    /* Background Decoration */
+    .dep-card::before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 100px;
+        height: 100px;
+        background: rgba(46, 125, 50, 0.03);
+        border-radius: 50%;
+        z-index: 0;
+    }
+</style>
+
+<div class="dep-hero">
+    <h1 class="dep-title">Medical Departments</h1>
+    <p class="dep-subtitle">Providing specialized healthcare with precision and compassion across our centers of excellence.</p>
+</div>
+
+<div class="dep-container">
+    <div class="dep-card">
+        <div class="dep-icon-wrapper">🩺</div>
+        <h3>General Medicine</h3>
+        <p>Comprehensive primary care focusing on prevention, diagnosis, and non-surgical treatment of adult diseases.</p>
+        <a href="#" class="dep-link">View Specialists ➔</a>
+    </div>
+
+    <div class="dep-card">
+        <div class="dep-icon-wrapper">❤️</div>
+        <h3>Cardiology</h3>
+        <p>Dedicated to advanced heart health, cardiovascular surgery, and managing complex cardiac conditions.</p>
+        <a href="#" class="dep-link">View Specialists ➔</a>
+    </div>
+
+    <div class="dep-card">
+        <div class="dep-icon-wrapper">🧠</div>
+        <h3>Neurology</h3>
+        <p>Expert care for the brain, spine, and nervous system using state-of-the-art diagnostic technology.</p>
+        <a href="#" class="dep-link">View Specialists ➔</a>
+    </div>
+
+    <div class="dep-card">
+        <div class="dep-icon-wrapper">🦴</div>
+        <h3>Orthopedics</h3>
+        <p>Specializing in bone health, joint replacements, and sports medicine to get you moving again.</p>
+        <a href="#" class="dep-link">View Specialists ➔</a>
+    </div>
+
+    <div class="dep-card">
+        <div class="dep-icon-wrapper">👶</div>
+        <h3>Pediatrics</h3>
+        <p>Compassionate healthcare tailored specifically for the unique needs of infants, children, and teens.</p>
+        <a href="#" class="dep-link">View Specialists ➔</a>
+    </div>
+</div>
+
+<div style="background: var(--hospinex-green); padding: 60px 20px; text-align: center; color: white; margin-top: 50px;">
+    <h2 style="font-size: 2rem; margin-bottom: 20px;">Need Help Choosing a Department?</h2>
+    <p style="margin-bottom: 30px; opacity: 0.9;">Our helpdesk is available 24/7 to guide you to the right specialist.</p>
+    <a href="{% url 'home' %}#contact" style="background: white; color: var(--hospinex-green); padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s;">Contact Support</a>
+</div>
+
+{% endblock %}

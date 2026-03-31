@@ -1,0 +1,327 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+    background: #f4f7f6;
+}
+
+/* SECTION */
+.contact-section {
+    padding: 60px 20px;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* TITLE */
+.contact-title {
+    text-align: center;
+    color: #2e7d32;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+/* LAYOUT */
+.contact-wrapper {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* FORM */
+.contact-form {
+    flex: 1;
+    background: #fff;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+}
+
+/* INPUT */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+}
+
+.input-group label {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    color: #888;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+/* FLOAT */
+.input-group input:focus + label,
+.input-group textarea:focus + label,
+.input-group input:not(:placeholder-shown) + label,
+.input-group textarea:not(:placeholder-shown) + label {
+    top: -8px;
+    left: 10px;
+    background: #fff;
+    padding: 0 5px;
+    font-size: 11px;
+    color: #2e7d32;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: #2e7d32;
+    outline: none;
+}
+
+/* BUTTON */
+.contact-form button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #2e7d32, #388e3c);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background: linear-gradient(135deg, #1b5e20, #2e7d32);
+}
+
+/* INFO */
+.contact-info {
+    flex: 1;
+    background: #2e7d32;
+    color: white;
+    padding: 35px;
+    border-radius: 16px;
+}
+
+.contact-info h3 {
+    margin-bottom: 20px;
+}
+
+/* INFO ITEMS */
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.info-item i {
+    margin-right: 10px;
+}
+
+/* MAP */
+.map-section {
+    max-width: 1100px;
+    margin: 40px auto 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* SUCCESS MESSAGE */
+.success-message {
+    display: none;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+/* SUBTITLE */
+.contact-subtitle {
+    text-align: center;
+    color: #666;
+    margin-top: -20px;
+    margin-bottom: 40px;
+    font-size: 15px;
+}
+
+/* TOP INFO CARDS */
+.quick-info {
+    max-width: 1100px;
+    margin: 0 auto 30px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.quick-card {
+    flex: 1;
+    min-width: 220px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    transition: 0.3s;
+}
+
+.quick-card i {
+    font-size: 22px;
+    color: #2e7d32;
+    margin-bottom: 10px;
+}
+
+.quick-card:hover {
+    transform: translateY(-5px);
+}
+
+/* BACKGROUND GRADIENT */
+.contact-section {
+    background: linear-gradient(to bottom, #f4f7f6, #ffffff);
+}
+
+/* MAP ENHANCEMENT */
+.map-section iframe {
+    filter: grayscale(20%) contrast(95%);
+}
+
+/* BETTER SPACING */
+.contact-wrapper {
+    margin-top: 20px;
+}
+.extra-section {
+    max-width: 1100px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.extra-section h3 {
+    color: #2e7d32;
+    margin-bottom: 30px;
+}
+
+/* FEATURES */
+.features {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.feature-box {
+    flex: 1;
+    min-width: 250px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.feature-box i {
+    font-size: 26px;
+    color: #2e7d32;
+    margin-bottom: 10px;
+}
+
+.feature-box:hover {
+    transform: translateY(-6px);
+}
+
+
+</style>
+<div class="contact-section">
+    <h2 class="contact-title">Contact Us</h2>
+<p class="contact-subtitle">
+    We are here to help you. Reach out for appointments, queries, or support.
+</p>
+        <!-- DETAILS -->
+        <div class="contact-info">
+            <h3>Our Details</h3>
+
+            <div class="info-item">
+                <i class="fa-solid fa-globe"></i>
+                <span>Hospinex Healthcare</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Himachal Pradesh, India</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span>support@hospinex.com</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fa-solid fa-phone"></i>
+                <span>+91 98765 43210</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fa-solid fa-clock"></i>
+                <span>Mon - Sat (9:00 AM - 8:00 PM)</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- GOOGLE MAP -->
+    <div class="map-section">
+        <iframe 
+            src="https://www.google.com/maps?q=Himachal%20Pradesh&output=embed"
+            width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy">
+        </iframe>
+    </div>
+
+</div>
+<div class="extra-section">
+    <h3>Why Choose Hospinex?</h3>
+
+    <div class="features">
+
+        <div class="feature-box">
+            <i class="fa-solid fa-user-doctor"></i>
+            <h4>Expert Doctors</h4>
+            <p>Qualified and experienced healthcare professionals.</p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa-solid fa-clock"></i>
+            <h4>24/7 Support</h4>
+            <p>Always available for your medical needs.</p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa-solid fa-hospital"></i>
+            <h4>Modern Facilities</h4>
+            <p>Advanced infrastructure for better treatment.</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- JS -->
+<script>
+function showMessage() {
+    document.getElementById("successMsg").style.display = "block";
+}
+</script>
+
+{% endblock %}

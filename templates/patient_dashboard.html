@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<meta http-equiv="refresh" content="10"> <!-- 🔥 auto refresh -->
+
+<!-- USER INFO -->
+<div class="card user-card">
+    <h2>Welcome, {{ request.user.first_name|default:request.user.username }}</h2>
+</div>
+
+<!-- CURRENT QUEUE -->
+<div class="queue-box">
+    {% if current_queue %}
+        🟢 Now Serving: Token #{{ current_queue.queue_number }}
+    {% else %}
+        🟡 No active queue
+    {% endif %}
+</div>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat-card">
+        <h3>{{ total }}</h3>
+        <p>Total</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ upcoming }}</h3>
+        <p>Upcoming</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ completed }}</h3>
+        <p>Completed</p>
+    </div>
+</div>
+<div style="margin-bottom:20px;">
+    <a href="{% url 'doctor_list' %}" class="book-btn">
+    + Book New Appointment
+</a>
+</div>
+<a href="{% url 'patient_logout' %}" class="logout-btn">Logout</a>
+
+<style>
+    .logout-btn {
+        background-color: #d32f2f; /* Professional red */
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        float: right;
+    }
+    .logout-btn:hover { background-color: #b71c1c; }
+</style>
+
+<!-- APPOINTMENTS TABLE -->
+<div class="appointments-card">
+    <h3>My Appointments</h3>
+
+    <table class="appointment-table">
+        <thead>
+            <tr>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Queue</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for appt in appointments %}
+            <tr>
+                <td>Dr. {{ appt.doctor.user.get_full_name }}</td>
+                <td>{{ appt.appointment_date }}</td>
+                <td>#{{ appt.queue_number }}</td>
+
+                <td>
+                    <span class="status {{ appt.status }}">
+                        {{ appt.status }}
+                    </span>
+                </td>
+
+                <td>{{ appt.time_slot }}</td>
+
+                <td>
+                    {% if appt.status != "completed" %}
+                    <a href="{% url 'cancel_appointment' appt.id %}" class="btn-cancel">
+                        Cancel
+                    </a>
+                    {% else %}
+                    <span class="completed-text">Done</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="no-data">No appointments found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<style>
+/* USER CARD */
+.user-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* QUEUE BOX */
+.queue-box {
+    background: #ffeb3b;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* STATS */
+.stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    flex: 1;
+    background: linear-gradient(135deg, #2e7d32, #66bb6a);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* TABLE */
+.table-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.appointments-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.appointments-card h3 {
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.appointment-table thead {
+    background: #f5f7fa;
+}
+
+.appointment-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+}
+
+.appointment-table td {
+    padding: 12px;
+    border-top: 1px solid #eee;
+    vertical-align: middle;
+}
+
+/* STATUS BADGES */
+.status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status.waiting {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.in_progress {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status.completed {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* BUTTON */
+.btn-cancel {
+    background: #dc3545;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btn-cancel:hover {
+    background: #b02a37;
+}
+
+/* EMPTY STATE */
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+}
+
+/* COMPLETED TEXT */
+.completed-text {
+    color: green;
+    font-weight: 500;
+}
+.book-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    margin: 15px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Hover effect */
+.book-btn:hover {
+    background: linear-gradient(135deg, #1b5e20, #2e7d32);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* Add icon spacing */
+.book-btn::before {
+    content: "➕ ";
+    margin-right: 5px;
+}
+</style>
+
+{% endblock %}

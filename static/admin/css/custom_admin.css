@@ -1,0 +1,108 @@
+/* ==============================
+   FORCE LIGHT MODE
+============================== */
+html {
+    color-scheme: light !important;
+}
+
+/* ==============================
+   TOP HEADER (MATCH WEBSITE)
+============================== */
+#header {
+    background: #2e7d32 !important;
+    border-bottom: none !important;
+}
+
+#branding h1,
+#branding h1 a {
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 20px;
+}
+
+/* ==============================
+   USER LINKS (TOP RIGHT)
+============================== */
+#user-tools a {
+    color: #e8f5e9 !important;
+}
+
+#user-tools a:hover {
+    color: #ffffff !important;
+    text-decoration: underline;
+}
+
+/* ==============================
+   MODULE / APP HEADERS
+============================== */
+.module caption,
+.module h2 {
+    background: #e8f5e9 !important;
+    color: #2e7d32 !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid #c8e6c9 !important;
+}
+
+/* Doctors section highlight */
+.app-doctors .module caption {
+    background: #c8e6c9 !important;
+}
+
+/* ==============================
+   BUTTONS (MATCH WEBSITE)
+============================== */
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input {
+    background: #2e7d32 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 6px 14px !important;
+}
+
+.button:hover,
+.submit-row input:hover {
+    background: #1b5e20 !important;
+}
+
+/* ==============================
+   LINKS
+============================== */
+a:link,
+a:visited {
+    color: #2e7d32 !important;
+}
+
+a:hover {
+    color: #1b5e20 !important;
+}
+
+/* ==============================
+   TABLE HEADERS
+============================== */
+thead th {
+    background: #e8f5e9 !important;
+    color: #2e7d32 !important;
+    border-bottom: 1px solid #c8e6c9 !important;
+}
+
+/* ==============================
+   SIDEBAR
+============================== */
+#nav-sidebar {
+    background: #f6fff8 !important;
+}
+
+/* ==============================
+   REMOVE DARK MODE EFFECTS
+============================== */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: white !important;
+        color: #333 !important;
+    }
+}
+
+

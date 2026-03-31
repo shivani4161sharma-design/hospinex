@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.dashboard {
+    display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    background: #2e7d32;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.sidebar a:hover {
+    background: #1b5e20;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 30px;
+}
+
+/* PROFILE */
+.profile-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* CARDS */
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    flex: 1;
+    min-width: 200px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    color: #2e7d32;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: white;
+}
+
+table th, table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.logout-btn {
+    background: red;
+    padding: 8px;
+    color: white;
+    text-decoration: none;
+}
+</style>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h3>Patient Panel</h3>
+        <a href="#">Dashboard</a>
+        <a href="#">Appointments</a>
+        <a href="#">Profile</a>
+
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- PROFILE -->
+        <div class="profile-box">
+            <h2>Welcome, {{ request.user.username }}</h2>
+            <p>Email: {{ request.user.email }}</p>
+        </div>
+
+        <!-- CARDS -->
+        <div class="cards">
+            <div class="card">
+                <h2>{{ total_appointments }}</h2>
+                <p>Total Appointments</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ upcoming_appointments }}</h2>
+                <p>Upcoming</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ past_appointments }}</h2>
+                <p>Completed</p>
+            </div>
+        </div>
+
+        <!-- APPOINTMENT TABLE -->
+        <h3 style="margin-top:30px;">My Appointments</h3>
+
+        <table>
+            <tr>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+
+            {% for appt in appointments %}
+            <tr>
+                <td>{{ appt.doctor.name }}</td>
+                <td>{{ appt.date }}</td>
+                <td>{{ appt.status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No appointments found</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

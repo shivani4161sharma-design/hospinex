@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.appointment-card {
+    max-width: 720px;
+    margin: 60px auto;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    overflow: hidden;
+}
+
+.appointment-header {
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: white;
+    padding: 25px 30px;
+}
+
+.appointment-header h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.appointment-body {
+    padding: 30px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #444;
+}
+
+.info-value {
+    color: #222;
+}
+
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-completed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px;
+    background: #fafafa;
+}
+
+.btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-back {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-complete {
+    background: #2e7d32;
+    color: white;
+}
+</style>
+
+<div class="appointment-card">
+
+    <div class="appointment-header">
+        <h2>📋 Appointment Details</h2>
+    </div>
+
+    <div class="appointment-body">
+
+        <div class="info-row">
+            <div class="info-label">Patient Name</div>
+            <div class="info-value">{{ appointment.patient_name }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Email</div>
+            <div class="info-value">{{ appointment.patient_email }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Phone</div>
+            <div class="info-value">{{ appointment.patient_phone }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Appointment Date</div>
+            <div class="info-value">{{ appointment.appointment_date }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Status</div>
+            <div class="info-value">
+                {% if appointment.status == "completed" %}
+                    <span class="status-badge status-completed">Completed</span>
+                {% else %}
+                    <span class="status-badge status-pending">Pending</span>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="action-bar">
+        <a href="{% url 'doctor_dashboard' %}" class="btn btn-back">
+            ← Back to Dashboard
+        </a>
+
+        {% if appointment.status != "completed" %}
+        <a href="{% url 'mark_completed' appointment.id %}" class="btn btn-complete">
+            ✔ Mark Completed
+        </a>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

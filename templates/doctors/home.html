@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- HERO SECTION -->
+<section style="
+    background:linear-gradient(135deg,#e8f5e9,#ffffff);
+    padding:80px 20px;
+    text-align:center;
+">
+    <h1 style="color:#2e7d32; font-size:44px; margin-bottom:10px;">
+        Welcome to Hospinex
+    </h1>
+    <p style="color:#555; font-size:18px; max-width:720px; margin:auto;">
+        Compassionate healthcare, experienced doctors, and modern medical facilities —
+        all in one place.
+    </p>
+
+    <a href="#doctors"
+       style="
+           display:inline-block;
+           margin-top:30px;
+           padding:14px 32px;
+           background:#2e7d32;
+           color:white;
+           border-radius:8px;
+           font-weight:600;
+           text-decoration:none;
+       ">
+        Book Appointment
+    </a>
+</section>
+
+<!-- STATS -->
+<section style="
+    padding:50px 20px;
+    background:white;
+">
+    <div style="
+        max-width:1000px;
+        margin:auto;
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+        gap:30px;
+        text-align:center;
+    ">
+        <div>
+            <h2 style="color:#2e7d32;">50+</h2>
+            <p style="color:#666;">Qualified Doctors</p>
+        </div>
+        <div>
+            <h2 style="color:#2e7d32;">10k+</h2>
+            <p style="color:#666;">Happy Patients</p>
+        </div>
+        <div>
+            <h2 style="color:#2e7d32;">12</h2>
+            <p style="color:#666;">Medical Departments</p>
+        </div>
+    </div>
+</section>
+
+<!-- DEPARTMENTS -->
+<section style="
+    background:#f6fff8;
+    padding:70px 20px;
+">
+    <h2 style="text-align:center; color:#2e7d32;">
+        Our Departments
+    </h2>
+
+    <div style="
+        max-width:1100px;
+        margin:40px auto 0;
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+        gap:25px;
+        text-align:center;
+    ">
+        <div class="card">🫀 Cardiology</div>
+        <div class="card">🧠 Neurology</div>
+        <div class="card">🦴 Orthopedics</div>
+        <div class="card">👶 Pediatrics</div>
+        <div class="card">🦷 Dental</div>
+        <div class="card">🩺 General Medicine</div>
+    </div>
+</section>
+
+<!-- DOCTORS -->
+<section id="doctors" style="padding:70px 40px;">
+    <h2 style="text-align:center; color:#2e7d32;">
+        Our Doctors
+    </h2>
+
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+        gap:30px;
+        max-width:1200px;
+        margin:auto;
+        margin-top:40px;
+    ">
+        {% for doctor in doctors %}
+        <div style="
+            background:white;
+            padding:25px;
+            border-radius:16px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.08);
+            text-align:center;
+        ">
+            {% if doctor.photo %}
+            <img src="{{ doctor.photo.url }}"
+                 style="
+                     width:120px;
+                     height:120px;
+                     border-radius:50%;
+                     object-fit:cover;
+                     margin-bottom:15px;
+                 ">
+            {% endif %}
+
+            <h3 style="color:#2e7d32;">{{ doctor.name }}</h3>
+            <p style="color:#666;">{{ doctor.specialization }}</p>
+
+            <a href="{% url 'doctor_detail' doctor.id %}"
+               style="
+                   display:inline-block;
+                   margin-top:14px;
+                   padding:10px 22px;
+                   background:#2e7d32;
+                   color:white;
+                   border-radius:8px;
+                   text-decoration:none;
+               ">
+                View Profile
+            </a>
+        </div>
+        {% empty %}
+        <p style="text-align:center;">No doctors available</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section style="
+    background:#2e7d32;
+    padding:70px 20px;
+    text-align:center;
+    color:white;
+">
+    <h2>Need Medical Consultation?</h2>
+    <p style="max-width:600px; margin:15px auto;">
+        Book your appointment today and get expert care without waiting.
+    </p>
+
+    <a href="#doctors"
+       style="
+           display:inline-block;
+           margin-top:20px;
+           padding:14px 30px;
+           background:white;
+           color:#2e7d32;
+           border-radius:8px;
+           font-weight:600;
+           text-decoration:none;
+       ">
+        Book Appointment
+    </a>
+</section>
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.auth-card {
+    width: 400px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.auth-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2e7d32;
+    margin-bottom: 20px;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.auth-btn:hover {
+    background: #256428;
+}
+
+.toggle-text {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.toggle-link {
+    color: #2e7d32;
+    cursor: pointer;
+    font-weight: bold;
+}
+</style>
+
+<div class="auth-container">
+    <div class="auth-card">
+
+        <!-- LOGIN FORM -->
+        <div id="loginForm">
+            <div class="auth-title">Patient Login</div>
+
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="login">
+
+                <input type="email" name="email" class="auth-input" placeholder="Email" required>
+                <input type="password" name="password" class="auth-input" placeholder="Password" required>
+
+                <button type="submit" class="auth-btn">Login</button>
+            </form>
+
+            <div class="toggle-text">
+                Don't have an account? 
+                <span class="toggle-link" onclick="showSignup()">Sign Up</span>
+            </div>
+        </div>
+
+        <!-- SIGNUP FORM -->
+        <div id="signupForm" style="display:none;">
+            <div class="auth-title">Create Account</div>
+
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="signup">
+
+                <input type="text" name="name" class="auth-input" placeholder="Full Name" required>
+                <input type="email" name="email" class="auth-input" placeholder="Email" required>
+                <input type="password" name="password" class="auth-input" placeholder="Password" required>
+                <input type="password" name="confirm_password" class="auth-input" placeholder="Confirm Password" required>
+
+                <button type="submit" class="auth-btn">Sign Up</button>
+            </form>
+
+            <div class="toggle-text">
+                Already have an account? 
+                <span class="toggle-link" onclick="showLogin()">Login</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function showSignup() {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("signupForm").style.display = "block";
+}
+
+function showLogin() {
+    document.getElementById("signupForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+}
+</script>
+
+{% endblock %}

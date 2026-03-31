@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="hospital-gallery">
+    <div class="gallery-container">
+        <div class="gallery-header">
+            <h1 class="gallery-title">Hospital Gallery</h1>
+            <p class="gallery-subtitle">
+                A glimpse of our modern facilities, compassionate care, 
+                and patient-friendly environment.
+            </p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_1.jpeg' %}')">
+                <img src="{% static 'images/gallery/ghumarwin_civil_1.jpeg' %}" alt="Hospital Facility">
+                <div class="gallery-overlay"><span>View Facility</span></div>
+            </div>
+
+            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_2.jpeg' %}')">
+                <img src="{% static 'images/gallery/ghumarwin_civil_2.jpeg' %}" alt="Patient Care">
+                <div class="gallery-overlay"><span>Patient Care</span></div>
+            </div>
+
+            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_3.jpeg' %}')">
+                <img src="{% static 'images/gallery/ghumarwin_civil_3.jpeg' %}" alt="Operation Theatre">
+                <div class="gallery-overlay"><span>Operation Theatre</span></div>
+            </div>
+
+            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_4.jpeg' %}')">
+                <img src="{% static 'images/gallery/ghumarwin_civil_4.jpeg' %}" alt="Medical Equipment">
+                <div class="gallery-overlay"><span>Advanced Tech</span></div>
+            </div>
+
+            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_5.jpeg' %}')">
+                <img src="{% static 'images/gallery/ghumarwin_civil_5.jpeg' %}" alt="Reception Area">
+                <div class="gallery-overlay"><span>Reception</span></div>
+            </div>
+
+            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_6.jpeg' %}')">
+                <img src="{% static 'images/gallery/ghumarwin_civil_6.jpeg' %}" alt="Doctor Consultation">
+                <div class="gallery-overlay"><span>Consultation</span></div>
+            </div>
+
+            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_7.jpeg' %}')">
+                <img src="{% static 'images/gallery/ghumarwin_civil_7.jpeg' %}" alt="Hospital Ward">
+                <div class="gallery-overlay"><span>General Ward</span></div>
+            </div>
+
+            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/xray_corridor.png' %}')">
+                <img src="{% static 'images/gallery/xray_corridor.png' %}" alt="Advanced Care">
+                <div class="gallery-overlay"><span>ICU Care</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-banner">
+    <div class="stat-item">
+        <h2>20+</h2>
+        <p>Expert Doctors</p>
+    </div>
+    <div class="stat-item">
+        <h2>10k+</h2>
+        <p>Happy Patients</p>
+    </div>
+    <div class="stat-item">
+        <h2>15+</h2>
+        <p>Departments</p>
+    </div>
+    <div class="stat-item">
+        <h2>24×7</h2>
+        <p>Emergency Care</p>
+    </div>
+</section>
+
+<section class="testimonials">
+    <h2>What Our Patients Say</h2>
+    <div class="testimonial-grid">
+        <div class="testimonial-card">
+            <p>“Excellent doctors and caring staff. The treatment process was smooth and stress-free.”</p>
+            <h4>— Rahul Mehta</h4>
+        </div>
+        <div class="testimonial-card">
+            <p>“Hospinex truly focuses on patients. Clean facilities and very professional doctors.”</p>
+            <h4>— Anjali Sharma</h4>
+        </div>
+        <div class="testimonial-card">
+            <p>“Emergency services saved my father’s life. Forever grateful.”</p>
+            <h4>— Suresh Kumar</h4>
+        </div>
+    </div>
+</section>
+
+<section class="action-grid">
+    <div class="action-card emergency">
+        <h3>Emergency Help</h3>
+        <p>Call our 24×7 emergency helpline</p>
+        <strong>+91 98765 43210</strong>
+    </div>
+
+    <div class="action-card appointment">
+        <h3>Book Appointment</h3>
+        <p>Consult expert doctors instantly</p>
+        <a href="{% url 'doctor_list' %}" class="btn-action">Book Now</a>
+    </div>
+</section>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="close-lightbox">&times;</span>
+    <img id="lightbox-img" src="" alt="Popup View">
+</div>
+
+<style>
+    /* Main Gallery */
+    .hospital-gallery { padding: 80px 20px; background: #f4f7f6; }
+    .gallery-container { max-width: 1200px; margin: auto; text-align: center; }
+    .gallery-header { margin-bottom: 50px; }
+    .gallery-title { color: #1b5e20; font-size: 38px; margin-bottom: 10px; }
+    .gallery-subtitle { color: #666; font-size: 17px; }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
+
+    .gallery-item {
+        position: relative;
+        height: 250px;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        cursor: pointer;
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.5s ease;
+    }
+
+    .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(27, 94, 32, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: 0.4s;
+    }
+
+    .gallery-overlay span { color: white; font-weight: bold; font-size: 18px; border: 2px solid white; padding: 8px 15px; }
+    .gallery-item:hover img { transform: scale(1.1); }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* Stats */
+    .stats-banner {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        background: #1b5e20;
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+    }
+    .stat-item h2 { font-size: 45px; margin-bottom: 5px; }
+
+    /* Testimonials */
+    .testimonials { padding: 80px 20px; text-align: center; background: white; }
+    .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; }
+    .testimonial-card { padding: 30px; background: #f9f9f9; border-radius: 15px; border-bottom: 4px solid #2e7d32; }
+
+    /* Actions */
+    .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 60px 20px; max-width: 1200px; margin: auto; }
+    .action-card { padding: 40px; border-radius: 20px; color: white; text-align: center; }
+    .emergency { background: linear-gradient(45deg, #d32f2f, #b71c1c); }
+    .appointment { background: linear-gradient(45deg, #2e7d32, #1b5e20); }
+    .btn-action { display: inline-block; margin-top: 15px; background: white; color: #1b5e20; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; }
+
+    /* Lightbox */
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; justify-content: center; align-items: center; }
+    .lightbox img { max-width: 85%; max-height: 80%; border: 5px solid white; border-radius: 10px; }
+    .close-lightbox { position: absolute; top: 30px; right: 40px; color: white; font-size: 50px; cursor: pointer; }
+</style>
+
+<script>
+    function openLightbox(src) {
+        document.getElementById("lightbox-img").src = src;
+        document.getElementById("lightbox").style.display = "flex";
+    }
+    function closeLightbox() {
+        document.getElementById("lightbox").style.display = "none";
+    }
+</script>
+
+{% endblock %}

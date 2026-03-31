@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% if not doctor.available %}
+<div style="background:#ffcccc;padding:15px;border-radius:8px;">
+  🚨 <strong>Emergency in progress</strong><br>
+  Normal queue is temporarily paused.
+</div>
+{% endif %}
+
+
+{% block content %}
+<div class="container">
+    <h2 style="text-align:center; margin-bottom:20px;">
+        🧑‍⚕️ Dr. {{ doctor.name }} — Patient Queue
+    </h2>
+{% if not doctor.available %}
+<a href="{% url 'resume_queue' doctor.id %}"
+   class="btn btn-success">
+   ▶ Resume Queue
+</a>
+{% endif %}
+
+    {% if queue %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Queue No.</th>
+                    <th>Patient Name</th>
+                    <th>Appointment Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in queue %}
+                <tr>
+                    <td><strong>{{ item.number }}</strong></td>
+                    <td>{{ item.patient_name }}</td>
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align:center;">No patients in queue.</p>
+    {% endif %}
+</div>
+{% endblock %}

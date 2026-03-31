@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="about-hero">
+    <div class="hero-content">
+        <h1>About Hospinex</h1>
+        <p>
+            Hospinex is a modern healthcare platform that helps hospitals manage
+            appointments, improve patient experience, and streamline medical services.
+        </p>
+    </div>
+</section>
+
+<section class="about-intro">
+    <div class="intro-container">
+        <div class="intro-text">
+            <h2>Smart Healthcare Management</h2>
+            <p>
+                Hospinex transforms the way hospitals manage appointments and patient queues.
+                Our system helps doctors, receptionists, and patients save time while improving
+                the quality of healthcare services.
+            </p>
+            <div class="features">
+                <div class="feature"><span>✔</span> Easy Appointment Booking</div>
+                <div class="feature"><span>✔</span> Real-time Queue Management</div>
+                <div class="feature"><span>✔</span> Doctor Availability Tracking</div>
+                <div class="feature"><span>✔</span> Emergency Alert System</div>
+            </div>
+        </div>
+        <div class="intro-image">
+            <img src="{% static 'images/hospital.jpg' %}" alt="Hospital">
+        </div>
+    </div>
+</section>
+
+<section class="mission-section">
+    <div class="mission-card">
+        <h3>💚 Our Mission</h3>
+        <p>
+            To provide a digital healthcare platform that simplifies hospital operations
+            and allows patients to easily connect with doctors.
+        </p>
+    </div>
+    <div class="mission-card">
+        <h3>🌿 Our Vision</h3>
+        <p>
+            To become a trusted healthcare technology platform that improves hospital
+            efficiency and patient satisfaction through innovation.
+        </p>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="stat-box">
+        <h2>20+</h2>
+        <p>Doctors</p>
+    </div>
+    <div class="stat-box">
+        <h2>500+</h2>
+        <p>Patients Served</p>
+    </div>
+    <div class="stat-box">
+        <h2>10+</h2>
+        <p>Departments</p>
+    </div>
+    <div class="stat-box">
+        <h2>24/7</h2>
+        <p>Support</p>
+    </div>
+</section>
+
+<section class="why-section">
+    <h2>Why Choose Hospinex</h2>
+    <div class="why-container">
+        <div class="why-card">
+            <h3>⚡ Fast Appointment</h3>
+            <p>Book appointments quickly without waiting in long hospital queues.</p>
+        </div>
+        <div class="why-card">
+            <h3>📊 Smart Queue</h3>
+            <p>Real-time queue system reduces waiting time for patients.</p>
+        </div>
+        <div class="why-card">
+            <h3>👨‍⚕️ Doctor Availability</h3>
+            <p>Doctors can manage schedules and patient flow efficiently.</p>
+        </div>
+        <div class="why-card">
+            <h3>🚑 Emergency Alerts</h3>
+            <p>Instant notifications help doctors respond to emergencies faster.</p>
+        </div>
+    </div>
+</section>
+
+<section class="team-section">
+    <h2>Our Team</h2>
+    <div class="team-container">
+        <div class="team-card">
+            <img src="{% static 'images/developer.jpg' %}" alt="Shivani Sharma">
+            <h3>Shivani Sharma</h3>
+            <p>BCA Final Year Student</p>
+        </div>
+        <div class="team-card">
+            <img src="{% static 'images/guide.jpg' %}" alt="Prof. Amar Paul Singh">
+            <h3>Prof. Amar Paul Singh</h3>
+            <p>Project Guide</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <h2>Need Medical Assistance?</h2>
+    <p>Book your appointment quickly with Hospinex.</p>
+    <a href="{% url 'doctor_list' %}" class="cta-btn">Book Appointment</a>
+    <a href="{% url 'contact' %}" class="cta-btn secondary-btn">Contact Us</a>
+</section>
+
+<style>
+    /* Add a margin to the top so content doesn't hide under the sticky navbar */
+    main { padding-top: 0; }
+
+    .about-hero {
+        background: linear-gradient(135deg, #1b5e20, #2e7d32);
+        color: white;
+        padding: 100px 10%;
+        text-align: center;
+    }
+    .about-hero h1 { font-size: 48px; margin-bottom: 15px; }
+    .about-hero p { font-size: 18px; max-width: 700px; margin: auto; line-height: 1.6; }
+
+    .about-intro { padding: 80px 10%; background: white; }
+    .intro-container { display: flex; align-items: center; gap: 60px; flex-wrap: wrap; }
+    .intro-text { flex: 1; min-width: 300px; }
+    .intro-text h2 { color: #2e7d32; font-size: 34px; margin-bottom: 20px; }
+    .features { margin-top: 25px; }
+    .feature { margin-bottom: 10px; font-size: 16px; color: #444; }
+    .feature span { color: #2e7d32; font-weight: bold; margin-right: 8px; }
+    .intro-image img { width: 100%; max-width: 450px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+    .mission-section { display: flex; justify-content: center; gap: 40px; padding: 80px 10%; background: #f1f8f4; flex-wrap: wrap; }
+    .mission-card { background: white; padding: 40px; width: 400px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.06); border-top: 4px solid #2e7d32; }
+
+    .stats-section { display: flex; justify-content: center; gap: 50px; padding: 70px 10%; text-align: center; flex-wrap: wrap; }
+    .stat-box { background: #f1f8f4; padding: 30px; width: 180px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+    .stat-box h2 { color: #2e7d32; font-size: 34px; margin: 0; }
+
+    .why-section { padding: 80px 10%; background: #f9fdfb; text-align: center; }
+    .why-section h2 { font-size: 36px; color: #2e7d32; margin-bottom: 40px; }
+    .why-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+    .why-card { background: white; padding: 30px; width: 260px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+
+    .team-section { padding: 90px 10%; text-align: center; }
+    .team-section h2 { color: #2e7d32; font-size: 36px; margin-bottom: 40px; }
+    .team-container { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
+    .team-card { background: white; padding: 30px; width: 260px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+    .team-card img { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 6px solid #e8f5e9; margin-bottom: 20px; }
+
+    .cta-section { background: #1b5e20; color: white; padding: 70px 10%; text-align: center; }
+    .cta-btn { display: inline-block; margin: 10px; padding: 12px 28px; background: white; color: #2e7d32; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s; }
+    .cta-btn:hover { background: #e8f5e9; transform: translateY(-2px); }
+    .secondary-btn { background: transparent; color: white; border: 2px solid white; }
+    .secondary-btn:hover { background: white; color: #2e7d32; }
+</style>
+{% endblock %}

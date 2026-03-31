@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="doctor-card">
+    <h2>My Appointments</h2>
+
+    {% for a in appointments %}
+    <div class="section-card">
+        <p><strong>Doctor:</strong> Dr. {{ a.doctor.first_name }}</p>
+        <p><strong>Date:</strong> {{ a.appointment_date }}</p>
+        <p><strong>Status:</strong> {{ a.status }}</p>
+    </div>
+    {% empty %}
+    <p>No appointments found.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

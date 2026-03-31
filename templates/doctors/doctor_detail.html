@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.doctor-profile {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+}
+
+.profile-header {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.profile-header img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid #e8f5e9;
+}
+
+.profile-info h2 {
+    color: #1b5e20;
+    margin-bottom: 5px;
+}
+
+.profile-info .speciality {
+    color: #2e7d32;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.stat {
+    background: #f1f8f5;
+    padding: 12px 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.stat strong {
+    display: block;
+    font-size: 18px;
+    color: #2e7d32;
+}
+
+.btn-book {
+    margin-top: 20px;
+    display: inline-block;
+    background: #2e7d32;
+    color: white;
+    padding: 12px 26px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-book:hover {
+    background: #1b5e20;
+}
+
+.section-grid {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.section-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.section-card h3 {
+    color: #1b5e20;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .section-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="doctor-profile">
+    <div class="profile-card">
+
+        <div class="profile-header">
+
+            {% if doctor.photo %}
+                <img src="{{ doctor.photo.url }}" alt="Dr. {{ doctor.user.get_full_name }}">
+            {% endif %}
+
+            <div class="profile-info">
+                <h2>
+                    Dr. {{ doctor.user.get_full_name }}
+                </h2>
+
+                {% if doctor.specialization %}
+                    <div class="speciality">
+                        {{ doctor.specialization }}
+                    </div>
+                {% endif %}
+
+                {% if doctor.bio %}
+                    <p>{{ doctor.bio }}</p>
+                {% endif %}
+
+                <div class="stats">
+                    {% if doctor.experience %}
+                    <div class="stat">
+                        <strong>{{ doctor.experience }}+</strong>
+                        Years Experience
+                    </div>
+                    {% endif %}
+
+                    <div class="stat">
+                        <strong>5000+</strong>
+                        Patients Treated
+                    </div>
+                </div>
+
+                <!-- USER ID based booking -->
+                <a href="{% url 'book_appointment' doctor.user.id %}" class="btn-book">
+                    Book Appointment
+                </a>
+            </div>
+        </div>
+
+        <div class="section-grid">
+
+            {% if doctor.bio %}
+            <div class="section-card">
+                <h3>About Doctor</h3>
+                <p>{{ doctor.bio }}</p>
+            </div>
+            {% endif %}
+
+            {% if doctor.specialization %}
+            <div class="section-card">
+                <h3>Specialities & Expertise</h3>
+                <ul>
+                    <li>{{ doctor.specialization }}</li>
+                </ul>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.chat-box {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    padding: 20px;
+}
+
+.messages {
+    height: 360px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.msg {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    max-width: 75%;
+}
+
+.doctor {
+    background: #e8f5e9;
+    margin-left: auto;
+}
+
+.patient {
+    background: #f1f1f1;
+}
+
+input {
+    width: 80%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 12px 18px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+</style>
+
+<div class="chat-box">
+    <h3>💬 Chat with Dr. {{ doctor.first_name }}</h3>
+
+    <div class="messages" id="messages"></div>
+
+    <input id="messageInput" placeholder="Type message..." />
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+const socket = new WebSocket(
+    "ws://" + window.location.host + "/ws/chat/{{ doctor.id }}/"
+);
+
+socket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    const div = document.createElement("div");
+    div.className = "msg " + data.sender;
+    div.innerText = data.message;
+    document.getElementById("messages").appendChild(div);
+};
+
+function sendMessage() {
+    const input = document.getElementById("messageInput");
+    socket.send(JSON.stringify({
+        message: input.value,
+        sender: "{{ request.user.is_staff|yesno:'doctor,patient' }}",
+        patient_name: "{{ request.user.username }}"
+    }));
+    input.value = "";
+}
+</script>
+
+{% endblock %}

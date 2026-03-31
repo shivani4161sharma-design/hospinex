@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.add-appointment-wrapper {
+    max-width: 520px;
+    margin: 60px auto;
+    background: #ffffff;
+    padding: 35px 40px;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.add-appointment-wrapper h2 {
+    text-align: center;
+    color: #2e7d32;
+    margin-bottom: 8px;
+}
+
+.add-appointment-wrapper p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 2px rgba(46,125,50,0.15);
+}
+
+.submit-btn {
+    width: 100%;
+    margin-top: 10px;
+    background: #2e7d32;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #256528;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #2e7d32;
+    font-weight: 600;
+    text-decoration: none;
+}
+</style>
+
+<div class="add-appointment-wrapper">
+    <h2>➕ Add Appointment</h2>
+    <p>Fill patient details to schedule an appointment</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Patient Name</label>
+            <input type="text" name="patient_name" placeholder="Enter patient name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Patient Email</label>
+            <input type="email" name="patient_email" placeholder="Enter email address" required>
+        </div>
+
+        <div class="form-group">
+            <label>Patient Phone</label>
+            <input type="text" name="patient_phone" placeholder="Enter phone number" required>
+        </div>
+
+        <div class="form-group">
+            <label>Select Doctor</label>
+            <select name="doctor_id" required>
+                <option value="">-- Choose Doctor --</option>
+                {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}">
+                        {{ doctor.get_full_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Appointment Date</label>
+            <input type="date" name="appointment_date" required>
+        </div>
+
+        <button type="submit" class="submit-btn">
+            Save Appointment
+        </button>
+    </form>
+
+    <a href="{% url 'receptionist_appointments' %}" class="back-link">
+        ← Back to Appointments
+    </a>
+</div>
+
+{% endblock %}

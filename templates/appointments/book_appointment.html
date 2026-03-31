@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="appointment-wrapper">
+    <div class="appointment-card">
+
+        <h2>Book Appointment</h2>
+        <p class="doctor-name">
+            with <strong>Dr. {{ doctor.name }}</strong>
+        </p>
+
+        <form method="POST" class="appointment-form">
+            {% csrf_token %}
+
+            <label>Patient Name</label>
+            <input type="text" name="patient_name" required>
+
+            <label>Email</label>
+            <input type="email" name="patient_email" required>
+
+            <label>Phone</label>
+            <input type="text" name="patient_phone" required>
+
+            <label>Appointment Date</label>
+            <input type="date" name="appointment_date" required>
+
+            <label>Message</label>
+            <textarea name="message" rows="3"></textarea>
+
+            <button type="submit" class="btn-primary full-width">
+                Book Appointment
+            </button>
+        </form>
+
+        <a href="{% url 'doctor_detail' doctor.id %}" class="back-link">
+            ← Back to Doctor
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

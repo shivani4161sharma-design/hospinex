@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="booking-card">
+    <h2>Book Appointment</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Doctor</label>
+        <select name="doctor_id" required>
+            {% for doc in doctors %}
+                <option value="{{ doc.id }}">
+                    Dr. {{ doc.user.first_name }} - {{ doc.specialization }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Date</label>
+        <input type="date" name="date" required>
+
+        <label>Time Slot</label>
+        <select name="time_slot" required>
+            <option>09:00 AM</option>
+            <option>10:00 AM</option>
+            <option>11:00 AM</option>
+            <option>12:00 PM</option>
+            <option>02:00 PM</option>
+            <option>03:00 PM</option>
+            <option>04:00 PM</option>
+        </select>
+
+        <label>Phone</label>
+        <input type="text" name="phone" required>
+
+        <button type="submit">Confirm Booking</button>
+    </form>
+</div>
+<style>
+    .booking-card {
+    max-width: 500px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.booking-card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2e7d32;
+}
+
+.booking-card label {
+    font-weight: 600;
+    margin-top: 10px;
+    display: block;
+}
+
+.booking-card input,
+.booking-card select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.booking-card button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #2e7d32, #66bb6a);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.booking-card button:hover {
+    transform: scale(1.02);
+}
+</style>
+
+{% endblock %}

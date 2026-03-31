@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div style="max-width:1100px; margin:30px auto;">
+
+    <!-- TOP BAR -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <a href="{% url 'add_appointment' %}"
+           style="background:#2e7d32;color:white;padding:10px 18px;
+                  border-radius:8px;text-decoration:none;font-weight:600;">
+            ➕ Add Appointment
+        </a>
+    </div>
+
+    <!-- SEARCH -->
+    <form method="GET" style="margin-bottom:20px; display:flex; gap:10px;">
+        <input 
+            type="text" 
+            name="q" 
+            value="{{ query }}"
+            placeholder="Search by patient, doctor, specialization or date..."
+            style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc;"
+        >
+
+        <button type="submit" style="
+            background:#2e7d32;
+            color:white;
+            border:none;
+            padding:10px 18px;
+            border-radius:8px;
+            cursor:pointer;">
+            🔍 Search
+        </button>
+    </form>
+
+    <!-- DELETE FORM -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- ACTION BAR (HIDDEN INITIALLY) -->
+        <div id="actionBar" style="display:none; margin-bottom:15px;">
+            <button type="submit" name="delete_selected"
+                style="background:#e53935;color:white;padding:10px 15px;
+                       border:none;border-radius:8px;cursor:pointer;">
+                🗑 Delete Selected
+            </button>
+
+            <button type="button" onclick="deleteAllConfirm()"
+                style="background:#b71c1c;color:white;padding:10px 15px;
+                       border:none;border-radius:8px;cursor:pointer;">
+                ⚠ Delete All
+            </button>
+        </div>
+
+        <!-- TABLE -->
+        <div style="background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08); overflow:hidden;">
+            
+            <table style="width:100%; border-collapse:collapse;">
+                
+                <thead style="background:linear-gradient(to right,#2e7d32,#4caf50); color:white;">
+                    <tr>
+                        <th style="padding:12px;">
+                            <input type="checkbox" id="selectAll">
+                        </th>
+                       <th>Doctor</th>
+                       <th>Queue</th>
+                       <th>Date</th>
+                       <th>Status</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for a in appointments %}
+                    <tr style="border-bottom:1px solid #eee;">
+                        
+                        <td style="padding:10px;">
+                            <input type="checkbox" class="rowCheckbox" name="ids" value="{{ a.id }}">
+                        </td>
+
+                        <td>{{ a.patient_name }}</td>
+                        <td>{{ a.patient_phone }}</td>
+
+                       <td>
+    Dr. {{ a.doctor.user.get_full_name|default:a.doctor.user.username }}
+</td>
+
+<td>
+    <span style="
+        background:#e3f2fd;
+        color:#1565c0;
+        padding:4px 10px;
+        border-radius:12px;
+        font-weight:600;
+    ">
+        #{{ a.queue_number }}
+    </span>
+</td>
+
+<td>{{ a.appointment_date }}</td>
+
+                        <td>{{ a.appointment_date }}</td>
+
+                        <td>
+                            <span style="
+                                padding:5px 10px;
+                                border-radius:20px;
+                                font-size:12px;
+                                font-weight:600;
+                                {% if a.status == 'waiting' %}
+                                    background:#fff3cd; color:#856404;
+                                {% elif a.status == 'completed' %}
+                                    background:#d4edda; color:#155724;
+                                {% elif a.status == 'cancelled' %}
+                                    background:#f8d7da; color:#721c24;
+                                {% endif %}
+                            ">
+                                {{ a.status|title }}
+                            </span>
+                        </td>
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align:center; padding:20px;">
+                            No appointments found
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- JS -->
+<script>
+const checkboxes = document.querySelectorAll(".rowCheckbox");
+const selectAll = document.getElementById("selectAll");
+const actionBar = document.getElementById("actionBar");
+
+// Toggle select all
+selectAll.addEventListener("change", function() {
+    checkboxes.forEach(cb => cb.checked = this.checked);
+    toggleBar();
+});
+
+// Individual checkbox
+checkboxes.forEach(cb => {
+    cb.addEventListener("change", toggleBar);
+});
+
+// Show/hide action bar
+function toggleBar() {
+    const anyChecked = [...checkboxes].some(cb => cb.checked);
+    actionBar.style.display = anyChecked ? "block" : "none";
+}
+
+// Delete all confirm
+function deleteAllConfirm() {
+    if (confirm("⚠ Are you sure you want to delete ALL appointments?")) {
+        window.location.href = "{% url 'delete_all_appointments' %}";
+    }
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div style="
+    max-width:600px;
+    margin:60px auto;
+    background:white;
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.12);
+    text-align:center;
+">
+
+    <div style="font-size:60px;">✅</div>
+
+    <h2 style="color:#2e7d32;margin-bottom:10px;">
+        Appointment Confirmed
+    </h2>
+
+    <p style="color:#555;font-size:16px;margin-bottom:25px;">
+        Your appointment with <strong>Dr. {{ doctor.name }}</strong> has been
+        successfully booked.
+    </p>
+
+    <div style="
+        background:#f1f8f4;
+        padding:15px;
+        border-radius:10px;
+        margin-bottom:25px;
+        text-align:left;
+    ">
+        <p><strong>Doctor:</strong> {{ doctor.name }}</p>
+        <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+        <p><strong>Date:</strong> {{ appointment.appointment_date }}</p>
+    </div>
+
+    <a href="{% url 'home' %}"
+       style="
+           display:inline-block;
+           padding:12px 26px;
+           background:#2e7d32;
+           color:white;
+           border-radius:8px;
+           text-decoration:none;
+           font-weight:600;
+       ">
+        Back to Home
+    </a>
+
+</div>
+
+{% endblock %}

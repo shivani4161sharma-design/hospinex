@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="appointment-wrapper">
+
+    <div class="appointment-card">
+
+        <h2>Book Appointment</h2>
+        <p class="doctor-name">
+            with <strong>Dr. {{ doctor.name }}</strong>
+        </p>
+
+        <form method="post" class="appointment-form">
+            {% csrf_token %}
+
+            <label for="patient_name">Patient Name</label>
+            <input
+                type="text"
+                name="patient_name"
+                id="patient_name"
+                placeholder="Enter your full name"
+                required
+            >
+
+            <label for="patient_email">Email</label>
+            <input
+                type="email"
+                name="patient_email"
+                id="patient_email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label for="appointment_date">Appointment Date</label>
+            <input
+                type="date"
+                name="appointment_date"
+                id="appointment_date"
+                required
+            >
+
+            <label for="message">Message (optional)</label>
+            <textarea
+                name="message"
+                id="message"
+                rows="4"
+                placeholder="Describe your problem (optional)"
+            ></textarea>
+
+            <button type="submit" class="btn-primary full-width">
+                Book Appointment
+            </button>
+        </form>
+
+        <a href="{% url 'doctor_detail' doctor.id %}" class="back-link">
+            ← Back to Doctor Profile
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
