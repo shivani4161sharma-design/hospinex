@@ -1,1 +1,0 @@
-# Initialize Django project module
