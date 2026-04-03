@@ -36,6 +36,7 @@ path('doctor/emergency/resolve/<int:emergency_id>/', views.resolve_emergency, na
     # =========================
     path("patient/login/", views.patient_login, name="patient_login"),
     path("patient/dashboard/", views.patient_dashboard, name="patient_dashboard"),
+    path("patient/book/", views.patient_book, name="patient_book"),
     path("patient/cancel/<int:appointment_id>/", views.cancel_appointment, name="cancel_appointment"),
 
     # =========================
@@ -61,6 +62,7 @@ path('doctor/emergency/resolve/<int:emergency_id>/', views.resolve_emergency, na
     path("contact/", views.contact, name="contact"),
     path("gallery/", views.gallery, name="gallery"),
     path("departments/", views.departments_view, name="departments_page"),
+    path("blood-bank/", views.blood_bank, name="blood_bank"),
 
     # =========================
     # LOGOUT

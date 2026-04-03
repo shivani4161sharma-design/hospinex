@@ -2,156 +2,269 @@
 {% load static %}
 {% block content %}
 
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
-.booking-container {
+/* ADVANCED BOOKING PAGE STYLES */
+body {
+    background-color: #f8fafc;
+    font-family: 'Outfit', sans-serif;
+}
+
+.booking-wrapper {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.booking-card {
+    background: #ffffff;
+    width: 100%;
     max-width: 900px;
-    margin: 60px auto;
-    padding: 40px;
-    background: white;
-    border-radius: 18px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08);
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #e2e8f0;
 }
 
-.booking-header {
+@media(max-width: 800px) {
+    .booking-card { flex-direction: column; }
+}
+
+/* DOCTOR SUMMARY PANEL */
+.doc-panel {
+    background: linear-gradient(135deg, #1e7e34 0%, #145a23 100%);
+    width: 320px;
+    padding: 40px 30px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    margin-bottom: 30px;
+    position: relative;
 }
 
-.booking-header h2 {
-    color: #1b5e20;
-    margin-bottom: 8px;
-    font-size: 28px;
+@media(max-width: 800px) {
+    .doc-panel { width: 100%; padding: 30px 20px; }
 }
 
-.booking-header p {
-    color: #666;
+.doc-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
 }
 
-.doctor-info {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.doctor-info img {
-    width: 120px;
-    height: 120px;
+.doc-avatar {
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 12px;
-    border: 4px solid #e8f5e9;
+    border: 6px solid rgba(255,255,255,0.2);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+    background: #f0fdf4;
 }
 
-.doctor-info h3 {
-    color: #1b5e20;
+.doc-name {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 5px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.doc-spec {
+    color: #86efac;
     font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
 }
 
-.form-group {
-    margin-bottom: 18px;
+.doc-badge {
+    background: rgba(0,0,0,0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
 }
 
-.form-group label {
-    font-weight: 600;
+/* FORM PANEL */
+.form-panel {
+    flex: 1;
+    padding: 50px 40px;
+    background: white;
+}
+
+@media(max-width: 800px) {
+    .form-panel { padding: 30px; }
+}
+
+.form-header {
+    margin-bottom: 30px;
+}
+
+.form-header h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-header h2 i {
+    color: #1e7e34;
+}
+
+.form-header p {
+    color: #64748b;
+    margin: 0;
+    font-size: 15px;
+}
+
+.input-grp {
+    margin-bottom: 22px;
+}
+
+.input-grp label {
     display: block;
-    margin-bottom: 6px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 8px;
     font-size: 14px;
 }
 
-.form-group input:focus {
-    outline: none;
-    border-color: #1b5e20;
+.input-field {
+    width: 100%;
+    padding: 14px 18px;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    color: #0f172a;
+    transition: all 0.3s;
+    font-family: inherit;
 }
 
-.submit-btn {
+.input-field:focus {
+    outline: none;
+    border-color: #1e7e34;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(30, 126, 52, 0.1);
+}
+
+.btn-submit {
     width: 100%;
-    padding: 14px;
-    background: #1b5e20;
+    padding: 16px;
+    background: linear-gradient(135deg, #1e7e34, #10b981);
     color: white;
     border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 15px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
     cursor: pointer;
+    box-shadow: 0 10px 20px -5px rgba(34, 197, 94, 0.3);
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     margin-top: 10px;
 }
 
-.submit-btn:hover {
-    background: #0f3d1e;
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px -5px rgba(34, 197, 94, 0.4);
 }
 
-@media (max-width: 768px) {
-    .booking-container {
-        margin: 30px 15px;
-        padding: 25px;
-    }
+.btn-submit:active {
+    transform: translateY(0);
 }
+
 </style>
 
-<div class="booking-container">
+<div class="booking-wrapper">
+    <div class="booking-card">
+        
+        <!-- LEFT: DOCTOR INFO -->
+        <div class="doc-panel">
+            {% if doctor.photo %}
+                <img src="{{ doctor.photo.url }}" alt="Doctor" class="doc-avatar">
+            {% else %}
+                <div class="doc-avatar" style="display:flex; align-items:center; justify-content:center; font-size:50px; color:#16a34a;">
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+            {% endif %}
+            
+            <h3 class="doc-name">Dr. {{ doctor.user.get_full_name|default:doctor.user.username|title }}</h3>
+            <div class="doc-spec">{{ doctor.specialization|default:"General Medicine" }}</div>
+            
+            <div class="doc-badge">
+                <i class="fa-solid fa-circle-check" style="color:#4ade80;"></i> Available Today
+            </div>
+        </div>
 
-    <div class="booking-header">
-        <h2>Book Appointment</h2>
-        <p>Please fill your details below</p>
+        <!-- RIGHT: REGISTRATION FORM -->
+        <div class="form-panel">
+            <div class="form-header">
+                <h2><i class="fa-solid fa-calendar-check"></i> Book Appointment</h2>
+                <p>Register yourself in the queue for an immediate consultation.</p>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="input-grp">
+                    <label>Patient Full Name</label>
+                    <input type="text" name="patient_name" class="input-field" placeholder="Enter patient's name" required>
+                </div>
+
+                <div class="input-grp">
+                    <label>Email Address</label>
+                    <input type="email" name="patient_email" class="input-field" placeholder="example@email.com" required>
+                </div>
+
+                <div class="input-grp">
+                    <label>Phone Number</label>
+                    <input 
+                        type="tel" 
+                        name="patient_phone" 
+                        class="input-field"
+                        placeholder="10-digit mobile number"
+                        pattern="[6-9]{1}[0-9]{9}"
+                        maxlength="10"
+                        minlength="10"
+                        required
+                        title="Enter valid 10-digit phone number"
+                    />
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Confirm & Join Queue <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
     </div>
-
-    <!-- DOCTOR INFO -->
-     <div class="doctor-info">
-
-    {% if doctor.photo %}
-        <img src="{{ doctor.photo.url }}" alt="Doctor">
-    {% else %}
-        <img src="{% static 'images/default-doctor.png' %}" alt="Doctor">
-    {% endif %}
-
-    <h3>
-        Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}
-    </h3>
-
-    {% if doctor.specialization %}
-        <p>{{ doctor.specialization }}</p>
-    {% endif %}
-
-</div>
-    <!-- BOOKING FORM -->
-    <form method="POST">
-        {% csrf_token %}
-
-        <div class="form-group">
-            <label>Patient Name</label>
-            <input type="text" name="patient_name" required>
-        </div>
-
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="patient_email" required>
-        </div>
-
-        <div class="form-group">
-            <label>Phone</label>
-            <input 
-    type="tel" 
-    name="patient_phone" 
-    placeholder="Enter 10-digit phone number"
-    pattern="[6-9]{1}[0-9]{9}"
-    maxlength="10"
-    minlength="10"
-    required
-    title="Enter valid 10-digit Indian phone number"
-/>
-        </div>
-
-        <button type="submit" class="submit-btn">
-            Confirm Appointment
-        </button>
-    </form>
-
 </div>
 
 {% endblock %}

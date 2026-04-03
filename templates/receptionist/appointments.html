@@ -1,172 +1,366 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block content %}
+<style>
+/* APPOINTMENTS REGISTRY CORE */
+.registry-wrapper {
+    background: #f8fafc;
+    min-height: calc(100vh - 86px);
+    padding: 50px 0;
+    font-family: 'Outfit', sans-serif;
+}
 
-<div style="max-width:1100px; margin:30px auto;">
+.registry-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
 
-    <!-- TOP BAR -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <a href="{% url 'add_appointment' %}"
-           style="background:#2e7d32;color:white;padding:10px 18px;
-                  border-radius:8px;text-decoration:none;font-weight:600;">
-            ➕ Add Appointment
-        </a>
-    </div>
+/* HEADER SECTION */
+.registry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
 
-    <!-- SEARCH -->
-    <form method="GET" style="margin-bottom:20px; display:flex; gap:10px;">
-        <input 
-            type="text" 
-            name="q" 
-            value="{{ query }}"
-            placeholder="Search by patient, doctor, specialization or date..."
-            style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc;"
-        >
+.registry-title {
+    font-size: 30px;
+    font-weight: 900;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    letter-spacing: -1px;
+}
 
-        <button type="submit" style="
-            background:#2e7d32;
-            color:white;
-            border:none;
-            padding:10px 18px;
-            border-radius:8px;
-            cursor:pointer;">
-            🔍 Search
-        </button>
-    </form>
+.registry-title i {
+    background: #e0e7ff;
+    color: #4f46e5;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
 
-    <!-- DELETE FORM -->
-    <form method="POST">
-        {% csrf_token %}
+/* ACTION BUTTONS */
+.btn-primary-reg {
+    background: linear-gradient(135deg, #1e7e34, #145a23);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 15px -3px rgba(30, 126, 52, 0.2);
+    transition: 0.3s;
+}
 
-        <!-- ACTION BAR (HIDDEN INITIALLY) -->
-        <div id="actionBar" style="display:none; margin-bottom:15px;">
-            <button type="submit" name="delete_selected"
-                style="background:#e53935;color:white;padding:10px 15px;
-                       border:none;border-radius:8px;cursor:pointer;">
-                🗑 Delete Selected
-            </button>
+.btn-primary-reg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px -5px rgba(30, 126, 52, 0.3);
+}
 
-            <button type="button" onclick="deleteAllConfirm()"
-                style="background:#b71c1c;color:white;padding:10px 15px;
-                       border:none;border-radius:8px;cursor:pointer;">
-                ⚠ Delete All
-            </button>
+/* SEARCH & FILTER BAR */
+.search-toolbar {
+    background: white;
+    padding: 25px 30px;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 15px;
+    align-items: center;
+}
+
+.search-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input-group i {
+    position: absolute;
+    left: 18px;
+    color: #94a3b8;
+}
+
+.search-input-group input {
+    width: 100%;
+    padding: 14px 20px 14px 48px;
+    background: #f8fafc;
+    border: 2px solid #f1f5f9;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 500;
+    outline: none;
+    transition: 0.3s;
+}
+
+.search-input-group input:focus {
+    border-color: #1e7e34;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(30, 126, 52, 0.05);
+}
+
+.btn-search-act {
+    padding: 14px 28px;
+    background: #0f172a;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-search-act:hover { background: #1e293b; transform: translateY(-1px); }
+
+/* DATA TABLE */
+.registry-card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 20px 25px -5px rgba(0,0,0,0.03);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.appointments-table th {
+    background: #f8fafc;
+    padding: 20px 25px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.appointments-table td {
+    padding: 20px 25px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+.appointments-table tr:hover td { background: #fdfdfd; }
+
+.patient-info-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.patient-name-bold {
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 15.5px;
+}
+
+.patient-phone-sub {
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.token-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.status-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-waiting { background: #fffbeb; color: #b45309; }
+.status-completed { background: #f0fdf4; color: #15803d; }
+.status-cancelled { background: #fef2f2; color: #991b1b; }
+
+.action-bar-fixed {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0f172a;
+    padding: 15px 30px;
+    border-radius: 50px;
+    display: none;
+    gap: 15px;
+    align-items: center;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+    z-index: 1000;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp { from { bottom: -100px; } to { bottom: 30px; } }
+
+.btn-bulk-delete {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+}
+</style>
+
+<div class="registry-wrapper">
+    <div class="registry-container">
+
+        <!-- HEADER -->
+        <div class="registry-header">
+            <h1 class="registry-title">
+                <i class="fa-solid fa-list-ul"></i>
+                All Appointments
+            </h1>
+            <a href="{% url 'add_appointment' %}" class="btn-primary-reg">
+                <i class="fa-solid fa-plus-circle"></i> Add New Appointment
+            </a>
         </div>
 
-        <!-- TABLE -->
-        <div style="background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08); overflow:hidden;">
+        <!-- NOTIFICATIONS -->
+        {% if messages %}
+        <div style="margin-bottom: 25px;">
+            {% for message in messages %}
+                <div style="padding: 16px 20px; border-radius: 12px; font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+                    {% if message.tags == 'error' %}background: #fef2f2; color: #dc2626; border-left: 5px solid #ef4444;{% else %}background: #f0fdf4; color: #166534; border-left: 5px solid #22c55e;{% endif %}">
+                    <i class="fa-solid {% if message.tags == 'error' %}fa-circle-exclamation{% else %}fa-circle-check{% endif %}"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- SEARCH BAR -->
+        <form method="GET" class="search-toolbar">
+            <div class="search-input-group">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="q" placeholder="Filter by patient, phone, doctor or date..." value="{{ query }}">
+            </div>
+            <button type="submit" class="btn-search-act">Apply Filters</button>
+            <a href="{% url 'receptionist_dashboard' %}" class="btn-search-act" style="background:#f1f5f9; color:#475569; text-decoration:none;">Dashboard</a>
+        </form>
+
+        <!-- DATA TABLE -->
+        <form method="POST" id="registryForm">
+            {% csrf_token %}
             
-            <table style="width:100%; border-collapse:collapse;">
-                
-                <thead style="background:linear-gradient(to right,#2e7d32,#4caf50); color:white;">
-                    <tr>
-                        <th style="padding:12px;">
-                            <input type="checkbox" id="selectAll">
-                        </th>
-                       <th>Doctor</th>
-                       <th>Queue</th>
-                       <th>Date</th>
-                       <th>Status</th>
+            <div class="registry-card">
+                <table class="appointments-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px; padding-right: 0;"><input type="checkbox" id="selectAll"></th>
+                            <th>Patient Details</th>
+                            <th>Specialist</th>
+                            <th>Queue/Token</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in appointments %}
+                        <tr>
+                            <td style="padding-right: 0;"><input type="checkbox" class="rowCheckbox" name="ids" value="{{ a.id }}"></td>
+                            <td>
+                                <div class="patient-info-cell">
+                                    <span class="patient-name-bold">{{ a.patient_name }}</span>
+                                    <span class="patient-phone-sub"><i class="fa-solid fa-phone" style="font-size:11px;"></i> {{ a.patient_phone }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:8px; font-weight:600;">
+                                    <i class="fa-solid fa-user-doctor" style="color:#64748b;"></i>
+                                    Dr. {{ a.doctor.user.get_full_name|default:a.doctor.user.username }}
+                                </div>
+                            </td>
+                            <td><span class="token-badge">Token #{{ a.queue_number }}</span></td>
+                            <td>
+                                <div style="font-weight:700; font-size:14px; color:#1e293b;">
+                                    <i class="fa-solid fa-calendar-days" style="color:#94a3b8; margin-right:5px;"></i>
+                                    {{ a.appointment_date|date:"F j, Y"|default:a.appointment_date }}
+                                </div>
+                            </td>
+                            <td>
+                                <span class="status-pill 
+                                    {% if a.status == 'waiting' %}status-waiting
+                                    {% elif a.status == 'completed' %}status-completed
+                                    {% else %}status-cancelled{% endif %}">
+                                    <i class="fa-solid {% if a.status == 'waiting' %}fa-clock{% elif a.status == 'completed' %}fa-check-circle{% else %}fa-times-circle{% endif %}"></i>
+                                    {{ a.status|title }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 100px 20px; color: #94a3b8;">
+                                <i class="fa-solid fa-inbox fa-3x" style="display:block; margin-bottom:15px;"></i>
+                                No appointment records matching your criteria.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-                    </tr>
-                </thead>
+            <!-- BULK ACTION BAR -->
+            <div id="actionBar" class="action-bar-fixed">
+                <span style="color:white; font-weight:700; margin-right:10px;" id="selectedCount">0 Selected</span>
+                <button type="submit" name="delete_selected" class="btn-bulk-delete" onclick="return confirm('Delete selected records permanently?')">
+                    <i class="fa-solid fa-trash"></i> Delete
+                </button>
+            </div>
+        </form>
 
-                <tbody>
-                    {% for a in appointments %}
-                    <tr style="border-bottom:1px solid #eee;">
-                        
-                        <td style="padding:10px;">
-                            <input type="checkbox" class="rowCheckbox" name="ids" value="{{ a.id }}">
-                        </td>
-
-                        <td>{{ a.patient_name }}</td>
-                        <td>{{ a.patient_phone }}</td>
-
-                       <td>
-    Dr. {{ a.doctor.user.get_full_name|default:a.doctor.user.username }}
-</td>
-
-<td>
-    <span style="
-        background:#e3f2fd;
-        color:#1565c0;
-        padding:4px 10px;
-        border-radius:12px;
-        font-weight:600;
-    ">
-        #{{ a.queue_number }}
-    </span>
-</td>
-
-<td>{{ a.appointment_date }}</td>
-
-                        <td>{{ a.appointment_date }}</td>
-
-                        <td>
-                            <span style="
-                                padding:5px 10px;
-                                border-radius:20px;
-                                font-size:12px;
-                                font-weight:600;
-                                {% if a.status == 'waiting' %}
-                                    background:#fff3cd; color:#856404;
-                                {% elif a.status == 'completed' %}
-                                    background:#d4edda; color:#155724;
-                                {% elif a.status == 'cancelled' %}
-                                    background:#f8d7da; color:#721c24;
-                                {% endif %}
-                            ">
-                                {{ a.status|title }}
-                            </span>
-                        </td>
-
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="6" style="text-align:center; padding:20px;">
-                            No appointments found
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </form>
-
+    </div>
 </div>
 
-<!-- JS -->
 <script>
 const checkboxes = document.querySelectorAll(".rowCheckbox");
 const selectAll = document.getElementById("selectAll");
 const actionBar = document.getElementById("actionBar");
+const selectedCountText = document.getElementById("selectedCount");
 
-// Toggle select all
 selectAll.addEventListener("change", function() {
     checkboxes.forEach(cb => cb.checked = this.checked);
-    toggleBar();
+    updateBar();
 });
 
-// Individual checkbox
-checkboxes.forEach(cb => {
-    cb.addEventListener("change", toggleBar);
-});
+checkboxes.forEach(cb => cb.addEventListener("change", updateBar));
 
-// Show/hide action bar
-function toggleBar() {
-    const anyChecked = [...checkboxes].some(cb => cb.checked);
-    actionBar.style.display = anyChecked ? "block" : "none";
-}
-
-// Delete all confirm
-function deleteAllConfirm() {
-    if (confirm("⚠ Are you sure you want to delete ALL appointments?")) {
-        window.location.href = "{% url 'delete_all_appointments' %}";
+function updateBar() {
+    const checked = [...checkboxes].filter(cb => cb.checked);
+    if(checked.length > 0) {
+        actionBar.style.display = 'flex';
+        selectedCountText.innerText = checked.length + " Selected";
+    } else {
+        actionBar.style.display = 'none';
+        selectAll.checked = false;
     }
 }
 </script>
-
 {% endblock %}

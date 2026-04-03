@@ -23,6 +23,7 @@ ALLOWED_HOSTS = []
 # APPLICATIONS
 # =========================
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -152,3 +153,105 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOGIN_URL = 'patient_login'
 LOGIN_REDIRECT_URL = 'patient_dashboard'
 LOGOUT_REDIRECT_URL = 'home'
+# =========================
+# JAZZMIN SETTINGS
+# =========================
+JAZZMIN_SETTINGS = {
+    'site_title': 'Hospinex | Admin Portal',
+    'site_header': 'Hospinex HMS',
+    'site_brand': 'Hospinex',
+    'site_logo': 'images/gallery/favicon.png',
+    'login_logo': 'images/gallery/favicon.png',
+    'login_logo_dark': 'images/gallery/favicon.png',
+    'site_logo_classes': 'elevation-3',
+    'site_icon': 'images/gallery/favicon.png',
+    'welcome_sign': 'Welcome Back — Hospinex Hospital Management System',
+    'copyright': '© 2026 Hospinex Hospital Management System. All rights reserved.',
+    'search_model': ['auth.User', 'doctors.Doctor'],
+    'user_avatar': None,
+    'topmenu_links': [
+        {'name': 'Dashboard', 'url': 'admin:index', 'permissions': ['auth.view_user']},
+        {'name': 'View Live Site', 'url': '/', 'new_window': True, 'icon': 'fas fa-external-link-alt'},
+        {'name': 'Appointments', 'url': 'admin:doctors_appointment_changelist', 'icon': 'fas fa-calendar-check'},
+        {'model': 'auth.User'},
+    ],
+    'usermenu_links': [
+        {'name': 'View Live Site', 'url': '/', 'new_window': True, 'icon': 'fas fa-globe'},
+        {'model': 'auth.user'},
+    ],
+    'show_sidebar': True,
+    'navigation_expanded': True,
+    'hide_apps': [],
+    'hide_models': [],
+    'order_with_respect_to': ['auth', 'doctors'],
+    'custom_links': {
+        'doctors': [
+            {
+                'name': 'Add Appointment',
+                'url': 'admin:doctors_appointment_add',
+                'icon': 'fas fa-calendar-plus',
+                'permissions': ['doctors.add_appointment'],
+            },
+            {
+                'name': 'View Live Site',
+                'url': '/',
+                'icon': 'fas fa-globe',
+                'new_window': True,
+            }
+        ]
+    },
+    'icons': {
+        'auth': 'fas fa-shield-alt',
+        'auth.user': 'fas fa-user-circle',
+        'auth.Group': 'fas fa-users',
+        'doctors': 'fas fa-hospital',
+        'doctors.Doctor': 'fas fa-user-md',
+        'doctors.Appointment': 'fas fa-calendar-check',
+        'doctors.EmergencyAlert': 'fas fa-ambulance',
+        'doctors.DoctorNotification': 'fas fa-bell',
+        'doctors.ContactMessage': 'fas fa-envelope-open-text',
+        'doctors.Gallery': 'fas fa-images',
+    },
+    'default_icon_parents': 'fas fa-chevron-circle-right',
+    'default_icon_children': 'fas fa-dot-circle',
+    'related_modal_active': True,
+    'custom_css': 'admin/css/custom_admin.css',
+    'custom_js': None,
+    'use_google_fonts_cdn': True,
+    'show_ui_builder': False,
+    'changeform_format': 'horizontal_tabs',
+    'changeform_format_overrides': {'auth.user': 'collapsible', 'auth.group': 'vertical_tabs'},
+    'language_chooser': False,
+}
+
+JAZZMIN_UI_CONFIG = {
+    'navbar_small_text': False,
+    'footer_small_text': False,
+    'body_small_text': False,
+    'brand_small_text': False,
+    'brand_colour': 'navbar-success',
+    'accent': 'accent-success',
+    'navbar': 'navbar-white navbar-light',
+    'no_navbar_border': False,
+    'navbar_fixed': True,
+    'layout_boxed': False,
+    'footer_fixed': False,
+    'sidebar_fixed': True,
+    'sidebar': 'sidebar-dark-success',
+    'sidebar_nav_small_text': False,
+    'sidebar_disable_expand': False,
+    'sidebar_nav_child_indent': True,
+    'sidebar_nav_compact_style': False,
+    'sidebar_nav_legacy_style': False,
+    'sidebar_nav_flat_style': False,
+    'theme': 'flatly',
+    'dark_mode_theme': None,
+    'button_classes': {
+        'primary': 'btn-outline-primary',
+        'secondary': 'btn-outline-secondary',
+        'info': 'btn-info',
+        'warning': 'btn-warning',
+        'danger': 'btn-danger',
+        'success': 'btn-success'
+    }
+}

@@ -179,14 +179,19 @@
 
                 <!-- URL is built dynamically or redirected to login if unauthenticated -->
                 {% if request.user.is_authenticated %}
-                <button type="button" class="btn-book" onclick="submitSmartBooking('{% url 'book_appointment' doctor.user.id %}')">
-                    Book Appointment <i class="fa-solid fa-arrow-right"></i>
+                <button type="button" class="btn-book" onclick="window.location.href='{% url 'book_appointment' doctor.user.id %}'">
+                    Book Appointment <i class="fa-solid fa-calendar-check"></i>
                 </button>
                 {% else %}
                 <button type="button" class="btn-book" style="background:#0f172a;" onclick="window.location.href='{% url 'patient_login' %}?next={% url 'book_appointment' doctor.user.id %}'">
-                    <i class="fa-solid fa-lock"></i> Login to Book
+                    Book Appointment <i class="fa-solid fa-lock"></i>
                 </button>
                 {% endif %}
+
+                <!-- VIEW PROFILE BUTTON -->
+                <a href="{% url 'doctor_detail' doctor.id %}" class="btn-book" style="background: white; color: #1e7e34; border: 2px solid #1e7e34; margin-top: 15px; text-decoration: none;">
+                    View Profile <i class="fa-solid fa-user-doctor"></i>
+                </a>
             </div>
             {% empty %}
             <div class="no-doctors">

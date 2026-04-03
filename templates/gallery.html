@@ -2,197 +2,681 @@
 {% load static %}
 {% block content %}
 
-<section class="hospital-gallery">
-    <div class="gallery-container">
-        <div class="gallery-header">
-            <h1 class="gallery-title">Hospital Gallery</h1>
-            <p class="gallery-subtitle">
-                A glimpse of our modern facilities, compassionate care, 
-                and patient-friendly environment.
-            </p>
-        </div>
-
-        <div class="gallery-grid">
-            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_1.jpeg' %}')">
-                <img src="{% static 'images/gallery/ghumarwin_civil_1.jpeg' %}" alt="Hospital Facility">
-                <div class="gallery-overlay"><span>View Facility</span></div>
-            </div>
-
-            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_2.jpeg' %}')">
-                <img src="{% static 'images/gallery/ghumarwin_civil_2.jpeg' %}" alt="Patient Care">
-                <div class="gallery-overlay"><span>Patient Care</span></div>
-            </div>
-
-            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_3.jpeg' %}')">
-                <img src="{% static 'images/gallery/ghumarwin_civil_3.jpeg' %}" alt="Operation Theatre">
-                <div class="gallery-overlay"><span>Operation Theatre</span></div>
-            </div>
-
-            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_4.jpeg' %}')">
-                <img src="{% static 'images/gallery/ghumarwin_civil_4.jpeg' %}" alt="Medical Equipment">
-                <div class="gallery-overlay"><span>Advanced Tech</span></div>
-            </div>
-
-            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_5.jpeg' %}')">
-                <img src="{% static 'images/gallery/ghumarwin_civil_5.jpeg' %}" alt="Reception Area">
-                <div class="gallery-overlay"><span>Reception</span></div>
-            </div>
-
-            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_6.jpeg' %}')">
-                <img src="{% static 'images/gallery/ghumarwin_civil_6.jpeg' %}" alt="Doctor Consultation">
-                <div class="gallery-overlay"><span>Consultation</span></div>
-            </div>
-
-            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/ghumarwin_civil_7.jpeg' %}')">
-                <img src="{% static 'images/gallery/ghumarwin_civil_7.jpeg' %}" alt="Hospital Ward">
-                <div class="gallery-overlay"><span>General Ward</span></div>
-            </div>
-
-            <div class="gallery-item" onclick="openLightbox('{% static 'images/gallery/xray_corridor.png' %}')">
-                <img src="{% static 'images/gallery/xray_corridor.png' %}" alt="Advanced Care">
-                <div class="gallery-overlay"><span>ICU Care</span></div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="stats-banner">
-    <div class="stat-item">
-        <h2>20+</h2>
-        <p>Expert Doctors</p>
-    </div>
-    <div class="stat-item">
-        <h2>10k+</h2>
-        <p>Happy Patients</p>
-    </div>
-    <div class="stat-item">
-        <h2>15+</h2>
-        <p>Departments</p>
-    </div>
-    <div class="stat-item">
-        <h2>24×7</h2>
-        <p>Emergency Care</p>
-    </div>
-</section>
-
-<section class="testimonials">
-    <h2>What Our Patients Say</h2>
-    <div class="testimonial-grid">
-        <div class="testimonial-card">
-            <p>“Excellent doctors and caring staff. The treatment process was smooth and stress-free.”</p>
-            <h4>— Rahul Mehta</h4>
-        </div>
-        <div class="testimonial-card">
-            <p>“Hospinex truly focuses on patients. Clean facilities and very professional doctors.”</p>
-            <h4>— Anjali Sharma</h4>
-        </div>
-        <div class="testimonial-card">
-            <p>“Emergency services saved my father’s life. Forever grateful.”</p>
-            <h4>— Suresh Kumar</h4>
-        </div>
-    </div>
-</section>
-
-<section class="action-grid">
-    <div class="action-card emergency">
-        <h3>Emergency Help</h3>
-        <p>Call our 24×7 emergency helpline</p>
-        <strong>+91 98765 43210</strong>
-    </div>
-
-    <div class="action-card appointment">
-        <h3>Book Appointment</h3>
-        <p>Consult expert doctors instantly</p>
-        <a href="{% url 'doctor_list' %}" class="btn-action">Book Now</a>
-    </div>
-</section>
-
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <span class="close-lightbox">&times;</span>
-    <img id="lightbox-img" src="" alt="Popup View">
-</div>
-
 <style>
-    /* Main Gallery */
-    .hospital-gallery { padding: 80px 20px; background: #f4f7f6; }
-    .gallery-container { max-width: 1200px; margin: auto; text-align: center; }
-    .gallery-header { margin-bottom: 50px; }
-    .gallery-title { color: #1b5e20; font-size: 38px; margin-bottom: 10px; }
-    .gallery-subtitle { color: #666; font-size: 17px; }
+    /* PAGE HERO */
+    .page-hero {
+        background: linear-gradient(135deg, #0a280f 0%, #1b5e20 100%);
+        color: white;
+        padding: 70px 60px 50px;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
 
+    .page-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background: #f8fafc;
+        clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.55);
+        margin-bottom: 18px;
+    }
+
+    .breadcrumb a {
+        color: #a5d6a7;
+        text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+        color: white;
+    }
+
+    .page-hero h1 {
+        font-size: 46px;
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .page-hero p {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.75);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* GALLERY SECTION */
+    .gallery-section {
+        padding: 60px 0 90px;
+        background: #f8fafc;
+    }
+
+    .gallery-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 24px;
+    }
+
+    /* REAL PHOTOS BANNER */
+    .real-banner {
+        background: linear-gradient(90deg, #1e7e34, #43a047);
+        color: white;
+        padding: 20px 32px;
+        border-radius: 14px;
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .real-banner i {
+        font-size: 26px;
+        opacity: 0.9;
+        flex-shrink: 0;
+    }
+
+    .real-banner h4 {
+        font-size: 17px;
+        font-weight: 700;
+        margin: 0 0 3px;
+    }
+
+    .real-banner p {
+        font-size: 13px;
+        margin: 0;
+        opacity: 0.85;
+    }
+
+    /* TABS */
+    .gallery-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+    }
+
+    .gallery-tab {
+        padding: 9px 22px;
+        border-radius: 30px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        color: #64748b;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+
+    .gallery-tab:hover,
+    .gallery-tab.active {
+        background: #1e7e34;
+        border-color: #1e7e34;
+        color: white;
+    }
+
+    /* GRID */
     .gallery-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+        .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 560px) {
+        .gallery-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     .gallery-item {
         position: relative;
-        height: 250px;
+        border-radius: 14px;
         overflow: hidden;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        height: 260px;
         cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: #e2e8f0;
+    }
+
+    .gallery-item.wide {
+        grid-column: span 2;
+        height: 290px;
+    }
+
+    .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.14);
     }
 
     .gallery-item img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: 0.5s ease;
+        display: block;
+        transition: transform 0.45s ease;
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.07);
     }
 
     .gallery-overlay {
         position: absolute;
         inset: 0;
-        background: rgba(27, 94, 32, 0.7);
+        background: linear-gradient(180deg, transparent 45%, rgba(10, 40, 15, 0.82) 100%);
+        display: flex;
+        align-items: flex-end;
+        padding: 18px 20px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+    }
+
+    .gallery-overlay span {
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
         display: flex;
         align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: 0.4s;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(6px);
+        padding: 7px 16px;
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
     }
 
-    .gallery-overlay span { color: white; font-weight: bold; font-size: 18px; border: 2px solid white; padding: 8px 15px; }
-    .gallery-item:hover img { transform: scale(1.1); }
-    .gallery-item:hover .gallery-overlay { opacity: 1; }
-
-    /* Stats */
-    .stats-banner {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        background: #1b5e20;
+    .photo-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
         color: white;
-        padding: 60px 20px;
-        text-align: center;
+        padding: 20px 16px 12px;
+        font-size: 13.5px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 7px;
     }
-    .stat-item h2 { font-size: 45px; margin-bottom: 5px; }
 
-    /* Testimonials */
-    .testimonials { padding: 80px 20px; text-align: center; background: white; }
-    .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; }
-    .testimonial-card { padding: 30px; background: #f9f9f9; border-radius: 15px; border-bottom: 4px solid #2e7d32; }
+    /* STATS STRIP */
+    .stats-strip {
+        background: #1e7e34;
+        color: white;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        text-align: center;
+        padding: 50px 0;
+    }
 
-    /* Actions */
-    .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 60px 20px; max-width: 1200px; margin: auto; }
-    .action-card { padding: 40px; border-radius: 20px; color: white; text-align: center; }
-    .emergency { background: linear-gradient(45deg, #d32f2f, #b71c1c); }
-    .appointment { background: linear-gradient(45deg, #2e7d32, #1b5e20); }
-    .btn-action { display: inline-block; margin-top: 15px; background: white; color: #1b5e20; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; }
+    .stats-strip .s-item {
+        padding: 0 20px;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+    }
 
-    /* Lightbox */
-    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; justify-content: center; align-items: center; }
-    .lightbox img { max-width: 85%; max-height: 80%; border: 5px solid white; border-radius: 10px; }
-    .close-lightbox { position: absolute; top: 30px; right: 40px; color: white; font-size: 50px; cursor: pointer; }
+    .stats-strip .s-item:last-child {
+        border-right: none;
+    }
+
+    .stats-strip .s-num {
+        font-size: 48px;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+
+    .stats-strip .s-lbl {
+        font-size: 13px;
+        font-weight: 600;
+        opacity: 0.75;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    @media (max-width: 700px) {
+        .stats-strip {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .stats-strip .s-item:nth-child(2) {
+            border-right: none;
+        }
+    }
+
+    /* TESTIMONIALS */
+    .testimonial-wrap {
+        padding: 80px 24px;
+        background: white;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .t-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .t-header h2 {
+        font-size: 34px;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 10px;
+    }
+
+    .t-header p {
+        color: #64748b;
+        font-size: 16px;
+    }
+
+    .t-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+    }
+
+    .t-card {
+        background: #f8fafc;
+        padding: 28px 26px;
+        border-radius: 14px;
+        border-left: 4px solid #43a047;
+        transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+    .t-card:hover {
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+        transform: translateY(-3px);
+    }
+
+    .t-card p {
+        font-size: 14.5px;
+        color: #334155;
+        font-style: italic;
+        line-height: 1.75;
+        margin-bottom: 18px;
+    }
+
+    .t-card strong {
+        display: block;
+        color: #0f172a;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .t-card small {
+        color: #64748b;
+        font-size: 12.5px;
+    }
+
+    .t-stars {
+        color: #f59e0b;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    /* ACTION STRIP */
+    .action-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+    }
+
+    .action-block {
+        padding: 60px 50px;
+        text-align: center;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .action-block.emergency {
+        background: #fff5f5;
+        border-right: 1px solid #f1f5f9;
+    }
+
+    .action-block.appointment {
+        background: #f0fdf4;
+    }
+
+    .action-block .a-icon {
+        font-size: 40px;
+        margin-bottom: 14px;
+    }
+
+    .action-block.emergency .a-icon {
+        color: #e53935;
+    }
+
+    .action-block.appointment .a-icon {
+        color: #1e7e34;
+    }
+
+    .action-block h3 {
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        color: #0f172a;
+    }
+
+    .action-block p {
+        color: #64748b;
+        font-size: 14.5px;
+        margin-bottom: 18px;
+    }
+
+    .action-block .num {
+        font-size: 30px;
+        font-weight: 800;
+        color: #e53935;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .btn-appt {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 28px;
+        background: #1e7e34;
+        color: white;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        transition: 0.25s;
+    }
+
+    .btn-appt:hover {
+        background: #145a26;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    @media (max-width: 640px) {
+        .action-strip {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* LIGHTBOX */
+    .lb-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.93);
+        z-index: 99999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .lb-overlay.open {
+        display: flex;
+    }
+
+    .lb-img {
+        max-width: 88vw;
+        max-height: 85vh;
+        border-radius: 10px;
+        object-fit: contain;
+    }
+
+    .lb-close {
+        position: absolute;
+        top: 24px;
+        right: 32px;
+        color: white;
+        font-size: 44px;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: 0.2s;
+        line-height: 1;
+    }
+
+    .lb-close:hover {
+        opacity: 1;
+    }
 </style>
 
+<!-- PAGE HERO -->
+<div class="page-hero">
+    <div class="breadcrumb">
+        <a href="{% url 'home' %}">Home</a>
+        <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i>
+        <span>Gallery</span>
+    </div>
+    <h1>Hospital Gallery</h1>
+    <p>Real photographs of Civil Hospital Ghumarwin — our buildings, campus, wards, and services.</p>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+    <div class="gallery-container">
+
+        <div class="real-banner">
+            <i class="fa-solid fa-camera"></i>
+            <div>
+                <h4>Authentic Photos — Civil Hospital Ghumarwin</h4>
+                <p>All photographs are genuine images taken on-site at our hospital in Ghumarwin, Distt. Bilaspur,
+                    Himachal Pradesh.</p>
+            </div>
+        </div>
+
+        <div class="gallery-tabs">
+            <button class="gallery-tab active" onclick="filterGallery('all', this)">All Photos</button>
+            <button class="gallery-tab" onclick="filterGallery('building', this)">Building & Campus</button>
+            <button class="gallery-tab" onclick="filterGallery('interior', this)">Interior</button>
+            <button class="gallery-tab" onclick="filterGallery('services', this)">Services</button>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid">
+
+            <!-- shivi2: Hospital campus wide-angle (best exterior) — WIDE -->
+            <div class="gallery-item wide" data-cat="building"
+                onclick="openLb('{% static 'images/gallery/shivi2.jpeg' %}')">
+                <img src="{% static 'images/gallery/shivi2.jpeg' %}" alt="Civil Hospital Ghumarwin Campus">
+                <div class="gallery-overlay"><span><i class="fa-solid fa-hospital"></i> Hospital Campus — नागरिक
+                        चिकित्सालय घुमारवीं</span></div>
+                <div class="photo-label"><i class="fa-solid fa-camera"></i> Hospital Campus & OPD</div>
+            </div>
+
+            <!-- shivi1: New hospital building -->
+            <div class="gallery-item" data-cat="building" onclick="openLb('{% static 'images/gallery/shivi1.jpeg' %}')">
+                <img src="{% static 'images/gallery/shivi1.jpeg' %}" alt="Hospital New Building">
+                <div class="gallery-overlay"><span><i class="fa-solid fa-building"></i> New Hospital Wing</span></div>
+                <div class="photo-label"><i class="fa-solid fa-camera"></i> New Block — Ghumarwin</div>
+            </div>
+
+            <!-- OPD Building -->
+            <div class="gallery-item" data-cat="building"
+                onclick="openLb('{% static 'images/gallery/media__1774794117989.jpg' %}')">
+                <img src="{% static 'images/gallery/media__1774794117989.jpg' %}" alt="OPD Bahu Rogi Bhavan">
+                <div class="gallery-overlay"><span><i class="fa-solid fa-hospital"></i> OPD — बाह्य रोगी भवन</span>
+                </div>
+                <div class="photo-label"><i class="fa-solid fa-camera"></i> Bahu Rogi Bhavan</div>
+            </div>
+
+            <!-- Gate Sign 1 -->
+            <div class="gallery-item" data-cat="building"
+                onclick="openLb('{% static 'images/gallery/media__1774794118047.jpg' %}')">
+                <img src="{% static 'images/gallery/media__1774794118047.jpg' %}" alt="Hospital Main Gate">
+                <div class="gallery-overlay"><span><i class="fa-solid fa-archway"></i> Main Entrance Gate</span></div>
+                <div class="photo-label"><i class="fa-solid fa-camera"></i> Hospital Entrance — Bilaspur H.P.</div>
+            </div>
+
+            <!-- Gate Sign 2 -->
+            <div class="gallery-item" data-cat="building"
+                onclick="openLb('{% static 'images/gallery/media__1774794118172.jpg' %}')">
+                <img src="{% static 'images/gallery/media__1774794118172.jpg' %}" alt="Hospital Gate">
+                <div class="gallery-overlay"><span><i class="fa-solid fa-archway"></i> Gate — Distt. Bilaspur
+                        174021</span></div>
+                <div class="photo-label"><i class="fa-solid fa-camera"></i> Hospital Gate</div>
+            </div>
+
+            <!-- shivi3: Interior staircase -->
+            <div class="gallery-item" data-cat="interior" onclick="openLb('{% static 'images/gallery/shivi3.jpeg' %}')">
+                <img src="{% static 'images/gallery/shivi3.jpeg' %}" alt="Hospital Interior Staircase">
+                <div class="gallery-overlay"><span><i class="fa-solid fa-stairs"></i> Indoor Staircase — प्रथम
+                        मंजिल</span></div>
+                <div class="photo-label"><i class="fa-solid fa-camera"></i> Ward Staircase</div>
+            </div>
+
+            <!-- Corridor -->
+            <div class="gallery-item" data-cat="interior"
+                onclick="openLb('{% static 'images/gallery/media__1774794117880.jpg' %}')">
+                <img src="{% static 'images/gallery/media__1774794117880.jpg' %}" alt="Hospital Corridor">
+                <div class="gallery-overlay"><span><i class="fa-solid fa-house-medical"></i> Indoor Corridor</span>
+                </div>
+                <div class="photo-label"><i class="fa-solid fa-camera"></i> Hospital Corridor</div>
+            </div>
+
+            <!-- X-Ray Room -->
+            <div class="gallery-item" data-cat="services"
+                onclick="openLb('{% static 'images/gallery/media__1774934413702.png' %}')">
+                <img src="{% static 'images/gallery/media__1774934413702.png' %}" alt="X-Ray Room">
+                <div class="gallery-overlay"><span><i class="fa-solid fa-x-ray"></i> X-Ray Room — ऐक्स रे कक्ष</span>
+                </div>
+                <div class="photo-label"><i class="fa-solid fa-camera"></i> X-Ray Centre</div>
+            </div>
+
+            <!-- Ambulance -->
+            <div class="gallery-item" data-cat="services"
+                onclick="openLb('{% static 'images/gallery/media__1774796371288.jpg' %}')">
+                <img src="{% static 'images/gallery/media__1774796371288.jpg' %}" alt="Hospital Ambulance">
+                <div class="gallery-overlay"><span><i class="fa-solid fa-truck-medical"></i> Free Ambulance — निःशुल्क
+                        सेवा</span></div>
+                <div class="photo-label"><i class="fa-solid fa-camera"></i> Ambulance — HP 63B 4475</div>
+            </div>
+
+        </div>
+
+        <!-- Note about shivi4 -->
+        <div
+            style="margin-top:20px; padding:14px 20px; background:white; border-radius:10px; border-left:4px solid #f59e0b; font-size:13.5px; color:#64748b;">
+            <i class="fa-solid fa-circle-info" style="color:#f59e0b; margin-right:6px;"></i>
+            <strong>Note:</strong> If you'd like to add more photos (e.g., shivi4), simply save the image file to
+            <code>static/images/gallery/</code> and it will appear here on the next update.
+        </div>
+    </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+    <div class="s-item">
+        <div class="s-num">50+</div>
+        <div class="s-lbl">Expert Doctors</div>
+    </div>
+    <div class="s-item">
+        <div class="s-num">50K+</div>
+        <div class="s-lbl">Patients Annually</div>
+    </div>
+    <div class="s-item">
+        <div class="s-num">8+</div>
+        <div class="s-lbl">Departments</div>
+    </div>
+    <div class="s-item">
+        <div class="s-num">24×7</div>
+        <div class="s-lbl">Emergency</div>
+    </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div style="background:white; padding:80px 0;">
+    <div style="max-width:1200px; margin:auto; padding:0 24px;">
+        <div class="t-header">
+            <h2>What Patients Say</h2>
+            <p>Authentic experiences from patients treated at Civil Hospital Ghumarwin.</p>
+        </div>
+        <div class="t-grid">
+            <div class="t-card">
+                <p>"My mother needed urgent surgery after an accident. The team at Civil Hospital Ghumarwin operated at
+                    2AM without hesitation. We will always be grateful."</p>
+                <strong>Vijay Thakur</strong>
+                <small>Nangal, Bilaspur</small>
+                <div class="t-stars">★★★★★</div>
+            </div>
+            <div class="t-card">
+                <p>"Free eye check-up camp was organized here. The ophthalmologist was very professional and provided
+                    free spectacles. A great service for rural communities."</p>
+                <strong>Kamla Devi</strong>
+                <small>Ghumarwin Village</small>
+                <div class="t-stars">★★★★★</div>
+            </div>
+            <div class="t-card">
+                <p>"Clean wards, friendly nursing staff and no hidden charges. I was treated for 4 days under Ayushman
+                    Bharat — entire treatment cashless. Highly recommended."</p>
+                <strong>Sunil Chauhan</strong>
+                <small>Jhandutta, Bilaspur</small>
+                <div class="t-stars">★★★★☆</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ACTION STRIP -->
+<div class="action-strip">
+    <div class="action-block emergency">
+        <div class="a-icon"><i class="fa-solid fa-phone-volume"></i></div>
+        <h3>Emergency Help 24×7</h3>
+        <p>Our emergency ward is always ready. Call the free helpline for immediate assistance.</p>
+        <span class="num">108</span>
+        <small style="color:#64748b; font-size:13px; display:block;">Free Emergency Helpline</small>
+    </div>
+    <div class="action-block appointment">
+        <div class="a-icon"><i class="fa-solid fa-calendar-check"></i></div>
+        <h3>Book an Appointment</h3>
+        <p>Consult our specialist doctors. OPD open Monday to Saturday, 9AM to 2PM.</p>
+        <a href="{% url 'doctor_list' %}" class="btn-appt"><i class="fa-solid fa-calendar-plus"></i> Book Now</a>
+    </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lbOverlay" onclick="closeLb()">
+    <span class="lb-close" onclick="closeLb()">×</span>
+    <img class="lb-img" id="lbImg" src="" alt="Gallery Image">
+</div>
+
 <script>
-    function openLightbox(src) {
-        document.getElementById("lightbox-img").src = src;
-        document.getElementById("lightbox").style.display = "flex";
+    function openLb(src) {
+        document.getElementById('lbImg').src = src;
+        document.getElementById('lbOverlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
     }
-    function closeLightbox() {
-        document.getElementById("lightbox").style.display = "none";
+    function closeLb() {
+        document.getElementById('lbOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+
+    function filterGallery(cat, btn) {
+        document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            if (cat === 'all' || item.dataset.cat === cat) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     }
 </script>
 

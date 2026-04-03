@@ -2,166 +2,742 @@
 {% load static %}
 
 {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-    .dashboard-container {
-        max-width: 1200px;
-        margin: auto;
-        padding: 30px;
-    }
+/* ═══════════════════════════════════════════
+   RECEPTION DASHBOARD — PREMIUM UI
+═══════════════════════════════════════════ */
+.dash-root {
+    background: linear-gradient(135deg, #f0f4f8 0%, #e8f5e9 100%);
+    min-height: calc(100vh - 86px);
+    padding: 0;
+    font-family: 'Outfit', 'Inter', sans-serif;
+}
 
-    .dashboard-title {
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 20px;
-        color: #2e7d32;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+/* ── HERO HEADER ── */
+.dash-hero {
+    background: linear-gradient(135deg, #0d2137 0%, #1a3a52 50%, #0f4c31 100%);
+    padding: 36px 50px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
 
-    .card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        margin-bottom: 30px;
-    }
+.dash-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+}
+.dash-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 200px;
+    width: 350px; height: 350px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+}
 
-    .card {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
+.hero-left { position: relative; z-index: 1; }
 
-    .card h3 {
-        margin-bottom: 10px;
-        color: #2e7d32;
-    }
+.hero-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #4ade80;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-    .btn {
-        display: inline-block;
-        padding: 10px 15px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-        text-align: center;
-        cursor: pointer;
-        border: none;
-    }
+.hero-label::before {
+    content: '';
+    width: 24px; height: 2px;
+    background: #4ade80;
+}
 
-    .btn-primary {
-        background: #2e7d32;
-        color: white;
-    }
+.hero-title {
+    font-size: 36px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 6px;
+}
 
-    .btn-danger {
-        background: #c62828;
-        color: white;
-    }
+.hero-subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+}
 
-    .btn-logout {
-        background: #c62828;
-        color: white;
-        padding: 8px 16px;
-        font-size: 14px;
-    }
+.hero-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
+.hero-stat-chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 14px 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
 
-    th, td {
-        padding: 12px;
-        border-bottom: 1px solid #ddd;
-        text-align: left;
-    }
+.hero-stat-chip .num {
+    font-size: 28px;
+    font-weight: 900;
+    color: white;
+    line-height: 1;
+}
 
-    th {
-        background: #2e7d32;
-        color: white;
-    }
+.hero-stat-chip .lbl {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 600;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+}
 
-    tr:hover {
-        background: #f5f5f5;
-    }
+.logout-btn-hero {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.25s;
+}
+
+.logout-btn-hero:hover {
+    background: rgba(239,68,68,0.3);
+    color: white;
+}
+
+/* ── MAIN BODY ── */
+.dash-body {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 40px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 1024px) {
+    .dash-body { grid-template-columns: 1fr; padding: 25px 20px; }
+}
+
+/* ── SIDEBAR ── */
+.sidebar-col { display: flex; flex-direction: column; gap: 20px; }
+
+.panel-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s;
+}
+
+.panel-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.04); }
+
+.panel-heading {
+    font-size: 11px;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panel-heading i {
+    font-size: 13px;
+}
+
+/* Action Buttons */
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14.5px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.25s;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+.action-btn:last-child { margin-bottom: 0; }
+
+.action-btn-primary {
+    background: linear-gradient(135deg, #1e7e34, #0f4c1f);
+    color: white;
+    box-shadow: 0 6px 20px rgba(30,126,52,0.3);
+}
+.action-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(30,126,52,0.4);
+    color: white;
+}
+
+.action-btn-blue {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1.5px solid #bfdbfe;
+}
+.action-btn-blue:hover { background: #dbeafe; transform: translateY(-1px); color: #1d4ed8; }
+
+.action-btn-slate {
+    background: #f8fafc;
+    color: #475569;
+    border: 1.5px solid #e2e8f0;
+}
+.action-btn-slate:hover { background: #f1f5f9; transform: translateY(-1px); color: #1e293b; }
+
+.action-btn .btn-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.action-btn-primary .btn-icon { background: rgba(255,255,255,0.2); color: white; }
+.action-btn-blue .btn-icon { background: #dbeafe; color: #2563eb; }
+.action-btn-slate .btn-icon { background: #e2e8f0; color: #475569; }
+
+/* Emergency Panel */
+.emergency-panel {
+    border: 2px solid #fca5a5;
+    background: linear-gradient(135deg, #fff5f5, #fff);
+    position: relative;
+    overflow: hidden;
+}
+
+.emergency-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.emergency-panel .panel-heading { color: #dc2626; }
+
+.emrg-select {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1.5px solid #fca5a5;
+    background: white;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    margin-bottom: 12px;
+    outline: none;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.emrg-select:focus { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.12); }
+
+.emrg-dispatch-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 14px;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(239,68,68,0.35);
+    transition: 0.25s;
+    letter-spacing: 0.3px;
+}
+
+.emrg-dispatch-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(239,68,68,0.45);
+}
+
+/* ── MAIN CONTENT ── */
+.main-col { display: flex; flex-direction: column; gap: 20px; }
+
+/* Stats Bar */
+.stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.stat-item {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: 0.25s;
+}
+
+.stat-item:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+
+.stat-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.stat-icon.green { background: #dcfce7; color: #16a34a; }
+.stat-icon.blue { background: #dbeafe; color: #2563eb; }
+.stat-icon.orange { background: #ffedd5; color: #ea580c; }
+
+.stat-val { font-size: 28px; font-weight: 900; color: #0f172a; line-height: 1; }
+.stat-label { font-size: 12px; color: #94a3b8; font-weight: 600; margin-top: 3px; }
+
+/* Registry Table */
+.registry-panel {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    overflow: hidden;
+}
+
+.registry-title-bar {
+    padding: 22px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fafcff;
+}
+
+.registry-title-bar h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+}
+
+.registry-title-bar h2 i {
+    background: #dcfce7;
+    color: #16a34a;
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+}
+
+.count-chip {
+    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+    color: #4338ca;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.live-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.live-table th {
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 16px 24px;
+    text-align: left;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.live-table td {
+    padding: 18px 24px;
+    border-bottom: 1px solid #f8fafc;
+    color: #334155;
+    font-size: 14.5px;
+    vertical-align: middle;
+}
+
+.live-table tr:last-child td { border-bottom: none; }
+.live-table tbody tr:hover td { background: #f9fffe; }
+
+.token-badge {
+    font-size: 17px;
+    font-weight: 900;
+    color: #1e7e34;
+    background: #dcfce7;
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.patient-cell { display: flex; align-items: center; gap: 12px; }
+
+.patient-av {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+    display: flex; align-items: center; justify-content: center;
+    color: #4338ca;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.patient-name { font-weight: 700; color: #0f172a; }
+
+.doc-chip { display: flex; align-items: center; gap: 8px; font-weight: 600; color: #0369a1; }
+.doc-chip i { color: #38bdf8; font-size: 13px; }
+
+.active-chip {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: #f0fdf4;
+    color: #15803d;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #bbf7d0;
+}
+
+/* ── TOAST NOTIFICATION ── */
+.toast-container {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.toast {
+    background: white;
+    border-radius: 16px;
+    padding: 18px 22px;
+    min-width: 320px;
+    max-width: 400px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    pointer-events: all;
+    animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    border-left: 4px solid;
+}
+
+.toast.success { border-left-color: #22c55e; }
+.toast.error { border-left-color: #ef4444; }
+.toast.info { border-left-color: #3b82f6; }
+
+@keyframes toastIn {
+    from { transform: translateX(120px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes toastOut {
+    from { transform: translateX(0); opacity: 1; height: auto; }
+    to { transform: translateX(120px); opacity: 0; height: 0; padding: 0; margin: 0; }
+}
+
+.toast-icon {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.toast.success .toast-icon { background: #dcfce7; color: #16a34a; }
+.toast.error .toast-icon { background: #fee2e2; color: #dc2626; }
+.toast.info .toast-icon { background: #dbeafe; color: #2563eb; }
+
+.toast-text .toast-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 3px;
+}
+
+.toast-text .toast-body {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.toast-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+.toast-close:hover { color: #475569; }
 </style>
 
-<div class="dashboard-container">
-
-    <div class="dashboard-title">
-        <span>🧑‍💼 Receptionist Dashboard</span>
-        <a href="{% url 'receptionist_logout' %}" class="btn btn-logout">Logout</a>
-    </div>
-
-    <div class="card-grid">
-        
-        <div class="card">
-            <h3>📅 Book Appointment</h3>
-            <p>Create appointment for walk-in patient.</p>
-            <a href="{% url 'receptionist_add_appointment' %}" class="btn btn-primary">New Appointment</a>
-        </div>
-
-        {% for doctor in doctors %}
-        <div class="card">
-            <h3>🚨 Emergency – {{ doctor.user.get_full_name|default:doctor.user.username }}</h3>
-            <p>Pause queue & notify doctor immediately.</p>
-
-            {# Ensure 'emergency_case' URL exists in urls.py if using this form #}
-            <form method="post" action="#">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger"
-                        onclick="return confirm('Send emergency alert to this doctor?')">
-                    🚨 Send Emergency
-                </button>
-            </form>
-        </div>
+<!-- ═══ EMERGENCY STATUS BANNER ═══ -->
+{% if messages %}
+    <div style="padding: 0 40px; margin-top: 20px;">
+        {% for message in messages %}
+            <div style="background: #fee2e2; border: 2px solid #ef4444; color: #b91c1c; padding: 20px; border-radius: 12px; font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);">
+                <i class="fa-solid fa-circle-exclamation fa-lg"></i>
+                <div>
+                   <strong style="display: block; font-size: 20px;">URGENT STATUS:</strong>
+                   {{ message }}
+                </div>
+            </div>
         {% endfor %}
+    </div>
+{% endif %}
 
-        <div class="card">
-            <h3>👨‍⚕️ Doctors</h3>
-            <p>View doctors & availability.</p>
-            <a href="{% url 'doctor_list' %}" class="btn btn-primary">View Doctors</a>
+<div class="dash-root">
+    <!-- ... rest of the code ... -->
+
+<!-- ═══ MAIN LAYOUT ═══ -->
+<div class="dash-root">
+
+    <!-- HERO HEADER -->
+    <div class="dash-hero">
+        <div class="hero-left">
+            <div class="hero-label">Hospinex Hospital System</div>
+            <h1 class="hero-title">Reception Desk</h1>
+            <p class="hero-subtitle">Manage appointments, queues &amp; emergency dispatch</p>
         </div>
-
+        <div class="hero-right">
+            <div class="hero-stat-chip">
+                <div class="num">{{ appointments|length }}</div>
+                <div class="lbl">Today's Queue</div>
+            </div>
+            <a href="{% url 'receptionist_logout' %}" class="logout-btn-hero">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
+        </div>
     </div>
 
-    <h3 style="margin-bottom:10px;">🕒 Today’s Appointment Queue</h3>
+    <!-- BODY GRID -->
+    <div class="dash-body">
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Patient</th>
-                <th>Doctor</th>
-                <th>Booked At</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for appointment in appointments %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ appointment.patient_name }}</td>
-                <td>
-                    {% if appointment.doctor %}
-                        Dr. {{ appointment.doctor.user.get_full_name|default:appointment.doctor.user.username }}
-                    {% else %}
-                        <span style="color:red;">Not Assigned</span>
-                    {% endif %}
-                </td>
-                <td>{{ appointment.created_at|date:"H:i" }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" style="text-align: center;">No appointments today.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <!-- ── SIDEBAR ── -->
+        <div class="sidebar-col">
 
+            <!-- Quick Actions -->
+            <div class="panel-card">
+                <div class="panel-heading">
+                    <i class="fa-solid fa-bolt" style="color:#eab308;"></i>
+                    Quick Actions
+                </div>
+                <a href="{% url 'add_appointment' %}" class="action-btn action-btn-primary">
+                    <div class="btn-icon"><i class="fa-solid fa-plus"></i></div>
+                    Add Appointment
+                </a>
+                <a href="{% url 'receptionist_appointments' %}" class="action-btn action-btn-blue">
+                    <div class="btn-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    View All Appointments
+                </a>
+                <a href="{% url 'doctor_list' %}" class="action-btn action-btn-slate">
+                    <div class="btn-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                    View Doctor Roster
+                </a>
+            </div>
+
+            <!-- Emergency Dispatch -->
+            <div class="panel-card emergency-panel">
+                <div class="panel-heading">
+                    <i class="fa-solid fa-truck-medical" style="color:#ef4444;"></i>
+                    Emergency Dispatch
+                </div>
+                <p style="font-size:13px; color:#7f1d1d; background:#fee2e2; padding:10px 14px; border-radius:10px; margin-bottom:16px; font-weight:600; line-height:1.5;">
+                    ⚠ Immediately alerts the on-duty doctor. Use only in critical cases.
+                </p>
+                <form method="post" action="{% url 'send_emergency' %}" id="emergencyForm">
+                    {% csrf_token %}
+                    <select name="doctor_id" class="emrg-select" required>
+                        <option value="" disabled selected>Select Doctor to Alert...</option>
+                        {% for doctor in doctors %}
+                            <option value="{{ doctor.id }}">Dr. {{ doctor.get_full_name|default:doctor.username }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="emrg-dispatch-btn" onclick="return confirm('⚠ Send EMERGENCY alert to this doctor?')">
+                        <i class="fa-solid fa-triangle-exclamation fa-beat"></i>
+                        Send Emergency Alert
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- ── MAIN CONTENT ── -->
+        <div class="main-col">
+
+            <!-- Stats -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-icon green"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <div>
+                        <div class="stat-val">{{ appointments|length }}</div>
+                        <div class="stat-label">Today's Appointments</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon blue"><i class="fa-solid fa-user-doctors"></i></div>
+                    <div>
+                        <div class="stat-val">{{ doctors|length }}</div>
+                        <div class="stat-label">Active Doctors</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon orange"><i class="fa-solid fa-hourglass-half"></i></div>
+                    <div>
+                        <div class="stat-val">{{ appointments|length }}</div>
+                        <div class="stat-label">Patients Waiting</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Patient Registry -->
+            <div class="registry-panel">
+                <div class="registry-title-bar">
+                    <h2>
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        Live Patient Registry
+                    </h2>
+                    <span class="count-chip">Today: {{ appointments|length }}</span>
+                </div>
+
+                <table class="live-table">
+                    <thead>
+                        <tr>
+                            <th>Token</th>
+                            <th>Patient</th>
+                            <th>Assigned Doctor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr>
+                            <td>
+                                <div class="token-badge">#{{ forloop.counter }}</div>
+                            </td>
+                            <td>
+                                <div class="patient-cell">
+                                    <div class="patient-av"><i class="fa-solid fa-bed-pulse"></i></div>
+                                    <div>
+                                        <div class="patient-name">{{ appointment.patient_name }}</div>
+                                        <div style="font-size:12px; color:#94a3b8; font-weight:500; margin-top:2px;">
+                                            <i class="fa-solid fa-phone" style="font-size:10px;"></i>
+                                            {{ appointment.patient_phone|default:"—" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {% if appointment.doctor %}
+                                    <div class="doc-chip">
+                                        <i class="fa-solid fa-stethoscope"></i>
+                                        Dr. {{ appointment.doctor.user.get_full_name|default:appointment.doctor.user.username }}
+                                    </div>
+                                {% else %}
+                                    <span style="background:#fee2e2; color:#dc2626; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:700;">
+                                        <i class="fa-solid fa-circle-xmark"></i> Unassigned
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="active-chip">
+                                    <i class="fa-solid fa-circle" style="font-size:8px; animation: pulse-dot 1.5s infinite;"></i>
+                                    Active
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" style="text-align:center; padding: 80px 20px;">
+                                <div style="width:80px; height:80px; background:#f1f5f9; border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 16px;">
+                                    <i class="fa-solid fa-check-double fa-2x" style="color:#94a3b8;"></i>
+                                </div>
+                                <h3 style="color:#334155; font-size:18px; margin-bottom:6px;">Queue is clear</h3>
+                                <p style="color:#94a3b8; font-size:14px;">No appointments registered for today yet.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
 </div>
+
+<style>
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+</style>
+
+<script>
+// Auto-dismiss toasts after 5 seconds
+document.querySelectorAll('.toast').forEach(function(toast) {
+    setTimeout(function() {
+        toast.style.animation = 'toastOut 0.4s ease forwards';
+        setTimeout(function() { toast.remove(); }, 400);
+    }, 5000);
+});
+
+function dismissToast(id) {
+    const toast = document.getElementById(id);
+    if (toast) {
+        toast.style.animation = 'toastOut 0.4s ease forwards';
+        setTimeout(function() { toast.remove(); }, 400);
+    }
+}
+</script>
+
 {% endblock %}

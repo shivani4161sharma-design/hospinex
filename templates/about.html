@@ -2,163 +2,583 @@
 {% load static %}
 
 {% block content %}
-<section class="about-hero">
-    <div class="hero-content">
-        <h1>About Hospinex</h1>
-        <p>
-            Hospinex is a modern healthcare platform that helps hospitals manage
-            appointments, improve patient experience, and streamline medical services.
-        </p>
-    </div>
-</section>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* CORE ABOUT WRAPPER */
+.about-page {
+    background: #f8fafc;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+}
 
-<section class="about-intro">
-    <div class="intro-container">
-        <div class="intro-text">
-            <h2>Smart Healthcare Management</h2>
-            <p>
-                Hospinex transforms the way hospitals manage appointments and patient queues.
-                Our system helps doctors, receptionists, and patients save time while improving
-                the quality of healthcare services.
-            </p>
-            <div class="features">
-                <div class="feature"><span>✔</span> Easy Appointment Booking</div>
-                <div class="feature"><span>✔</span> Real-time Queue Management</div>
-                <div class="feature"><span>✔</span> Doctor Availability Tracking</div>
-                <div class="feature"><span>✔</span> Emergency Alert System</div>
+/* PREMIUM HERO SECTION */
+.about-hero {
+    position: relative;
+    padding: 140px 20px 180px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    text-align: center;
+    color: white;
+    z-index: 1;
+}
+
+.about-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: -1;
+}
+
+.about-hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 24px;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #4ade80;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(8px);
+}
+
+.about-hero h1 {
+    font-size: 68px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin-bottom: 25px;
+    line-height: 1.1;
+    background: linear-gradient(to right, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.about-hero p {
+    font-size: 20px;
+    color: #94a3b8;
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/* FLOATING STATS GRID */
+.about-stats-container {
+    max-width: 1200px;
+    margin: -80px auto 60px;
+    padding: 0 25px;
+    position: relative;
+    z-index: 10;
+}
+
+.about-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.stat-card-premium {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.4);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card-premium:hover {
+    transform: translateY(-10px);
+    border-color: #22c55e;
+}
+
+.premium-icon-box {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    margin: 0 auto 25px;
+    box-shadow: 0 10px 20px -5px rgba(34, 197, 94, 0.4);
+}
+
+.stat-card-premium h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+
+.stat-card-premium p {
+    color: #64748b;
+    font-size: 15.5px;
+    line-height: 1.6;
+}
+
+/* HIGH-END METRICS / WHY CHOOSE US */
+.metrics-section {
+    padding: 80px 20px 100px;
+    text-align: center;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.metrics-title {
+    font-size: 44px;
+    font-weight: 900;
+    color: #0f172a;
+    margin-bottom: 50px;
+    letter-spacing: -1px;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+@media(max-width: 900px) {
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media(max-width: 500px) {
+    .metrics-grid { grid-template-columns: 1fr; }
+}
+
+.metric-card {
+    background: white;
+    padding: 35px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    border: 1px solid #f1f5f9;
+    transition: 0.3s;
+}
+
+.metric-card:hover {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    transform: translateY(-5px);
+}
+
+.metric-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.metric-card h4 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1e7e34;
+    margin-bottom: 12px;
+}
+
+.metric-card p {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* TECHNOLOGY SHOWCASE */
+.tech-showcase {
+    max-width: 1200px;
+    margin: 40px auto 100px;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+@media(max-width: 900px) {
+    .tech-showcase { flex-direction: column; gap: 50px; text-align: center; }
+}
+
+.tech-content {
+    flex: 1;
+}
+
+.tech-sub {
+    color: #16a34a;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@media(max-width: 900px) {
+    .tech-sub { justify-content: center; }
+}
+
+.tech-sub::before {
+    content: '';
+    width: 40px;
+    height: 3px;
+    background: #16a34a;
+    border-radius: 5px;
+}
+
+.tech-title {
+    font-size: 42px;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1.15;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.tech-text {
+    font-size: 18px;
+    color: #475569;
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+
+.feature-bullets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.f-bullet {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 16px;
+}
+
+.f-bullet i {
+    color: #fff;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 13px;
+    box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+}
+
+.tech-visual {
+    flex: 1;
+    position: relative;
+}
+
+.tech-visual img {
+    width: 100%;
+    border-radius: 30px;
+    box-shadow: 0 30px 60px -15px rgba(0,0,0,0.15);
+}
+
+/* ADVANCED TEAM SECTION WITH RICH BIO */
+.creators-suite {
+    background: #0f172a;
+    padding: 120px 0;
+    margin-top: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.creators-suite::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at center, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.creators-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 70px;
+    position: relative;
+    z-index: 2;
+}
+
+.creators-header h2 {
+    font-size: 48px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+}
+
+.creators-header p {
+    font-size: 18px;
+    color: #94a3b8;
+}
+
+.creators-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+@media(max-width: 900px) {
+    .creators-grid { grid-template-columns: 1fr; }
+}
+
+.creator-card-pro {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(16px);
+    border-radius: 30px;
+    padding: 50px 40px;
+    text-align: center;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.creator-card-pro::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 5px;
+    background: linear-gradient(90deg, #22c55e, #3b82f6);
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.creator-card-pro:hover {
+    background: rgba(30, 41, 59, 0.8);
+    transform: translateY(-10px);
+    border-color: rgba(255,255,255,0.2);
+}
+
+.creator-card-pro:hover::before {
+    opacity: 1;
+}
+
+.c-avatar-wrap {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 30px;
+    border-radius: 50%;
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+    position: relative;
+}
+
+.c-avatar-wrap img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #1e293b;
+}
+
+.c-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 48px;
+    height: 48px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border: 5px solid #0f172a;
+}
+
+.c-name {
+    font-size: 32px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.c-role {
+    font-size: 14px;
+    font-weight: 800;
+    color: #4ade80;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+}
+
+.c-desc {
+    color: #cbd5e1;
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.badge-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.badge-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+</style>
+
+<div class="about-page">
+    
+    <!-- ADVANCED HERO -->
+    <header class="about-hero">
+        <div class="about-hero-pill">
+            <i class="fa-solid fa-code"></i> Next-Gen Healthcare Tech
+        </div>
+        <h1>Powering the Future<br>of Hospital Management</h1>
+        <p>Hospinex is the premier digital architecture driving Civil Hospital Ghumarwin into a new era of efficiency, eliminating queues and prioritizing patient care through smart logic.</p>
+    </header>
+
+    <!-- FLOATING STATS GRID -->
+    <div class="about-stats-container">
+        <div class="about-stats-grid">
+            
+            <div class="stat-card-premium">
+                <div class="premium-icon-box"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Intelligent Routing</h3>
+                <p>Algorithms map patients' specific symptoms to the exact specialized doctor they need.</p>
+            </div>
+            
+            <div class="stat-card-premium">
+                <div class="premium-icon-box" style="background: linear-gradient(135deg, #3b82f6, #2563eb); box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Secure Infrastructure</h3>
+                <p>Enterprise-grade security handles patient data and login systems via role-based access.</p>
+            </div>
+            
+            <div class="stat-card-premium">
+                <div class="premium-icon-box" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.4);"><i class="fa-solid fa-heart-pulse"></i></div>
+                <h3>Active Triage Override</h3>
+                <p>Live-override mechanism allowing receptionists to halt queues instantly during critical events.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- WHY CHOOSE US REIMAGINED -->
+    <div class="metrics-section">
+        <h2 class="metrics-title">Why Choose Hospinex</h2>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">⚡</div>
+                <h4>Fast Appointment</h4>
+                <p>Book appointments quickly without waiting in long hospital queues.</p>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">📊</div>
+                <h4>Smart Queue</h4>
+                <p>Real-time queue system drastically reduces waiting time for patients.</p>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">👨‍⚕️</div>
+                <h4>Doctor Availability</h4>
+                <p>Doctors can manage schedules and incoming patient flow efficiently.</p>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">🚑</div>
+                <h4>Emergency Alerts</h4>
+                <p>Instant push notifications help doctors respond to emergencies faster.</p>
             </div>
         </div>
-        <div class="intro-image">
-            <img src="{% static 'images/hospital.jpg' %}" alt="Hospital">
+    </div>
+
+    <!-- TECH SHOWCASE WITH HOSPITAL IMAGE -->
+    <div class="tech-showcase">
+        <div class="tech-content">
+            <div class="tech-sub">Pioneering the Transition</div>
+            <h2 class="tech-title">Digitalizing the Hospital Experience</h2>
+            <p class="tech-text">
+                For over 50 years, Civil Hospital Ghumarwin has served the community. The Hospinex platform marks the ultimate transition from manual, paper-driven processes to an automated digital ecosystem designed for speed, transparency, and clinical accuracy.
+            </p>
+            <div class="feature-bullets">
+                <div class="f-bullet"><i class="fa-solid fa-check"></i> Paperless Records</div>
+                <div class="f-bullet"><i class="fa-solid fa-check"></i> Dynamic Roster</div>
+                <div class="f-bullet"><i class="fa-solid fa-check"></i> Multi-Dashboard</div>
+                <div class="f-bullet"><i class="fa-solid fa-check"></i> Rapid Scale</div>
+            </div>
+        </div>
+        <div class="tech-visual">
+            <img src="{% static 'images/gallery/media__1774796371288.jpg' %}" alt="Hospinex Interface" onerror="this.src='{% static 'images/gallery/bg1_new_1774600362174.png' %}'">
         </div>
     </div>
-</section>
 
-<section class="mission-section">
-    <div class="mission-card">
-        <h3>💚 Our Mission</h3>
-        <p>
-            To provide a digital healthcare platform that simplifies hospital operations
-            and allows patients to easily connect with doctors.
-        </p>
-    </div>
-    <div class="mission-card">
-        <h3>🌿 Our Vision</h3>
-        <p>
-            To become a trusted healthcare technology platform that improves hospital
-            efficiency and patient satisfaction through innovation.
-        </p>
-    </div>
-</section>
+    <!-- ELITE CREATORS SECTION WITH PRECISE IMAGES -->
+    <div class="creators-suite">
+        <div class="creators-header">
+            <div class="tech-sub" style="justify-content:center; margin-bottom: 20px;">The Architects</div>
+            <h2>Meet the Engineering Team</h2>
+            <p>Developing a unified hospital network required dedicated engineering, continuous iteration, and deep algorithmic insight to execute.</p>
+        </div>
 
-<section class="stats-section">
-    <div class="stat-box">
-        <h2>20+</h2>
-        <p>Doctors</p>
-    </div>
-    <div class="stat-box">
-        <h2>500+</h2>
-        <p>Patients Served</p>
-    </div>
-    <div class="stat-box">
-        <h2>10+</h2>
-        <p>Departments</p>
-    </div>
-    <div class="stat-box">
-        <h2>24/7</h2>
-        <p>Support</p>
-    </div>
-</section>
+        <div class="creators-grid">
+            
+            <!-- SHIVANI -->
+            <div class="creator-card-pro">
+                <div class="c-avatar-wrap">
+                    <img src="{% static 'images/developer.jpg' %}" alt="Shivani Sharma">
+                    <div class="c-badge"><i class="fa-solid fa-code"></i></div>
+                </div>
+                <div class="c-name">Shivani Sharma</div>
+                <div class="c-role">Lead Full-Stack Engineer / BCA Final Year</div>
+                <p class="c-desc">
+                    Architected the entire Hospinex Platform from the ground up. Engineered complex backend algorithms including the AI Symptom Matcher, dynamic doctor queues, and the secure, multi-level dashboard ecosystem.
+                </p>
+                <div class="badge-cloud">
+                    <div class="badge-item"><i class="fa-brands fa-python" style="color:#60a5fa;"></i> Python / Django</div>
+                    <div class="badge-item"><i class="fa-solid fa-database" style="color:#fbbf24;"></i> Database Design</div>
+                    <div class="badge-item"><i class="fa-solid fa-layer-group" style="color:#34d399;"></i> System Architecture</div>
+                </div>
+            </div>
 
-<section class="why-section">
-    <h2>Why Choose Hospinex</h2>
-    <div class="why-container">
-        <div class="why-card">
-            <h3>⚡ Fast Appointment</h3>
-            <p>Book appointments quickly without waiting in long hospital queues.</p>
-        </div>
-        <div class="why-card">
-            <h3>📊 Smart Queue</h3>
-            <p>Real-time queue system reduces waiting time for patients.</p>
-        </div>
-        <div class="why-card">
-            <h3>👨‍⚕️ Doctor Availability</h3>
-            <p>Doctors can manage schedules and patient flow efficiently.</p>
-        </div>
-        <div class="why-card">
-            <h3>🚑 Emergency Alerts</h3>
-            <p>Instant notifications help doctors respond to emergencies faster.</p>
+            <!-- MENTOR -->
+            <div class="creator-card-pro">
+                <div class="c-avatar-wrap">
+                    <img src="{% static 'images/guide.jpg' %}" alt="Prof. Amar Paul Singh">
+                    <div class="c-badge" style="background:#3b82f6;"><i class="fa-solid fa-chalkboard-user"></i></div>
+                </div>
+                <div class="c-name">Prof. Amar Paul Singh</div>
+                <div class="c-role">Technical Project Guide / Supervising Mentor</div>
+                <p class="c-desc">
+                    Provided crucial architectural oversight, rigorous technical mentorship, and invaluable feedback throughout the Software Development Life Cycle. Ensured adherence to high enterprise scalability and security.
+                </p>
+                <div class="badge-cloud">
+                    <div class="badge-item"><i class="fa-solid fa-shield-halved" style="color:#f87171;"></i> Quality Assurance</div>
+                    <div class="badge-item"><i class="fa-solid fa-laptop-code" style="color:#a78bfa;"></i> Engineering Standards</div>
+                    <div class="badge-item"><i class="fa-solid fa-clipboard-check" style="color:#38bdf8;"></i> SDLC Management</div>
+                </div>
+            </div>
+
         </div>
     </div>
-</section>
 
-<section class="team-section">
-    <h2>Our Team</h2>
-    <div class="team-container">
-        <div class="team-card">
-            <img src="{% static 'images/developer.jpg' %}" alt="Shivani Sharma">
-            <h3>Shivani Sharma</h3>
-            <p>BCA Final Year Student</p>
-        </div>
-        <div class="team-card">
-            <img src="{% static 'images/guide.jpg' %}" alt="Prof. Amar Paul Singh">
-            <h3>Prof. Amar Paul Singh</h3>
-            <p>Project Guide</p>
-        </div>
-    </div>
-</section>
+</div>
 
-<section class="cta-section">
-    <h2>Need Medical Assistance?</h2>
-    <p>Book your appointment quickly with Hospinex.</p>
-    <a href="{% url 'doctor_list' %}" class="cta-btn">Book Appointment</a>
-    <a href="{% url 'contact' %}" class="cta-btn secondary-btn">Contact Us</a>
-</section>
-
-<style>
-    /* Add a margin to the top so content doesn't hide under the sticky navbar */
-    main { padding-top: 0; }
-
-    .about-hero {
-        background: linear-gradient(135deg, #1b5e20, #2e7d32);
-        color: white;
-        padding: 100px 10%;
-        text-align: center;
-    }
-    .about-hero h1 { font-size: 48px; margin-bottom: 15px; }
-    .about-hero p { font-size: 18px; max-width: 700px; margin: auto; line-height: 1.6; }
-
-    .about-intro { padding: 80px 10%; background: white; }
-    .intro-container { display: flex; align-items: center; gap: 60px; flex-wrap: wrap; }
-    .intro-text { flex: 1; min-width: 300px; }
-    .intro-text h2 { color: #2e7d32; font-size: 34px; margin-bottom: 20px; }
-    .features { margin-top: 25px; }
-    .feature { margin-bottom: 10px; font-size: 16px; color: #444; }
-    .feature span { color: #2e7d32; font-weight: bold; margin-right: 8px; }
-    .intro-image img { width: 100%; max-width: 450px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-
-    .mission-section { display: flex; justify-content: center; gap: 40px; padding: 80px 10%; background: #f1f8f4; flex-wrap: wrap; }
-    .mission-card { background: white; padding: 40px; width: 400px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.06); border-top: 4px solid #2e7d32; }
-
-    .stats-section { display: flex; justify-content: center; gap: 50px; padding: 70px 10%; text-align: center; flex-wrap: wrap; }
-    .stat-box { background: #f1f8f4; padding: 30px; width: 180px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
-    .stat-box h2 { color: #2e7d32; font-size: 34px; margin: 0; }
-
-    .why-section { padding: 80px 10%; background: #f9fdfb; text-align: center; }
-    .why-section h2 { font-size: 36px; color: #2e7d32; margin-bottom: 40px; }
-    .why-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-    .why-card { background: white; padding: 30px; width: 260px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
-
-    .team-section { padding: 90px 10%; text-align: center; }
-    .team-section h2 { color: #2e7d32; font-size: 36px; margin-bottom: 40px; }
-    .team-container { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
-    .team-card { background: white; padding: 30px; width: 260px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-    .team-card img { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 6px solid #e8f5e9; margin-bottom: 20px; }
-
-    .cta-section { background: #1b5e20; color: white; padding: 70px 10%; text-align: center; }
-    .cta-btn { display: inline-block; margin: 10px; padding: 12px 28px; background: white; color: #2e7d32; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s; }
-    .cta-btn:hover { background: #e8f5e9; transform: translateY(-2px); }
-    .secondary-btn { background: transparent; color: white; border: 2px solid white; }
-    .secondary-btn:hover { background: white; color: #2e7d32; }
-</style>
 {% endblock %}

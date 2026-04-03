@@ -1,0 +1,80 @@
+﻿============================================================
+DEPT: Anesthesia
+  All imgs: ['../ig/images/avatars/drsodhi.jpeg', '../ig/images/avatars/Ajay Sood.jpg', '../ig/images/avatars/ddaranegi.png']
+  Doctor imgs: ['../ig/images/avatars/drsodhi.jpeg', '../ig/images/avatars/Ajay Sood.jpg', '../ig/images/avatars/ddaranegi.png', '../ig/images/avatars/dmkpi.png', '../ig/images/avatars/Aparna harma.jpg', '../ig/images/avatars/drka.png', '../ig/images/avatars/Ravi kant Dogra.jpg', '../ig/images/avatars/Kartik_Syal.jpeg', '../ig/images/avatars/ShwetaMahajan.jpg', '../ig/images/avatars/RajeshVerma.jpg']
+============================================================
+DEPT: General Surgery
+  All imgs: ['ig/images/avatars/UK.jpeg', 'ig/images/avatars/avatar2.png', 'ig/images/avatars/avatar2.png']
+  Doctor imgs: ['ig/images/avatars/UK.jpeg', 'ig/images/avatars/avatar2.png', 'ig/images/avatars/avatar2.png', '../ig/images/avatars/avatar2.png', '../ig/images/avatars/dks.jpg', '../ig/images/avatars/Ved Kumar Sharma.jpeg', '../ig/images/avatars/ashok kaundal.jpeg', '../ig/images/avatars/Arun Chauhan.jpg', '../ig/images/avatars/Balwant.jpg', '../ig/images/avatars/avatar2.png']
+============================================================
+DEPT: Dermatology
+  All imgs: ['../ig/images/avatars/DrGhanshyamVerma.jpg', '../ig/images/avatars/Reema.jpg', '../ig/images/avatars/avatar2.png']
+  Doctor imgs: ['../ig/images/avatars/DrGhanshyamVerma.jpg', '../ig/images/avatars/Reema.jpg', '../ig/images/avatars/avatar2.png', '../ig/images/avatars/AJEET_NEGI.jpg', '../ig/images/avatars/SandhyaChauhan.jpg']
+============================================================
+DEPT: Ophthalmology
+  All imgs: ['../ig/images/avatars/RAM SHARMA.jpeg', '../ig/images/avatars/vinod kashyap.jpeg', '../ig/images/avatars/avatar2.png']
+  Doctor imgs: ['../ig/images/avatars/RAM SHARMA.jpeg', '../ig/images/avatars/vinod kashyap.jpeg', '../ig/images/avatars/avatar2.png', '../ig/images/avatars/praveen panwar.jpeg', '../ig/images/avatars/Vinay Gupta.JPG', '../ig/images/avatars/kalpana sharma.jpeg', '../ig/images/avatars/avatar2.png', '../ig/images/avatars/as.jpeg', '../ig/images/avatars/mteye.jpeg', '../ig/images/avatars/dpeye.jpeg']
+============================================================
+DEPT: Orthopedics
+  All imgs: ['../ig/images/avatars/v2.bmp', '../ig/images/avatars/Desh Raj Chandel.jpg', '../ig/images/avatars/rajeshsood.jpeg']
+  Doctor imgs: ['../ig/images/avatars/v2.bmp', '../ig/images/avatars/Desh Raj Chandel.jpg', '../ig/images/avatars/rajeshsood.jpeg', '../ig/images/avatars/drsk.jpeg', '../ig/images/avatars/SSud.jpg', '../ig/images/avatars/dranuortho.jpeg', '../ig/images/avatars/Vishal Verma.jpeg', '../ig/images/avatars/avatar2.png', '../ig/images/avatars/drankuortho.jpeg']
+============================================================
+DEPT: Pediatrics
+  FAILED: HTTP Error 404: Not Found
+============================================================
+DEPT: Radiotherapy
+  FAILED: HTTP Error 404: Not Found
+
+
+=== SUMMARY OF IMAGE URLs ===
+
+Anesthesia:
+  http://www.igmcshimla.edu.in/ig/images/avatars/drsodhi.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/Ajay Sood.jpg
+  http://www.igmcshimla.edu.in/ig/images/avatars/ddaranegi.png
+  http://www.igmcshimla.edu.in/ig/images/avatars/dmkpi.png
+  http://www.igmcshimla.edu.in/ig/images/avatars/Aparna harma.jpg
+  http://www.igmcshimla.edu.in/ig/images/avatars/drka.png
+  http://www.igmcshimla.edu.in/ig/images/avatars/Ravi kant Dogra.jpg
+  http://www.igmcshimla.edu.in/ig/images/avatars/Kartik_Syal.jpeg
+
+General Surgery:
+  http://www.igmcshimla.edu.in/ig/images/avatars/UK.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/avatar2.png
+  http://www.igmcshimla.edu.in/ig/images/avatars/avatar2.png
+  http://www.igmcshimla.edu.in/ig/images/avatars/avatar2.png
+  http://www.igmcshimla.edu.in/ig/images/avatars/dks.jpg
+  http://www.igmcshimla.edu.in/ig/images/avatars/Ved Kumar Sharma.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/ashok kaundal.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/Arun Chauhan.jpg
+
+Dermatology:
+  http://www.igmcshimla.edu.in/ig/images/avatars/DrGhanshyamVerma.jpg
+  http://www.igmcshimla.edu.in/ig/images/avatars/Reema.jpg
+  http://www.igmcshimla.edu.in/ig/images/avatars/avatar2.png
+  http://www.igmcshimla.edu.in/ig/images/avatars/AJEET_NEGI.jpg
+  http://www.igmcshimla.edu.in/ig/images/avatars/SandhyaChauhan.jpg
+
+Ophthalmology:
+  http://www.igmcshimla.edu.in/ig/images/avatars/RAM SHARMA.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/vinod kashyap.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/avatar2.png
+  http://www.igmcshimla.edu.in/ig/images/avatars/praveen panwar.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/Vinay Gupta.JPG
+  http://www.igmcshimla.edu.in/ig/images/avatars/kalpana sharma.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/avatar2.png
+  http://www.igmcshimla.edu.in/ig/images/avatars/as.jpeg
+
+Orthopedics:
+  http://www.igmcshimla.edu.in/ig/images/avatars/v2.bmp
+  http://www.igmcshimla.edu.in/ig/images/avatars/Desh Raj Chandel.jpg
+  http://www.igmcshimla.edu.in/ig/images/avatars/rajeshsood.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/drsk.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/SSud.jpg
+  http://www.igmcshimla.edu.in/ig/images/avatars/dranuortho.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/Vishal Verma.jpeg
+  http://www.igmcshimla.edu.in/ig/images/avatars/avatar2.png
+
+Pediatrics:
+
+Radiotherapy:

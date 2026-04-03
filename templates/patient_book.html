@@ -2,87 +2,540 @@
 {% load static %}
 {% block content %}
 
-<div class="booking-card">
-    <h2>Book Appointment</h2>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <form method="POST">
-        {% csrf_token %}
-
-        <label>Doctor</label>
-        <select name="doctor_id" required>
-            {% for doc in doctors %}
-                <option value="{{ doc.id }}">
-                    Dr. {{ doc.user.first_name }} - {{ doc.specialization }}
-                </option>
-            {% endfor %}
-        </select>
-
-        <label>Date</label>
-        <input type="date" name="date" required>
-
-        <label>Time Slot</label>
-        <select name="time_slot" required>
-            <option>09:00 AM</option>
-            <option>10:00 AM</option>
-            <option>11:00 AM</option>
-            <option>12:00 PM</option>
-            <option>02:00 PM</option>
-            <option>03:00 PM</option>
-            <option>04:00 PM</option>
-        </select>
-
-        <label>Phone</label>
-        <input type="text" name="phone" required>
-
-        <button type="submit">Confirm Booking</button>
-    </form>
-</div>
 <style>
-    .booking-card {
-    max-width: 500px;
-    margin: 40px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+:root {
+    --primary: #1e7e34;
+    --primary-dark: #145a23;
+    --primary-glow: rgba(30, 126, 52, 0.15);
+    --secondary: #43a047;
+    --accent: #69f0ae;
+    --bg-main: #f0f4f8;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-light: #e2e8f0;
+    --input-focus: #1e7e34;
 }
 
-.booking-card h2 {
+body {
+    background-color: var(--bg-main);
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-main);
+}
+
+.booking-master-container {
+    min-height: calc(100vh - 86px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(30, 126, 52, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(67, 160, 71, 0.08) 0%, transparent 40%);
+}
+
+.booking-card {
+    background: var(--card-bg);
+    width: 100%;
+    max-width: 680px;
+    border-radius: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardEntrance {
+    from { opacity: 0; transform: translateY(40px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.booking-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 10px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+}
+
+/* Steps Indicator */
+.steps-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 30px 0 0;
+    position: relative;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.4;
+    transition: 0.4s;
+    position: relative;
+}
+
+.step-item.active { opacity: 1; }
+
+.step-dot {
+    width: 32px;
+    height: 32px;
+    background: var(--slate-100);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    border: 2px solid var(--border-light);
+    color: var(--text-muted);
+}
+
+.step-item.active .step-dot {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.step-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+.card-header {
+    padding: 40px 60px 20px;
     text-align: center;
-    margin-bottom: 25px;
-    color: #2e7d32;
 }
 
-.booking-card label {
-    font-weight: 600;
-    margin-top: 10px;
-    display: block;
+.card-header h2 {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.booking-card input,
-.booking-card select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
+.card-header p {
+    color: var(--text-muted);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.card-body { padding: 30px 60px 60px; }
+
+/* Enhanced Symptom Finder */
+.smart-search-box {
+    margin-bottom: 35px;
+    padding: 24px;
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: 20px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 8px 16px -4px rgba(0,0,0,0.04);
+}
+
+.smart-search-box label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--primary);
     margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.booking-card button {
+.symptom-input-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.symptom-input-field i {
+    position: absolute;
+    left: 18px;
+    color: var(--primary);
+    font-size: 18px;
+}
+
+.symptom-input-field input {
     width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #2e7d32, #66bb6a);
+    padding: 16px 20px 16px 50px;
+    border: 2px solid var(--border-light);
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 500;
+    outline: none;
+    transition: 0.3s;
+    background: white;
+}
+
+.symptom-input-field input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(30, 126, 52, 0.1);
+}
+
+.match-ribbon {
+    display: none;
+    margin-top: 15px;
+    background: #e8f5e9;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #2e7d32;
+    align-items: center;
+    gap: 8px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Form Fields */
+.field-group { margin-bottom: 28px; }
+
+.field-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 12px;
+}
+
+.input-container { position: relative; }
+
+.input-container select, 
+.input-container input {
+    width: 100%;
+    padding: 16px 20px;
+    background: #fdfdfd;
+    border: 2px solid #edf2f7;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-main);
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    appearance: none;
+}
+
+.input-container select:focus, 
+.input-container input:focus {
+    background: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 5px var(--primary-glow);
+    outline: none;
+}
+
+/* Doctor Profile Card (Floating) */
+.dr-preview {
+    display: none;
+    margin-top: 12px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 14px;
+    border: 1px solid #eef2f7;
+    align-items: center;
+    gap: 15px;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.dr-avatar {
+    width: 48px;
+    height: 48px;
+    background: var(--primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+.dr-info { display: flex; flex-direction: column; }
+.dr-info span:first-child { font-weight: 800; font-size: 14.5px; color: var(--text-main); }
+.dr-info span:last-child { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 24px;
+}
+
+.confirm-btn {
+    width: 100%;
+    padding: 22px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
+    border-radius: 20px;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 15px 35px -5px rgba(30, 126, 52, 0.4);
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
 }
 
-.booking-card button:hover {
-    transform: scale(1.02);
+.confirm-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%; width: 150%; height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: translate(-50%, -50%) rotate(45deg) translateY(100%);
+    transition: 0.6s;
+}
+
+.confirm-btn:hover::after { transform: translate(-50%, -50%) rotate(45deg) translateY(-100%); }
+
+.confirm-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 45px -5px rgba(30, 126, 52, 0.5);
+    filter: brightness(1.1);
+}
+
+.footer-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.btn-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: 0.3s;
+}
+
+.btn-back:hover { color: var(--text-main); transform: translateX(-5px); }
+
+@media (max-width: 650px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .card-body { padding: 30px 25px; }
+    .card-header h2 { font-size: 28px; }
 }
 </style>
+
+<div class="booking-master-container">
+    <div class="booking-card">
+        
+        <!-- Premium multi-step indicator -->
+        <div class="steps-indicator">
+            <div class="step-item active">
+                <div class="step-dot"><i class="fa-solid fa-stethoscope"></i></div>
+                <div class="step-label">Analysis</div>
+            </div>
+            <div style="width: 40px; height: 2px; background: var(--border-light); margin-top: 15px;"></div>
+            <div class="step-item" id="step2">
+                <div class="step-dot">2</div>
+                <div class="step-label">Schedule</div>
+            </div>
+            <div style="width: 40px; height: 2px; background: var(--border-light); margin-top: 15px;"></div>
+            <div class="step-item" id="step3">
+                <div class="step-dot"><i class="fa-solid fa-check"></i></div>
+                <div class="step-label">Finalize</div>
+            </div>
+        </div>
+
+        <div class="card-header">
+            <h2>Hospinex Booking</h2>
+            <p>Your gateway to premium specialized healthcare at Civil Hospital Ghumarwin.</p>
+        </div>
+
+        <div class="card-body">
+            <form method="POST" id="bookingForm">
+                {% csrf_token %}
+
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label><i class="fa-solid fa-user"></i> Patient Full Name</label>
+                        <div class="input-container">
+                            <input type="text" name="patient_name" placeholder="Enter Full Name" required 
+                                   value="{{ request.user.get_full_name|default:request.user.username }}">
+                        </div>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label><i class="fa-solid fa-phone"></i> Contact Mobile</label>
+                        <div class="input-container">
+                            <input type="tel" name="phone" placeholder="9876543210" pattern="[6-9]{1}[0-9]{9}" maxlength="10" required 
+                                   value="{{ request.user.patient_profile.phone|default:'' }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label><i class="fa-solid fa-notes-medical"></i> Describe Disease or Symptoms</label>
+                    <div class="input-container">
+                        <textarea name="disease" id="diseaseSymptoms" placeholder="E.g. Persistent fever, back pain since 2 days, etc." 
+                                  required style="width: 100%; min-height: 120px; padding: 20px; border-radius: 20px; border: 2px solid #edf2f7; font-family: inherit; font-size: 16px; background: #fdfdfd; transition: 0.3s;"></textarea>
+                    </div>
+                    <div id="matchRibbon" class="match-ribbon">
+                        <i class="fa-solid fa-sparkles"></i> Expert matched based on your concern!
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label><i class="fa-solid fa-user-doctor"></i> Assigned Specialist</label>
+                    <div class="input-container">
+                        <select name="doctor_id" id="doctorDropdown" required>
+                            <option value="">-- The best specialist will be auto-suggested --</option>
+                            {% for doc in doctors %}
+                                <option value="{{ doc.id }}" 
+                                        data-name="Dr. {{ doc.user.get_full_name|default:doc.user.username|title }}" 
+                                        data-spec="{{ doc.specialization }}">
+                                    Dr. {{ doc.user.get_full_name|default:doc.user.username|title }} 
+                                    {% if doc.specialization %}({{ doc.specialization }}){% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <i class="fa-solid fa-chevron-down" style="position:absolute; right:20px; top:22px; color:var(--text-muted); pointer-events:none;"></i>
+                    </div>
+                    
+                    <!-- Dynamic Doctor Preview -->
+                    <div id="drPreview" class="dr-preview">
+                        <div class="dr-avatar"><i class="fa-solid fa-user-md"></i></div>
+                        <div class="dr-info">
+                            <span id="drPrevName">Doctor Name</span>
+                            <span id="drPrevSpec">Medical Specialization</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label><i class="fa-solid fa-calendar-day"></i> Preferred Date (YYYY-MM-DD)</label>
+                    <div class="input-container">
+                        <input type="text" name="date" required id="appointmentDate" placeholder="e.g. 2026-04-15" style="width: 100%;">
+                    </div>
+                </div>
+
+                <button type="submit" class="confirm-btn">
+                    Confirm Visit Registration <i class="fa-solid fa-calendar-check"></i>
+                </button>
+            </form>
+
+            <div class="footer-actions">
+                <a href="{% url 'patient_dashboard' %}" class="btn-back">
+                    <i class="fa-solid fa-arrow-left"></i> Return to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // 1. Date Constraints
+    const dateInput = document.getElementById("appointmentDate");
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.setAttribute("min", today);
+    dateInput.addEventListener('change', () => document.getElementById('step2').classList.add('active'));
+
+    // 2. Doctor Selection Preview & Step Update
+    const drDropdown = document.getElementById('doctorDropdown');
+    const drPreview = document.getElementById('drPreview');
+    const drPrevName = document.getElementById('drPrevName');
+    const drPrevSpec = document.getElementById('drPrevSpec');
+    const step3 = document.getElementById('step3');
+
+    drDropdown.addEventListener('change', function() {
+        if(this.value) {
+            const opt = this.options[this.selectedIndex];
+            drPrevName.innerText = opt.dataset.name;
+            drPrevSpec.innerText = opt.dataset.spec || "General Practice";
+            drPreview.style.display = 'flex';
+            step3.classList.add('active');
+        } else {
+            drPreview.style.display = 'none';
+        }
+    });
+
+    // 3. Integrated Symptom Matching (No AI mentioned)
+    const diseaseInput = document.getElementById('diseaseSymptoms');
+    const ribbon = document.getElementById('matchRibbon');
+
+    const keywords = {
+        'heart': 'emergency', 'chest': 'emergency', 'breath': 'emergency', 'palpitation': 'emergency',
+        'bone': 'ortho', 'fracture': 'ortho', 'joint': 'ortho', 'back pain': 'ortho',
+        'skin': 'derm', 'rash': 'derm', 'acne': 'derm', 'itch': 'derm', 'skin allergy': 'derm',
+        'eye': 'ophth', 'vision': 'ophth', 'blur': 'ophth', 'itching eye': 'ophth',
+        'child': 'pediatr', 'baby': 'pediatr', 'kid': 'pediatr', 'vaccine': 'pediatr', 'growth': 'pediatr',
+        'surgery': 'surg', 'operation': 'surg', 'wound': 'surg', 'appendicitis': 'surg', 'stone': 'surg',
+        'cancer': 'radio', 'tumor': 'radio', 'chemo': 'radio',
+        'delivery': 'gyne', 'pregnancy': 'gyne', 'women': 'gyne', 'period': 'gyne',
+        'headache': 'emergency', 'fever': 'emergency', 'cold': 'emergency', 'cough': 'emergency', 'stomach': 'emergency', 
+        'gastric': 'emergency', 'weakness': 'emergency', 'fatigue': 'emergency', 'bp': 'emergency', 'diabetes': 'emergency'
+    };
+
+    diseaseInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        if(query.length < 3) { ribbon.style.display = 'none'; return; }
+
+        let targetSpec = null;
+        for (const [key, spec] of Object.entries(keywords)) {
+            if (query.includes(key)) { targetSpec = spec; break; }
+        }
+
+        if(targetSpec) {
+            let found = false;
+            for(let i=0; i<drDropdown.options.length; i++) {
+                const optSpec = (drDropdown.options[i].dataset.spec || "").toLowerCase();
+                if(optSpec.includes(targetSpec)) {
+                    drDropdown.selectedIndex = i;
+                    drDropdown.dispatchEvent(new Event('change'));
+                    found = true;
+                    break;
+                }
+            }
+            if(found) {
+                ribbon.style.display = 'flex';
+                ribbon.innerHTML = '<i class="fa-solid fa-sparkles"></i> Specialist matched based on your symptoms!';
+            }
+        } else if (query.length >= 5) {
+            // GLOBAL FALLBACK: Pick first doctor if no match
+            if(drDropdown.options.length > 1) {
+                drDropdown.selectedIndex = 1; // First real doctor
+                drDropdown.dispatchEvent(new Event('change'));
+                ribbon.style.display = 'flex';
+                ribbon.innerHTML = '<i class="fa-solid fa-user-doctor"></i> Suggested for initial consultation.';
+            }
+        } else {
+            ribbon.style.display = 'none';
+        }
+    });
+
+    // 4. Form Submission Visual
+    const form = document.getElementById('bookingForm');
+    form.addEventListener('submit', function() {
+        const btn = this.querySelector('.confirm-btn');
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing Request...';
+        btn.style.opacity = '0.8';
+        btn.style.pointerEvents = 'none';
+    });
+});
+</script>
 
 {% endblock %}

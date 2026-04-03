@@ -52,38 +52,6 @@ def doctor_detail(request, doctor_id):
 # =========================
 # BOOK APPOINTMENT
 # =========================
-@login_required(login_url="patient_login")
-def book_appointment(request, user_id):
-    doctor = get_object_or_404(Doctor, user_id=user_id)
-
-    if request.method == "GET":
-        return render(request, "doctors/book_appointment.html", {"doctor": doctor})
-
-    today = timezone.now().date()
-
-    last_queue = Appointment.objects.filter(
-        doctor=doctor,
-        appointment_date=today
-    ).aggregate(Max("queue_number"))["queue_number__max"]
-
-    next_queue = (last_queue or 0) + 1
-
-    appointment = Appointment.objects.create(
-        doctor=doctor,
-        patient_name=request.POST.get("patient_name"),
-        patient_email=request.user.email,
-        patient_phone=request.POST.get("patient_phone"),
-        appointment_date=today,
-        queue_number=next_queue,
-        status="waiting",
-    )
-
-    DoctorNotification.objects.create(
-        doctor=doctor.user,
-        appointment=appointment
-    )
-
-    return redirect("appointment_success", appointment_id=appointment.id)
 
 
 # =========================
@@ -92,12 +60,6 @@ def book_appointment(request, user_id):
 def appointment_success(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     return render(request, "doctors/appointment_success.html", {"appointment": appointment})
-from django.contrib.auth.decorators import login_required
-
-@login_required(login_url='patient_login') # Redirects to login if not authenticated
-def book_appointment(request, doctor_id):
-    # Your booking logic here...
-    return render(request, 'booking_form.html')
 
 
 # =========================
@@ -126,16 +88,6 @@ def doctor_login(request):
 # =========================
 # DOCTOR DASHBOARD
 # ======================
-@login_required
-def doctor_dashboard(request):
-    try:
-        doctor = Doctor.objects.get(user=request.user)
-    except Doctor.DoesNotExist:
-        # If a patient tries to access this, send them back
-        messages.error(request, "Access Denied: You do not have a Doctor profile.")
-        return redirect('patient_dashboard')
-
-    return render(request, 'doctors/doctor_dashboard.html', {'doctor': doctor})
 # =========================
 # NEXT PATIENT
 # =========================
@@ -209,9 +161,12 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 def patient_login(request):
-    # 1. If user is already logged in, send them to dashboard
+    # 1. Get the 'next' redirect URL if it exists
+    next_url = request.GET.get('next') or request.POST.get('next') or 'patient_dashboard'
+
+    # 2. If user is already logged in, send them to dashboard or 'next'
     if request.user.is_authenticated:
-        return redirect('patient_dashboard')
+        return redirect(next_url)
 
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
@@ -228,7 +183,7 @@ def patient_login(request):
                 
                 if user is not None:
                     login(request, user)
-                    return redirect('patient_dashboard')
+                    return redirect(next_url)
                 else:
                     messages.error(request, "Invalid password.")
             except User.DoesNotExist:
@@ -244,33 +199,30 @@ def patient_login(request):
             # Validation: Passwords match
             if password != confirm_password:
                 messages.error(request, "Passwords do not match.")
-                return redirect("patient_login")
-
-            # Validation: Email exists (This prevents the IntegrityError)
-            if User.objects.filter(email=email).exists() or User.objects.filter(username=email).exists():
+                # Fallback to render with next_url
+            
+            # Validation: Email exists
+            elif User.objects.filter(email=email).exists() or User.objects.filter(username=email).exists():
                 messages.error(request, "A user with this email/username already exists.")
-                return redirect("patient_login")
+                # Fallback to render with next_url
+            
+            else:
+                try:
+                    # Create the user safely
+                    user = User.objects.create_user(
+                        username=email, # Using email as username
+                        email=email,
+                        password=password,
+                        first_name=name
+                    )
+                    login(request, user)
+                    messages.success(request, f"Welcome, {name}!")
+                    return redirect(next_url)
+                    
+                except Exception as e:
+                    messages.error(request, "An error occurred during signup. Please try again.")
 
-            try:
-                # Create the user safely
-                user = User.objects.create_user(
-                    username=email, # Using email as username
-                    email=email,
-                    password=password,
-                    first_name=name
-                )
-                
-                # IMPORTANT: If you have a Patient profile model, create it here:
-                # Patient.objects.create(user=user)
-
-                login(request, user)
-                messages.success(request, f"Welcome, {name}!")
-                return redirect('patient_dashboard')
-                
-            except Exception as e:
-                messages.error(request, "An error occurred during signup. Please try again.")
-
-    return render(request, 'patient_login.html')
+    return render(request, 'patient_login.html', {'next': next_url})
 
 
 # =========================
@@ -280,15 +232,83 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib import messages
 
-@login_required
+@login_required(login_url="patient_login")
+def patient_book(request):
+    doctors = Doctor.objects.all()
+
+    if request.method == "POST":
+        doctor_id = request.POST.get("doctor_id")
+        date_str = request.POST.get("date")
+        time_slot = request.POST.get("time_slot", "09:00 AM")
+        phone = request.POST.get("phone")
+        patient_name = request.POST.get("patient_name")
+        disease = request.POST.get("disease", "Not Specified")
+
+        # Robust Date Parsing
+        parsed_date = None
+        formats = ["%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y"]
+        from datetime import datetime
+        
+        for fmt in formats:
+            try:
+                parsed_date = datetime.strptime(date_str, fmt).date()
+                break
+            except (ValueError, TypeError):
+                continue
+
+        if not parsed_date:
+            messages.error(request, f"'{date_str}' is not a valid date. Please use YYYY-MM-DD, DD/MM/YYYY, or DD-MM-YYYY.")
+            return redirect("patient_book")
+
+        # Determine next queue
+        last_queue = Appointment.objects.filter(
+            doctor_id=doctor_id,
+            appointment_date=parsed_date
+        ).aggregate(Max("queue_number"))["queue_number__max"]
+        next_queue = (last_queue or 0) + 1
+
+        Appointment.objects.create(
+            doctor_id=doctor_id,
+            patient_name=patient_name,
+            patient_email=request.user.email,
+            patient_phone=phone,
+            appointment_date=parsed_date,
+            time_slot=time_slot,
+            queue_number=next_queue,
+            disease=disease,
+            status="waiting",
+        )
+        messages.success(request, "Appointment secured! Your digital token is #"+str(next_queue))
+        return redirect("patient_dashboard")
+
+    return render(request, "patient_book.html", {"doctors": doctors})
+
+@login_required(login_url="patient_login")
 def patient_dashboard(request):
     # Check if the logged-in user is actually a patient
-    # This assumes you have a way to identify them (like a group or profile)
-    if hasattr(request.user, 'doctor'): 
+    if hasattr(request, 'user') and hasattr(request.user, 'doctor'): 
         messages.error(request, "Access Denied: Doctors cannot access the Patient Dashboard.")
         return redirect('doctor_dashboard')
     
-    return render(request, 'patient_dashboard.html')
+    # Fetch patient appointments using user email
+    appointments = Appointment.objects.filter(patient_email=request.user.email).order_by('-appointment_date', 'queue_number')
+    
+    total = appointments.count()
+    upcoming = appointments.filter(status='waiting').count()
+    completed = appointments.filter(status='completed').count()
+    
+    # Check if any appointment is in progress right now
+    current_queue = appointments.filter(status='in_progress').first()
+    
+    context = {
+        'appointments': appointments,
+        'total': total,
+        'upcoming': upcoming,
+        'completed': completed,
+        'current_queue': current_queue,
+    }
+    
+    return render(request, 'patient_dashboard.html', context)
 # views.py
 from django.shortcuts import render
 
@@ -328,6 +348,9 @@ def contact(request):
 
     return render(request, "contact.html")
 
+def blood_bank(request):
+    return render(request, "blood_bank.html")
+
 def gallery(request):
     return render(request, 'gallery.html')
 @login_required(login_url="doctor_login")
@@ -365,15 +388,17 @@ def receptionist_login(request):
 
         messages.error(request, "Invalid receptionist credentials")
 
-    return render(request, "receptionist/login.html")
+    return render(request, "receptionist/receptionist_login.html")
 @login_required(login_url="receptionist_login")
 def receptionist_dashboard(request):
     doctors = User.objects.filter(is_staff=True)
+    today = timezone.now().date()
+    appointments = Appointment.objects.filter(appointment_date=today).order_by('-created_at')
 
     return render(
         request,
-        "receptionist/receptionist.html",
-        {"doctors": doctors}
+        "receptionist/dashboard.html",
+        {"doctors": doctors, "appointments": appointments}
     )
 @login_required(login_url="receptionist_login")
 def receptionist_logout(request):
@@ -426,7 +451,7 @@ def delete_selected_appointments(request):
     return redirect("receptionist_appointments")    
 @login_required(login_url="receptionist_login")
 def add_appointment(request):
-    doctors = User.objects.filter(is_staff=True)
+    doctors = Doctor.objects.all()
 
     if request.method == "POST":
         today = timezone.now().date()
@@ -458,16 +483,21 @@ def add_appointment(request):
 @login_required(login_url="receptionist_login")
 def send_emergency(request):
     if request.method == "POST":
-        doctor = get_object_or_404(User, id=request.POST.get("doctor_id"))
-
-        EmergencyAlert.objects.create(
-            doctor=doctor,
-            patient_name="Emergency",
-            patient_phone="N/A",
-            message="Emergency case"
-        )
+        doctor_id = request.POST.get("doctor_id")
+        if doctor_id:
+            doctor = get_object_or_404(User, id=doctor_id)
+            EmergencyAlert.objects.create(
+                doctor=doctor,
+                patient_name="EMERGENCY",
+                patient_phone="URGENT",
+                message="Critical emergency override triggered by reception."
+            )
+            messages.success(request, "Emergency Sent!")
+        else:
+            messages.error(request, "Please select a doctor first.")
 
     return redirect("receptionist_dashboard") 
+@login_required(login_url="patient_login")
 def book_appointment(request, user_id):
     doctor = get_object_or_404(Doctor, user_id=user_id)
 
@@ -514,7 +544,9 @@ def book_appointment(request, user_id):
 
         return redirect("appointment_success", appointment_id=appointment.id)
 from django.contrib.auth import logout
-from django.shortcuts import redirect
+def logout_view(request):
+    logout(request)
+    return redirect('home')
 
 def doctor_logout_view(request):
     logout(request)
@@ -523,7 +555,7 @@ def doctor_logout_view(request):
 def patient_logout_view(request):
     logout(request)
     return redirect('home')   
-@login_required
+@login_required(login_url="doctor_login")
 def doctor_dashboard(request):
     try:
         # 1. Fetch the doctor profile

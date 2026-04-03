@@ -3,137 +3,313 @@
 {% block content %}
 
 <style>
-.success-wrapper {
-    max-width: 900px;
-    margin: 70px auto;
-    padding: 20px;
-}
+    :root {
+        --primary-gradient: linear-gradient(135deg, #1e7e34, #145a23);
+        --glass-bg: rgba(255, 255, 255, 0.9);
+        --glass-border: rgba(255, 255, 255, 0.2);
+    }
 
-.success-card {
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 18px;
-    box-shadow: 0 14px 40px rgba(0,0,0,0.08);
-    text-align: center;
-}
+    .success-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: radial-gradient(circle at top right, #e8f5e9, transparent),
+                    radial-gradient(circle at bottom left, #f1f8f5, transparent);
+    }
 
-.success-icon {
-    font-size: 64px;
-    color: #2e7d32;
-    margin-bottom: 10px;
-}
+    .success-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-radius: 30px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 550px;
+        overflow: hidden;
+        animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-.success-card h1 {
-    color: #1b5e20;
-    margin-bottom: 8px;
-}
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-.success-card p {
-    color: #555;
-    margin-bottom: 30px;
-    font-size: 16px;
-}
+    .card-header {
+        background: var(--primary-gradient);
+        padding: 50px 30px;
+        text-align: center;
+        position: relative;
+    }
 
-/* DETAILS BOX */
-.details-box {
-    background: #f1f8f5;
-    border-radius: 14px;
-    padding: 25px;
-    max-width: 500px;
-    margin: 0 auto 30px auto;
-    text-align: left;
-}
+    .success-badge {
+        width: 80px;
+        height: 80px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    }
 
-.detail-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    font-size: 15px;
-}
+    @keyframes scaleIn {
+        from { transform: scale(0); }
+        to { transform: scale(1); }
+    }
 
-.detail-row span {
-    color: #555;
-}
+    .success-badge i {
+        font-size: 36px;
+        color: #1e7e34;
+    }
 
-.detail-row strong {
-    color: #1b5e20;
-}
+    .card-header h1 {
+        color: white;
+        font-size: 28px;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
 
-/* ACTION BUTTONS */
-.action-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
+    .card-header p {
+        color: rgba(255,255,255,0.9);
+        margin-top: 10px;
+        font-size: 15px;
+    }
 
-.btn-primary {
-    background: #2e7d32;
-    color: white;
-    padding: 12px 26px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-}
+    .card-body {
+        padding: 40px;
+    }
 
-.btn-primary:hover {
-    background: #1b5e20;
-}
+    .receipt-container {
+        background: #f8fafc;
+        border: 2px dashed #e2e8f0;
+        border-radius: 20px;
+        padding: 24px;
+        margin-bottom: 30px;
+        position: relative;
+    }
 
-.btn-outline {
-    background: white;
-    color: #2e7d32;
-    padding: 12px 26px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    border: 2px solid #2e7d32;
-}
+    .receipt-container::before,
+    .receipt-container::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
-.btn-outline:hover {
-    background: #f1f8f5;
-}
+    .receipt-container::before { left: -11px; }
+    .receipt-container::after { right: -11px; }
+
+    .token-label {
+        display: block;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--gray-400);
+        margin-bottom: 4px;
+    }
+
+    .token-number {
+        display: block;
+        text-align: center;
+        font-size: 42px;
+        font-weight: 900;
+        color: #1e7e34;
+        margin-bottom: 20px;
+    }
+
+    .detail-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #edf2f7;
+    }
+
+    .detail-item:last-child { border-bottom: none; }
+
+    .detail-item span {
+        color: var(--gray-500);
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .detail-item strong {
+        color: var(--gray-900);
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .status-pill {
+        background: #def7ec;
+        color: #03543f;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .instructions {
+        margin-top: 25px;
+        padding: 15px;
+        background: #fff9f0;
+        border-left: 4px solid #f59e0b;
+        border-radius: 8px;
+    }
+
+    .instructions h4 {
+        color: #92400e;
+        font-size: 14px;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .instructions p {
+        color: #b45309;
+        font-size: 13px;
+        margin: 0;
+    }
+
+    .action-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 35px;
+    }
+
+    .btn-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-book-more {
+        background: #1e7e34;
+        color: white;
+        grid-column: span 2;
+    }
+
+    .btn-book-more:hover {
+        background: #145a23;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(30,126,52,0.2);
+    }
+
+    .btn-home {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .btn-home:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+    }
+
+    .btn-print {
+        background: #fff;
+        color: #1e7e34;
+        border: 2px solid #1e7e34;
+    }
+
+    .btn-print:hover {
+        background: #f1f8f5;
+    }
+
+    @media (max-width: 600px) {
+        .action-grid { grid-template-columns: 1fr; }
+        .btn-book-more { grid-column: span 1; }
+        .success-card { border-radius: 0; }
+        .success-container { padding: 0; }
+    }
 </style>
 
-<div class="success-wrapper">
+<div class="success-container">
     <div class="success-card">
-
-        
-
-        <h1>Appointment Confirmed</h1>
-        <p>Your appointment has been successfully booked. We look forward to serving you.</p>
-
-        <div class="details-box">
-            <div class="detail-row">
-                <span>Doctor</span>
-                <strong>
-                    Dr. {{ appointment.doctor.first_name }}
-                    {{ appointment.doctor.last_name }}
-                </strong>
+        <div class="card-header">
+            <div class="success-badge">
+                <i class="fa-solid fa-check"></i>
             </div>
-
-            <div class="detail-row">
-                <span>Date</span>
-                <strong>{{ appointment.appointment_date }}</strong>
-            </div>
-
-            <div class="detail-row">
-                <span>Status</span>
-                <strong>Waiting</strong>
-            </div>
+            <h1>Appointment Confirmed</h1>
+            <p>Your session with the specialist is secured.</p>
         </div>
 
-        <div class="action-buttons">
-            <a href="{% url 'doctor_list' %}" class="btn-primary">
-                Book Another Appointment
-            </a>
+        <div class="card-body">
+            <div class="receipt-container">
+                <span class="token-label">Digital Token Number</span>
+                <span class="token-number">#{{ appointment.queue_number }}</span>
 
-            <a href="{% url 'home' %}" class="btn-outline">
-                Back to Home
-            </a>
+                <div class="detail-list">
+                    <div class="detail-item">
+                        <span>Patient Name</span>
+                        <strong>{{ appointment.patient_name }}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Doctor</span>
+                        <strong>Dr. {{ appointment.doctor.user.first_name }} {{ appointment.doctor.user.last_name }}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Specialization</span>
+                        <strong>{{ appointment.doctor.specialization }}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Date</span>
+                        <strong>{{ appointment.appointment_date|date:"F d, Y" }}</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Status</span>
+                        <span class="status-pill">Waiting</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <h4><i class="fa-solid fa-circle-info"></i> Important Instructions</h4>
+                <p>Please arrive at the hospital at least 15 minutes before your scheduled OPD time. Show this digital token at the counter if requested.</p>
+            </div>
+
+            <div class="action-grid">
+                <a href="{% url 'doctor_list' %}" class="btn-action btn-book-more" id="bookMoreBtn">
+                    <i class="fa-solid fa-calendar-plus"></i>
+                    Book Another Appointment
+                </a>
+                <a href="{% url 'home' %}" class="btn-action btn-home" id="homeBtn">
+                    <i class="fa-solid fa-house"></i>
+                    Back to Home
+                </a>
+                <button onclick="window.print()" class="btn-action btn-print" id="printBtn">
+                    <i class="fa-solid fa-print"></i>
+                    Print Receipt
+                </button>
+            </div>
         </div>
-
     </div>
 </div>
 
 {% endblock %}
+

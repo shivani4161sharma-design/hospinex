@@ -5,166 +5,331 @@
 <style>
     /* Hero Section for Departments */
     .dep-hero {
-        background: linear-gradient(rgba(46, 125, 50, 0.05), rgba(46, 125, 50, 0.02));
-        padding: 80px 20px;
+        background: linear-gradient(rgba(30, 126, 52, 0.08), rgba(30, 126, 52, 0.02));
+        padding: 50px 20px 70px;
         text-align: center;
-        border-bottom: 1px solid #eee;
     }
 
     .dep-title {
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--hospinex-dark);
-        margin-bottom: 15px;
+        font-size: 38px;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 12px;
     }
 
     .dep-subtitle {
-        color: #666;
+        color: #64748b;
         max-width: 600px;
         margin: 0 auto;
-        font-size: 1.1rem;
+        font-size: 16px;
         line-height: 1.6;
     }
 
     /* Grid Layout */
     .dep-container {
         max-width: 1200px;
-        margin: -50px auto 80px; /* Pulls cards up into hero slightly */
+        margin: -40px auto 80px;
         padding: 0 20px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+
+    @media (max-width: 900px) {
+        .dep-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .dep-container {
+            grid-template-columns: 1fr;
+        }
     }
 
     /* Styled Department Card */
     .dep-card {
         background: #ffffff;
-        border-radius: 20px;
-        padding: 40px 30px;
-        text-align: center;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border: 1px solid rgba(0,0,0,0.03);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border-radius: 18px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
         position: relative;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s ease;
+        text-align: left;
     }
 
     .dep-card:hover {
-        transform: translateY(-12px);
-        box-shadow: 0 20px 40px rgba(46, 125, 50, 0.12);
-        border-color: var(--hospinex-green);
+        transform: translateY(-6px);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
     }
 
-    /* Icon Styling */
-    .dep-icon-wrapper {
-        width: 80px;
-        height: 80px;
-        background: #f1f8e9;
-        color: var(--hospinex-green);
-        border-radius: 50%;
+    .dep-img {
+        height: 210px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    .dep-badge {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge-blue {
+        color: #3b82f6;
+    }
+
+    .badge-purple {
+        color: #8b5cf6;
+    }
+
+    .badge-green {
+        color: #10b981;
+    }
+
+    .dep-content {
+        padding: 26px 24px;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 25px;
-        font-size: 35px;
-        transition: 0.3s;
+        flex-direction: column;
+        flex-grow: 1;
     }
 
-    .dep-card:hover .dep-icon-wrapper {
-        background: var(--hospinex-green);
-        color: white;
-        transform: rotateY(360deg);
+    .dep-content h3 {
+        font-size: 22px;
+        font-weight: 800;
+        color: #0f172a;
+        margin-top: 0;
+        margin-bottom: 12px;
     }
 
-    .dep-card h3 {
-        margin-bottom: 15px;
-        font-size: 1.5rem;
-        color: #333;
-    }
-
-    .dep-card p {
-        color: #777;
-        font-size: 0.95rem;
+    .dep-content p {
+        font-size: 14px;
+        color: #64748b;
         line-height: 1.6;
-        margin-bottom: 25px;
+        margin-bottom: 24px;
+        flex-grow: 1;
     }
 
-    /* Learn More Link */
-    .dep-link {
-        color: var(--hospinex-green);
+    .dep-stats {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+        font-size: 12.5px;
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    .dep-stats i {
+        color: #1e7e34;
+        margin-right: 6px;
+        font-size: 14px;
+    }
+
+    .dep-btn {
+        display: block;
+        width: 100%;
+        background: #2e7d32;
+        color: white;
+        text-align: center;
+        padding: 13px;
+        border-radius: 8px;
         text-decoration: none;
         font-weight: 600;
-        font-size: 0.9rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: 0.3s;
+        font-size: 14px;
+        transition: background 0.25s, transform 0.25s;
     }
 
-    .dep-link:hover {
-        gap: 12px;
+    .dep-btn:hover {
+        background: #1b5e20;
+        color: white;
     }
 
-    /* Background Decoration */
-    .dep-card::before {
-        content: '';
-        position: absolute;
-        top: -50px;
-        right: -50px;
-        width: 100px;
-        height: 100px;
-        background: rgba(46, 125, 50, 0.03);
-        border-radius: 50%;
-        z-index: 0;
+    .dep-btn i {
+        margin-left: 6px;
+        font-size: 12px;
     }
 </style>
 
 <div class="dep-hero">
     <h1 class="dep-title">Medical Departments</h1>
-    <p class="dep-subtitle">Providing specialized healthcare with precision and compassion across our centers of excellence.</p>
+    <p class="dep-subtitle">Providing specialized healthcare with precision and compassion across our centers of
+        excellence.</p>
 </div>
 
 <div class="dep-container">
+
+    <!-- Anesthesia -->
     <div class="dep-card">
-        <div class="dep-icon-wrapper">🩺</div>
-        <h3>General Medicine</h3>
-        <p>Comprehensive primary care focusing on prevention, diagnosis, and non-surgical treatment of adult diseases.</p>
-        <a href="#" class="dep-link">View Specialists ➔</a>
+        <div class="dep-img"
+            style="background-image: url('{% static 'images/gallery/dept_anesthesia_1774677284557.png' %}');">
+            <div class="dep-badge badge-purple">SURGERY CARE</div>
+        </div>
+        <div class="dep-content">
+            <h3>Anesthesia</h3>
+            <p>Specialized pain management and patient monitoring during surgeries and complex diagnostic procedures.
+            </p>
+            <div class="dep-stats">
+                <span><i class="fa-solid fa-user-doctor"></i> 4 Specialists</span>
+                <span><i class="fa-solid fa-procedures"></i> 6 OT Suites</span>
+            </div>
+            <a href="{% url 'doctor_list' %}?q=Anesthesia" class="dep-btn">View Specialists <i
+                    class="fa-solid fa-arrow-right"></i></a>
+        </div>
     </div>
 
+    <!-- Emergency -->
     <div class="dep-card">
-        <div class="dep-icon-wrapper">❤️</div>
-        <h3>Cardiology</h3>
-        <p>Dedicated to advanced heart health, cardiovascular surgery, and managing complex cardiac conditions.</p>
-        <a href="#" class="dep-link">View Specialists ➔</a>
+        <div class="dep-img"
+            style="background-image: url('{% static 'images/gallery/dept_emergency_1774677142172.png' %}');">
+            <div class="dep-badge badge-green">24/7 ACTIVE</div>
+        </div>
+        <div class="dep-content">
+            <h3>Emergency</h3>
+            <p>Immediate care for acute illnesses and injuries, available 24/7 with a dedicated trauma response team.
+            </p>
+            <div class="dep-stats">
+                <span><i class="fa-solid fa-user-doctor"></i> 12 Specialists</span>
+                <span><i class="fa-solid fa-bed"></i> 30 Beds</span>
+            </div>
+            <a href="{% url 'doctor_list' %}?q=Emergency" class="dep-btn">View Specialists <i
+                    class="fa-solid fa-arrow-right"></i></a>
+        </div>
     </div>
 
+    <!-- Ophthalmology -->
     <div class="dep-card">
-        <div class="dep-icon-wrapper">🧠</div>
-        <h3>Neurology</h3>
-        <p>Expert care for the brain, spine, and nervous system using state-of-the-art diagnostic technology.</p>
-        <a href="#" class="dep-link">View Specialists ➔</a>
+        <div class="dep-img"
+            style="background-image: url('{% static 'images/gallery/dept_ophthalmology_1774677178169.png' %}');">
+            <div class="dep-badge badge-blue">OPD ACTIVE</div>
+        </div>
+        <div class="dep-content">
+            <h3>Ophthalmology</h3>
+            <p>Expert eye care services, from routine vision exams to complex vision-corrective microsurgeries.</p>
+            <div class="dep-stats">
+                <span><i class="fa-solid fa-user-doctor"></i> 3 Specialists</span>
+                <span><i class="fa-solid fa-bed"></i> 10 Beds</span>
+            </div>
+            <a href="{% url 'doctor_list' %}?q=Ophthal" class="dep-btn">View Specialists <i
+                    class="fa-solid fa-arrow-right"></i></a>
+        </div>
     </div>
 
+    <!-- Orthopedics -->
     <div class="dep-card">
-        <div class="dep-icon-wrapper">🦴</div>
-        <h3>Orthopedics</h3>
-        <p>Specializing in bone health, joint replacements, and sports medicine to get you moving again.</p>
-        <a href="#" class="dep-link">View Specialists ➔</a>
+        <div class="dep-img"
+            style="background-image: url('{% static 'images/gallery/dept_orthopedics_1774677196971.png' %}');">
+            <div class="dep-badge badge-blue">OPD ACTIVE</div>
+        </div>
+        <div class="dep-content">
+            <h3>Orthopedics</h3>
+            <p>Specializing in bone health, complex trauma management, joint replacements, and sports medicine.</p>
+            <div class="dep-stats">
+                <span><i class="fa-solid fa-user-doctor"></i> 5 Specialists</span>
+                <span><i class="fa-solid fa-bed"></i> 20 Beds</span>
+            </div>
+            <a href="{% url 'doctor_list' %}?q=Ortho" class="dep-btn">View Specialists <i
+                    class="fa-solid fa-arrow-right"></i></a>
+        </div>
     </div>
 
+    <!-- Pediatrics -->
     <div class="dep-card">
-        <div class="dep-icon-wrapper">👶</div>
-        <h3>Pediatrics</h3>
-        <p>Compassionate healthcare tailored specifically for the unique needs of infants, children, and teens.</p>
-        <a href="#" class="dep-link">View Specialists ➔</a>
+        <div class="dep-img"
+            style="background-image: url('{% static 'images/gallery/dept_pediatrics_1774677216840.png' %}');">
+            <div class="dep-badge badge-blue">OPD ACTIVE</div>
+        </div>
+        <div class="dep-content">
+            <h3>Pediatrics</h3>
+            <p>Compassionate healthcare tailored specifically for the unique needs of infants, children, and teens.</p>
+            <div class="dep-stats">
+                <span><i class="fa-solid fa-user-doctor"></i> 4 Specialists</span>
+                <span><i class="fa-solid fa-bed"></i> 15 Beds</span>
+            </div>
+            <a href="{% url 'doctor_list' %}?q=Pediatric" class="dep-btn">View Specialists <i
+                    class="fa-solid fa-arrow-right"></i></a>
+        </div>
     </div>
+
+    <!-- Radiotherapy -->
+    <div class="dep-card">
+        <div class="dep-img"
+            style="background-image: url('{% static 'images/gallery/dept_radiotherapy_1774677336398.png' %}');">
+            <div class="dep-badge badge-purple">CANCER CARE</div>
+        </div>
+        <div class="dep-content">
+            <h3>Radiotherapy</h3>
+            <p>Specialized radiation oncology treatments utilizing ultra-modern medical equipment for targeted care.</p>
+            <div class="dep-stats">
+                <span><i class="fa-solid fa-user-doctor"></i> 3 Specialists</span>
+                <span><i class="fa-solid fa-bed"></i> 8 Beds</span>
+            </div>
+            <a href="{% url 'doctor_list' %}?q=Radio" class="dep-btn">View Specialists <i
+                    class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- General Surgery -->
+    <div class="dep-card">
+        <div class="dep-img"
+            style="background-image: url('{% static 'images/gallery/dept_generalsurgery_1774677253875.png' %}');">
+            <div class="dep-badge badge-blue">OPD ACTIVE</div>
+        </div>
+        <div class="dep-content">
+            <h3>General Surgery</h3>
+            <p>Full spectrum surgical therapies and interventions for abdominal, thoracic, and major medical conditions.
+            </p>
+            <div class="dep-stats">
+                <span><i class="fa-solid fa-user-doctor"></i> 6 Specialists</span>
+                <span><i class="fa-solid fa-bed"></i> 25 Beds</span>
+            </div>
+            <a href="{% url 'doctor_list' %}?q=Surgery" class="dep-btn">View Specialists <i
+                    class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- Dermatology -->
+    <div class="dep-card">
+        <div class="dep-img"
+            style="background-image: url('{% static 'images/gallery/dept_dermatology_1774677158877.png' %}');">
+            <div class="dep-badge badge-blue">OPD ACTIVE</div>
+        </div>
+        <div class="dep-content">
+            <h3>Dermatology</h3>
+            <p>Expert care for skin, hair, and nail conditions, from routine medical treatments to aesthetic
+                dermatology.</p>
+            <div class="dep-stats">
+                <span><i class="fa-solid fa-user-doctor"></i> 2 Specialists</span>
+                <span><i class="fa-solid fa-bed"></i> 5 Beds</span>
+            </div>
+            <a href="{% url 'doctor_list' %}?q=Derma" class="dep-btn">View Specialists <i
+                    class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+
 </div>
 
-<div style="background: var(--hospinex-green); padding: 60px 20px; text-align: center; color: white; margin-top: 50px;">
-    <h2 style="font-size: 2rem; margin-bottom: 20px;">Need Help Choosing a Department?</h2>
-    <p style="margin-bottom: 30px; opacity: 0.9;">Our helpdesk is available 24/7 to guide you to the right specialist.</p>
-    <a href="{% url 'home' %}#contact" style="background: white; color: var(--hospinex-green); padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s;">Contact Support</a>
+<!-- CTA Helper section appended at the bottom -->
+<div style="background: var(--hospinex-green); padding: 70px 20px; text-align: center; color: white;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 800;">Need Help Choosing a Department?</h2>
+        <p style="margin-bottom: 35px; opacity: 0.9; font-size: 16px;">Our medical helpdesk is available 24/7 to guide
+            you to the right specialist for your symptoms.</p>
+        <a href="{% url 'home' %}#contact"
+            style="background: white; color: var(--hospinex-green); padding: 16px 48px; border-radius: 30px; text-decoration: none; font-weight: 800; font-size: 15px; display: inline-block; transition: transform 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">Contact
+            Support</a>
+    </div>
 </div>
 
 {% endblock %}

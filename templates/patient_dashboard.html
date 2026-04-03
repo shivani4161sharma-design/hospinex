@@ -2,263 +2,376 @@
 {% load static %}
 {% block content %}
 
-<meta http-equiv="refresh" content="10"> <!-- 🔥 auto refresh -->
-
-<!-- USER INFO -->
-<div class="card user-card">
-    <h2>Welcome, {{ request.user.first_name|default:request.user.username }}</h2>
-</div>
-
-<!-- CURRENT QUEUE -->
-<div class="queue-box">
-    {% if current_queue %}
-        🟢 Now Serving: Token #{{ current_queue.queue_number }}
-    {% else %}
-        🟡 No active queue
-    {% endif %}
-</div>
-
-<!-- STATS -->
-<div class="stats">
-    <div class="stat-card">
-        <h3>{{ total }}</h3>
-        <p>Total</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>{{ upcoming }}</h3>
-        <p>Upcoming</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>{{ completed }}</h3>
-        <p>Completed</p>
-    </div>
-</div>
-<div style="margin-bottom:20px;">
-    <a href="{% url 'doctor_list' %}" class="book-btn">
-    + Book New Appointment
-</a>
-</div>
-<a href="{% url 'patient_logout' %}" class="logout-btn">Logout</a>
+<meta http-equiv="refresh" content="10"> <!-- auto refresh -->
 
 <style>
-    .logout-btn {
-        background-color: #d32f2f; /* Professional red */
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        float: right;
-    }
-    .logout-btn:hover { background-color: #b71c1c; }
-</style>
-
-<!-- APPOINTMENTS TABLE -->
-<div class="appointments-card">
-    <h3>My Appointments</h3>
-
-    <table class="appointment-table">
-        <thead>
-            <tr>
-                <th>Doctor</th>
-                <th>Date</th>
-                <th>Queue</th>
-                <th>Status</th>
-                <th>Time</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for appt in appointments %}
-            <tr>
-                <td>Dr. {{ appt.doctor.user.get_full_name }}</td>
-                <td>{{ appt.appointment_date }}</td>
-                <td>#{{ appt.queue_number }}</td>
-
-                <td>
-                    <span class="status {{ appt.status }}">
-                        {{ appt.status }}
-                    </span>
-                </td>
-
-                <td>{{ appt.time_slot }}</td>
-
-                <td>
-                    {% if appt.status != "completed" %}
-                    <a href="{% url 'cancel_appointment' appt.id %}" class="btn-cancel">
-                        Cancel
-                    </a>
-                    {% else %}
-                    <span class="completed-text">Done</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="6" class="no-data">No appointments found</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-<style>
-/* USER CARD */
-.user-card {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+/* DASHBOARD CORE */
+.dashboard-wrapper {
+    background: #f8fafc;
+    min-height: calc(100vh - 80px);
+    padding: 40px 20px;
+    font-family: 'Inter', sans-serif;
 }
 
-/* QUEUE BOX */
-.queue-box {
-    background: #ffeb3b;
-    padding: 12px;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 600;
-    margin-bottom: 20px;
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* STATS */
-.stats {
+/* HEADER */
+.dash-header {
     display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.dash-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dash-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-primary {
+    background: #1e7e34;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(30, 126, 52, 0.2);
+}
+
+.btn-primary:hover {
+    background: #155d27;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(30, 126, 52, 0.3);
+}
+
+.btn-outline {
+    background: white;
+    color: #dc2626;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid #fee2e2;
+    transition: all 0.3s;
+}
+
+.btn-outline:hover {
+    background: #fef2f2;
+    border-color: #f87171;
+}
+
+/* QUEUE BANNER */
+.queue-banner {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #fffbeb;
+    padding: 16px 24px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);
+}
+.queue-banner.no-queue {
+    background: white;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    box-shadow: none;
+}
+.queue-banner strong {
+    color: white;
+    font-size: 18px;
+}
+
+/* STATS GRID */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-bottom: 35px;
 }
 
 .stat-card {
-    flex: 1;
-    background: linear-gradient(135deg, #2e7d32, #66bb6a);
-    color: white;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-}
-
-/* TABLE */
-.table-box {
     background: white;
-    padding: 20px;
-    border-radius: 12px;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s;
 }
 
-.appointments-card {
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    margin-top: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.06);
 }
 
-.appointments-card h3 {
-    margin-bottom: 15px;
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+.stat-icon.total { background: #e0e7ff; color: #4f46e5; }
+.stat-icon.upcoming { background: #dcfce7; color: #16a34a; }
+.stat-icon.completed { background: #fef3c7; color: #d97706; }
+
+.stat-info h4 {
+    color: #64748b;
+    font-size: 14px;
     font-weight: 600;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.appointment-table {
+.stat-info h2 {
+    color: #0f172a;
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+}
+
+/* TABLE CARD */
+.table-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid #f1f5f9;
+}
+
+.table-header {
+    margin-bottom: 25px;
+}
+
+.table-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.dash-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
 }
 
-.appointment-table thead {
-    background: #f5f7fa;
-}
-
-.appointment-table th {
-    padding: 12px;
+.dash-table th {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px;
     text-align: left;
-    font-weight: 600;
-    color: #333;
+    border-bottom: 2px solid #e2e8f0;
 }
 
-.appointment-table td {
-    padding: 12px;
-    border-top: 1px solid #eee;
+.dash-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-size: 14.5px;
     vertical-align: middle;
 }
 
+.dash-table tr:hover td {
+    background: #f8fafc;
+}
+
 /* STATUS BADGES */
-.status {
-    padding: 5px 12px;
+.status-badge {
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     text-transform: capitalize;
 }
+.status-badge.waiting { background: #fff7ed; color: #c2410c; }
+.status-badge.in_progress { background: #eff6ff; color: #1d4ed8; }
+.status-badge.completed { background: #f0fdf4; color: #15803d; }
 
-.status.waiting {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.status.in_progress {
-    background: #cce5ff;
-    color: #004085;
-}
-
-.status.completed {
-    background: #d4edda;
-    color: #155724;
-}
-
-/* BUTTON */
-.btn-cancel {
-    background: #dc3545;
-    color: #fff;
-    padding: 6px 12px;
-    border-radius: 6px;
+.action-btn {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 8px 14px;
+    border-radius: 8px;
     text-decoration: none;
     font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
-
-.btn-cancel:hover {
-    background: #b02a37;
+.action-btn:hover {
+    background: #fecaca;
 }
-
-/* EMPTY STATE */
-.no-data {
-    text-align: center;
-    padding: 20px;
-    color: #888;
-}
-
-/* COMPLETED TEXT */
-.completed-text {
-    color: green;
-    font-weight: 500;
-}
-.book-btn {
-    display: inline-block;
-    background: linear-gradient(135deg, #2e7d32, #43a047);
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 500;
-    text-decoration: none;
-    margin: 15px 0;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* Hover effect */
-.book-btn:hover {
-    background: linear-gradient(135deg, #1b5e20, #2e7d32);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-}
-
-/* Add icon spacing */
-.book-btn::before {
-    content: "➕ ";
-    margin-right: 5px;
+.done-text {
+    color: #10b981;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 </style>
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-container">
+
+        <!-- HEADER -->
+        <div class="dash-header">
+            <div class="dash-title">
+                <i class="fa-solid fa-hand-holding-medical" style="color: #1e7e34;"></i> 
+                Welcome, {{ request.user.first_name|default:request.user.username }}
+            </div>
+            <div class="dash-actions">
+                <a href="{% url 'patient_book' %}" class="btn-primary">
+                    <i class="fa-solid fa-plus"></i> Book Appointment
+                </a>
+                <a href="{% url 'patient_logout' %}" class="btn-outline">
+                    Logout <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- QUEUE -->
+        {% if current_queue %}
+        <div class="queue-banner">
+            <i class="fa-solid fa-bell-concierge fa-lg"></i>
+            <span>Now Serving: <strong>Token #{{ current_queue.queue_number }}</strong></span>
+        </div>
+        {% else %}
+        <div class="queue-banner no-queue">
+            <i class="fa-solid fa-clock"></i>
+            <span>No active queue at the moment.</span>
+        </div>
+        {% endif %}
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon total"><i class="fa-solid fa-notes-medical"></i></div>
+                <div class="stat-info">
+                    <h4>Total Visits</h4>
+                    <h2>{{ total }}</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon upcoming"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="stat-info">
+                    <h4>Upcoming</h4>
+                    <h2>{{ upcoming }}</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon completed"><i class="fa-solid fa-check-double"></i></div>
+                <div class="stat-info">
+                    <h4>Completed</h4>
+                    <h2>{{ completed }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR APPOINTMENTS -->
+        <div class="table-card">
+            <div class="table-header">
+                <h3><i class="fa-solid fa-clipboard-list"></i> My Appointments</h3>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="dash-table">
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Appointment Date</th>
+                            <th>Queue #</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appt in appointments %}
+                        <tr>
+                            <td>
+                                <strong>Dr. {{ appt.doctor.user.get_full_name }}</strong>
+                            </td>
+                            <td>
+                                <div><i class="fa-regular fa-calendar" style="color:#94a3b8;"></i> {{ appt.appointment_date }}</div>
+                            </td>
+                            <td>
+                                <span style="background:#f1f5f9; padding:4px 10px; border-radius:6px; font-weight:700;">#{{ appt.queue_number }}</span>
+                            </td>
+                            <td>
+                                <span class="status-badge {{ appt.status }}">
+                                    {% if appt.status == 'waiting' %}<i class="fa-solid fa-hourglass-half"></i>
+                                    {% elif appt.status == 'in_progress' %}<i class="fa-solid fa-spinner"></i>
+                                    {% else %}<i class="fa-solid fa-check"></i>{% endif %}
+                                    {{ appt.status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if appt.status != "completed" %}
+                                <a href="{% url 'cancel_appointment' appt.id %}" class="action-btn">
+                                    <i class="fa-solid fa-xmark"></i> Cancel
+                                </a>
+                                {% else %}
+                                <span class="done-text"><i class="fa-solid fa-shield-check"></i> Done</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 40px; color: #64748b;">
+                                <i class="fa-solid fa-folder-open fa-2x" style="margin-bottom:10px; color:#cbd5e1; display:block;"></i>
+                                No appointments found.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 {% endblock %}

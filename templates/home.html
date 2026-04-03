@@ -3,798 +3,1228 @@
 {% block content %}
 
 <style>
-/* ================= HERO (ADVANCED) ================= */
-.hero {
-    height: 85vh;
-    min-height: 600px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-}
+    /* ===================== HERO ===================== */
+    .hero {
+        position: relative;
+        height: 90vh;
+        min-height: 620px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
 
-.hero-slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 500%;
-    height: 100%;
-    display: flex;
-    animation: slideContinuous 25s infinite ease-in-out;
-    z-index: 1;
-}
+    .hero-slides {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        width: 500%;
+        animation: heroSlide 24s infinite ease-in-out;
+    }
 
-.slide {
-    width: 20%;
-    height: 100%;
-    background-size: cover;
-    background-position: top center;
-}
+    .hero-slide {
+        width: 20%;
+        flex-shrink: 0;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
 
-@keyframes slideContinuous {
-    0%, 16% { transform: translateX(0%); }
-    20%, 36% { transform: translateX(-20%); }
-    40%, 56% { transform: translateX(-40%); }
-    60%, 76% { transform: translateX(-60%); }
-    80%, 100% { transform: translateX(-80%); }
-}
+    @keyframes heroSlide {
 
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, rgba(10,30,15,0.85) 0%, rgba(10,30,15,0.4) 60%, rgba(0,0,0,0) 100%);
-    z-index: 2;
-}
+        0%,
+        18% {
+            transform: translateX(0%);
+        }
 
-.hero-content {
-    position: relative;
-    z-index: 3;
-    color: white;
-    max-width: 680px;
-    padding: 0 80px;
-    text-align: left;
-}
+        22%,
+        38% {
+            transform: translateX(-20%);
+        }
 
-.hero-tagline {
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 600;
-    color: #a5d6a7;
-    margin-bottom: 20px;
-    display: block;
-}
+        42%,
+        58% {
+            transform: translateX(-40%);
+        }
 
-.hero-content h1 {
-    font-size: 56px;
-    font-weight: 700;
-    margin-bottom: 25px;
-    line-height: 1.15;
-}
+        62%,
+        78% {
+            transform: translateX(-60%);
+        }
 
-.hero-content p {
-    font-size: 18px;
-    margin-bottom: 40px;
-    line-height: 1.6;
-    color: #e0e0e0;
-}
+        82%,
+        100% {
+            transform: translateX(-80%);
+        }
+    }
 
-.hero-btn {
-    padding: 16px 40px;
-    background: #4caf50;
-    color: white;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 16px;
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(105deg,
+                rgba(10, 40, 15, 0.88) 0%,
+                rgba(10, 40, 15, 0.55) 50%,
+                rgba(0, 0, 0, 0.15) 100%);
+        z-index: 2;
+    }
 
-.hero-btn:hover {
-    background: #388e3c;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
-    color: white;
-}
+    .hero-content {
+        position: relative;
+        z-index: 3;
+        color: white;
+        padding: 0 80px;
+        max-width: 760px;
+    }
 
-.hero-outline-btn {
-    padding: 14px 38px;
-    background: transparent;
-    border: 2px solid white;
-    color: white;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 16px;
-    margin-left: 20px;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        backdrop-filter: blur(10px);
+        color: #a5d6a7;
+        font-size: 12.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 7px 18px;
+        border-radius: 30px;
+        margin-bottom: 24px;
+    }
 
-.hero-outline-btn:hover {
-    background: white;
-    color: #1b5e20;
-}
+    .hero-badge i {
+        color: #69f0ae;
+    }
 
-/* ================= QUICK STATS BAR ================= */
-.quick-stats {
-    position: relative;
-    z-index: 10;
-    margin-top: -60px;
-    padding: 0 40px;
-}
+    .hero-content h1 {
+        font-size: 56px;
+        font-weight: 800;
+        line-height: 1.12;
+        margin-bottom: 22px;
+        letter-spacing: -1px;
+    }
 
-.stats-container {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-    display: flex;
-    justify-content: space-around;
-    padding: 35px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
+    .hero-content h1 .highlight {
+        color: #69f0ae;
+    }
 
-.stat-item {
-    text-align: center;
-    padding: 0 20px;
-    border-right: 1px solid #eee;
-    flex: 1;
-}
+    .hero-content p {
+        font-size: 18.5px;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.82);
+        margin-bottom: 36px;
+        max-width: 560px;
+    }
 
-.stat-item:last-child {
-    border-right: none;
-}
+    .hero-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
 
-.stat-icon {
-    font-size: 32px;
-    color: #2e7d32;
-    margin-bottom: 12px;
-}
+    .btn-hero-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 15px 32px;
+        background: #43a047;
+        color: white;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 15px;
+        box-shadow: 0 6px 20px rgba(67, 160, 71, 0.40);
+        transition: all 0.25s ease;
+    }
 
-.stat-number {
-    font-size: 34px;
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 5px;
-}
+    .btn-hero-primary:hover {
+        background: #2e7d32;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(67, 160, 71, 0.50);
+        color: white;
+    }
 
-.stat-text {
-    font-size: 14px;
-    color: #666;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+    .btn-hero-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 13px 30px;
+        background: rgba(255, 255, 255, 0.10);
+        border: 2px solid rgba(255, 255, 255, 0.45);
+        color: white;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 15px;
+        backdrop-filter: blur(8px);
+        transition: all 0.25s ease;
+    }
 
-/* ================= COMMON ================= */
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px;
-}
+    .btn-hero-outline:hover {
+        background: white;
+        border-color: white;
+        color: #1e7e34;
+    }
 
-.section-title {
-    text-align: center;
-    font-size: 30px;
-    color: #1b5e20;
-    margin-bottom: 10px;
-}
+    /* Hero Slide Indicators */
+    .hero-dots {
+        position: absolute;
+        bottom: 30px;
+        left: 80px;
+        z-index: 4;
+        display: flex;
+        gap: 8px;
+    }
 
-.section-subtitle {
-    text-align: center;
-    color: #666;
-    margin-bottom: 40px;
-}
+    .hero-dot {
+        width: 8px;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
-/* ================= DEPARTMENTS ================= */
-.departments {
-    padding: 80px 0;
-}
+    .hero-dot.active {
+        background: white;
+        width: 24px;
+        border-radius: 4px;
+    }
 
-.department-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-    gap: 25px;
-}
+    /* ===================== STATS BAR ===================== */
+    .stats-bar {
+        background: white;
+        margin-top: -56px;
+        margin-left: 60px;
+        margin-right: 60px;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.10);
+        padding: 32px 40px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+        flex-wrap: wrap;
+        gap: 20px;
+        border-top: 4px solid #43a047;
+    }
 
-.department-card {
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    text-align: left;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-    border: none;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-}
+    .stat-card {
+        text-align: center;
+        padding: 0 24px;
+        border-right: 1px solid #e2e8f0;
+        flex: 1;
+        min-width: 120px;
+    }
 
-.department-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(46, 125, 50, 0.15);
-}
+    .stat-card:last-child {
+        border-right: none;
+    }
 
-.department-img {
-    height: 160px;
-    background-size: cover;
-    background-position: center;
-}
+    .stat-card .stat-icon {
+        font-size: 28px;
+        color: #1e7e34;
+        margin-bottom: 8px;
+    }
 
-.department-card-content {
-    padding: 20px;
-}
+    .stat-card .stat-num {
+        font-size: 34px;
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1;
+        margin-bottom: 4px;
+    }
 
-.department-card-content h3 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-    color: #222;
-}
+    .stat-card .stat-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
 
-.department-card-content a {
-    color: var(--hospinex-green);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
+    /* ===================== COMMON ===================== */
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 24px;
+    }
 
-.department-icon {
-    font-size: 38px;
-    margin-bottom: 15px;
-    color: #2e7d32;
-    transition: transform 0.3s ease;
-}
+    .section-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #1e7e34;
+        margin-bottom: 12px;
+    }
 
-.department-card:hover .department-icon {
-    transform: scale(1.15);
-}
+    .section-eyebrow::before {
+        content: '';
+        width: 28px;
+        height: 3px;
+        background: #43a047;
+        border-radius: 3px;
+    }
 
-/* ================= WHY ================= */
-.why {
-    background: linear-gradient(135deg, #f8fafc 0%, #e8f5e9 100%);
-    padding: 100px 0;
-    position: relative;
-    overflow: hidden;
-}
+    .section-title {
+        font-size: 36px;
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1.2;
+        margin-bottom: 14px;
+    }
 
-.why-split {
-    display: flex;
-    align-items: center;
-    gap: 60px;
-}
-.why-image-wrapper {
-    flex: 1;
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-}
-.why-image-wrapper img {
-    width: 100%;
-    display: block;
-    object-fit: cover;
-    height: 550px;
-}
-.experience-badge {
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-    background: var(--hospinex-green);
-    color: white;
-    padding: 20px 30px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 10px 20px rgba(46,125,50,0.3);
-}
-.experience-badge span {
-    font-size: 36px;
-    font-weight: 800;
-}
-.why-content {
-    flex: 1;
-}
-.why-list {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    margin-top: 40px;
-}
-.why-list-item {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-}
-.why-icon-small {
-    width: 60px;
-    height: 60px;
-    background: #e8f5e9;
-    color: var(--hospinex-green);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-.why-list-item h4 {
-    margin: 0 0 8px 0;
-    color: #1b5e20;
-    font-size: 1.2rem;
-    font-weight: 700;
-}
-.why-list-item p {
-    margin: 0;
-    color: #555;
-    line-height: 1.6;
-}
-@media (max-width: 900px) {
-    .why-split { flex-direction: column; }
-    .why-image-wrapper img { height: 400px; }
-}
+    .section-sub {
+        font-size: 16.5px;
+        color: #64748b;
+        max-width: 560px;
+        line-height: 1.7;
+        margin-bottom: 0;
+    }
 
-/* ================= DOCTORS ================= */
-.doctors {
-    padding: 80px 0;
-}
+    .section-header-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 48px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
 
-.doctor-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-    gap: 30px;
-}
+    .btn-outline-green {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        border: 2px solid #1e7e34;
+        color: #1e7e34;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 13.5px;
+        transition: all 0.25s;
+        white-space: nowrap;
+    }
 
-.doctor-card {
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-}
+    .btn-outline-green:hover {
+        background: #1e7e34;
+        color: white;
+    }
 
-.doctor-card img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 12px;
-}
+    .btn-solid-green {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 28px;
+        background: #1e7e34;
+        color: white;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        transition: all 0.25s;
+        box-shadow: 0 4px 14px rgba(30, 126, 52, 0.25);
+    }
 
-.doctor-card h3 {
-    color: #1b5e20;
-}
+    .btn-solid-green:hover {
+        background: #145a26;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(30, 126, 52, 0.35);
+        color: white;
+    }
 
-.doctor-card a {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 10px 22px;
-    background: #1b5e20;
-    color: white;
-    border-radius: 20px;
-    text-decoration: none;
-}
+    /* Scroll reveal */
+    .reveal {
+        opacity: 0;
+        transform: translateY(32px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
 
-/* ================= GALLERY ================= */
-/* ================= GALLERY ================= */
-.gallery {
-    background: #f8fafc;
-    padding: 90px 0;
-}
+    .reveal.visible {
+        opacity: 1;
+        transform: none;
+    }
 
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
+    /* ===================== DEPARTMENTS ===================== */
+    .departments-section {
+        padding: 90px 0 80px;
+        background: #f8fafc;
+    }
 
-.gallery-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 18px;
-    height: 260px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease;
-}
+    .dept-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 24px;
+    }
 
-.gallery-card:hover {
-    transform: translateY(-8px);
-}
+    .dept-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e8f5e9;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+    }
 
-.gallery-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
+    .dept-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 40px rgba(30, 126, 52, 0.13);
+        border-color: #a5d6a7;
+    }
 
-.gallery-card:hover img {
-    transform: scale(1.08);
-}
-.gallery-btn {
-    text-align: center;
-    margin-top: 40px;
-}
-.gallery-btn {
-    text-align: center;
-    margin-top: 40px;
-}
+    .dept-img {
+        height: 165px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+    }
 
-.gallery-button {
-    display: inline-block;
-    padding: 14px 36px;
-    background: linear-gradient(135deg, #1b5e20, #2e7d32);
-    color: white;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    box-shadow: 0 8px 20px rgba(27, 94, 32, 0.25);
-    transition: all 0.3s ease;
-}
+    .dept-img::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.40) 100%);
+        transition: 0.3s;
+    }
 
-.gallery-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px rgba(27, 94, 32, 0.35);
-    background: linear-gradient(135deg, #0f3d1e, #1b5e20);
-}
+    .dept-card:hover .dept-img::after {
+        background: linear-gradient(180deg, transparent 20%, rgba(30, 126, 52, 0.55) 100%);
+    }
 
+    .dept-body {
+        padding: 18px 20px;
+    }
 
-/* ================= smart banner ================= */
-.ai-banner {
-    background: linear-gradient(135deg, #022c22, #065f46);
-    color: white;
-    padding: 70px 0;
-    position: relative;
-    overflow: hidden;
-}
+    .dept-body h3 {
+        font-size: 16.5px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 10px;
+    }
 
-.ai-banner-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-}
+    .dept-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #1e7e34;
+        text-decoration: none;
+    }
 
-.ai-banner-content {
-    flex: 1;
-}
+    .dept-link i {
+        font-size: 11px;
+        transition: transform 0.2s;
+    }
 
-.ai-banner-content h2 {
-    font-size: 38px;
-    font-weight: 800;
-    margin-bottom: 15px;
-    color: #34d399;
-}
+    .dept-card:hover .dept-link i {
+        transform: translateX(4px);
+    }
 
-.ai-banner-content p {
-    font-size: 18px;
-    color: #a7f3d0;
-    margin-bottom: 30px;
-    line-height: 1.6;
-    max-width: 600px;
-}
+    /* ===================== WHY US ===================== */
+    .why-section {
+        padding: 100px 0;
+        background: white;
+    }
 
-.ai-btn {
-    background: #34d399;
-    color: #064e3b;
-    padding: 16px 35px;
-    border-radius: 30px;
-    font-weight: 800;
-    text-decoration: none;
-    font-size: 16px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: 0.3s;
-    box-shadow: 0 10px 25px rgba(52,211,153,0.3);
-}
+    .why-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+    }
 
-.ai-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(52,211,153,0.4);
-    background: white;
-}
+    @media (max-width: 900px) {
+        .why-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+    }
 
-.ai-robot-icon {
-    font-size: 140px;
-    color: #34d399;
-    opacity: 0.9;
-    animation: float 3s ease-in-out infinite;
-}
+    .why-img-wrap {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+    }
 
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0px); }
-}
+    .why-img-wrap img {
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+        display: block;
+    }
 
-/* ================= NEXT LEVEL ENHANCEMENTS ================= */
-.reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-}
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
+    .why-badge {
+        position: absolute;
+        bottom: 28px;
+        right: 28px;
+        background: #1e7e34;
+        color: white;
+        padding: 18px 26px;
+        border-radius: 14px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(30, 126, 52, 0.30);
+    }
 
-.floating-emergency {
-    position: fixed;
-    bottom: 30px;
-    left: 30px;
-    background: #d32f2f;
-    color: white;
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    box-shadow: 0 4px 15px rgba(211,47,47,0.4);
-    z-index: 9999;
-    text-decoration: none;
-    transition: 0.3s;
-    animation: pulse-red 2s infinite;
-}
-.floating-emergency:hover {
-    background: #b71c1c;
-    color: white;
-    width: 220px;
-    border-radius: 35px;
-    justify-content: flex-start;
-    padding-left: 20px;
-}
-.floating-emergency::after {
-    content: 'Emergency 24/7';
-    font-size: 16px;
-    font-weight: 700;
-    margin-left: 10px;
-    opacity: 0;
-    white-space: nowrap;
-    transition: 0.3s;
-    display: none;
-}
-.floating-emergency:hover::after {
-    opacity: 1;
-    display: block;
-}
-@keyframes pulse-red {
-    0% { box-shadow: 0 0 0 0 rgba(211,47,47, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(211,47,47, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(211,47,47, 0); }
-}
+    .why-badge .num {
+        font-size: 40px;
+        font-weight: 800;
+        display: block;
+        line-height: 1;
+    }
+
+    .why-badge .sub {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        opacity: 0.85;
+    }
+
+    .why-features {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        margin-top: 44px;
+    }
+
+    .why-feat {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .why-feat-icon {
+        width: 52px;
+        height: 52px;
+        background: #e8f5e9;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1e7e34;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    .why-feat h4 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 5px;
+    }
+
+    .why-feat p {
+        font-size: 14px;
+        color: #64748b;
+        line-height: 1.65;
+        margin: 0;
+    }
+
+    /* ===================== REAL PHOTOS SECTION ===================== */
+    .real-photos-section {
+        padding: 90px 0;
+        background: #f8fafc;
+    }
+
+    .photo-masonry {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr 1fr;
+        grid-template-rows: 260px 260px;
+        gap: 16px;
+    }
+
+    .photo-item {
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+    }
+
+    .photo-item.large {
+        grid-row: 1 / 3;
+    }
+
+    .photo-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.45s ease;
+    }
+
+    .photo-item:hover img {
+        transform: scale(1.06);
+    }
+
+    .photo-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 50%, rgba(10, 40, 15, 0.78) 100%);
+        display: flex;
+        align-items: flex-end;
+        padding: 20px;
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    .photo-item:hover .photo-overlay {
+        opacity: 1;
+    }
+
+    .photo-overlay span {
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    /* ===================== TESTIMONIALS ===================== */
+    .testimonials-section {
+        padding: 90px 0;
+        background: white;
+    }
+
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin-top: 48px;
+    }
+
+    .testimonial-card {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 32px 28px;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid #43a047;
+        position: relative;
+        transition: all 0.3s;
+    }
+
+    .testimonial-card:hover {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        transform: translateY(-4px);
+        border-color: #1e7e34;
+    }
+
+    .testimonial-card .quote-icon {
+        font-size: 40px;
+        color: #c8e6c9;
+        line-height: 1;
+        margin-bottom: 12px;
+        font-family: Georgia, serif;
+    }
+
+    .testimonial-card p {
+        font-size: 15px;
+        color: #334155;
+        line-height: 1.75;
+        margin-bottom: 22px;
+        font-style: italic;
+    }
+
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .t-avt {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #1e7e34;
+        color: white;
+        font-size: 18px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .t-name {
+        font-weight: 700;
+        color: #0f172a;
+        font-size: 14.5px;
+    }
+
+    .t-detail {
+        font-size: 12.5px;
+        color: #64748b;
+    }
+
+    .t-stars {
+        color: #f59e0b;
+        font-size: 12px;
+        margin-top: 2px;
+    }
+
+    /* ===================== CTA BANNER ===================== */
+    .cta-section {
+        background: linear-gradient(135deg, #022c22 0%, #1b5e20 50%, #2e7d32 100%);
+        padding: 80px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 350px;
+        height: 350px;
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 50%;
+    }
+
+    .cta-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+    .cta-text h2 {
+        font-size: 38px;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 12px;
+    }
+
+    .cta-text p {
+        font-size: 17px;
+        color: rgba(255, 255, 255, 0.75);
+        max-width: 540px;
+        line-height: 1.7;
+    }
+
+    .cta-actions {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-cta-white {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 14px 32px;
+        background: white;
+        color: #1e7e34;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 15px;
+        transition: all 0.25s;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-cta-white:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-cta-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 12px 28px;
+        border: 2px solid rgba(255, 255, 255, 0.55);
+        color: white;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 15px;
+        transition: all 0.25s;
+    }
+
+    .btn-cta-outline:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: white;
+        color: white;
+    }
+
+    /* ===================== LIGHTBOX ===================== */
+    .lb-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.93);
+        z-index: 99999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .lb-overlay.open {
+        display: flex;
+    }
+
+    .lb-img {
+        max-width: 88vw;
+        max-height: 85vh;
+        border-radius: 10px;
+        object-fit: contain;
+        box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .lb-close {
+        position: absolute;
+        top: 24px;
+        right: 32px;
+        color: white;
+        font-size: 40px;
+        cursor: pointer;
+        line-height: 1;
+        opacity: 0.7;
+        transition: 0.2s;
+    }
+
+    .lb-close:hover {
+        opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-content {
+            padding: 0 24px;
+        }
+
+        .hero-content h1 {
+            font-size: 36px;
+        }
+
+        .stats-bar {
+            margin: -30px 16px 0;
+            padding: 24px 16px;
+        }
+
+        .photo-masonry {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto;
+        }
+
+        .photo-item.large {
+            grid-row: auto;
+        }
+
+        .cta-inner {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
 </style>
 
-<!-- ================= HERO ================= -->
+<!-- ===================== HERO ===================== -->
 <div class="hero">
-    <div class="hero-slider">
-        <div class="slide" style="background-image: url('{% static 'images/gallery/ghumarwin_civil_2.jpeg' %}');"></div>
-        <div class="slide" style="background-image: url('{% static "images/gallery/bg2.png" %}');"></div>
-        <div class="slide" style="background-image: url('{% static "images/gallery/bg3.png" %}');"></div>
-        <div class="slide" style="background-image: url('{% static "images/gallery/bg4.png" %}');"></div>
-        <div class="slide" style="background-image: url('{% static 'images/gallery/ghumarwin_civil_4.jpeg' %}');"></div>
+    <div class="hero-slides">
+        <div class="hero-slide" style="background-image:url('{% static 'images/gallery/media__1775107002241.jpg' %}');"></div>
+        <div class="hero-slide" style="background-image:url('{% static 'images/gallery/media__1775107015029.jpg' %}');"></div>
+        <div class="hero-slide" style="background-image:url('{% static 'images/gallery/media__1775107035076.jpg' %}');"></div>
+        <div class="hero-slide" style="background-image:url('{% static 'images/gallery/media__1775107002241.jpg' %}');"></div>
+        <div class="hero-slide" style="background-image:url('{% static 'images/gallery/media__1775107015029.jpg' %}');"></div>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-        <span class="hero-tagline"><i class="fa-solid fa-heart-pulse"></i> Civil Hospital Ghumarwin</span>
-        <h1>Advanced Healthcare You Can Trust</h1>
-        <p>Experience world-class medical facilities, expert specialists, and compassionate patient care right in Ghumarwin. Your health is our top priority.</p>
-        <div style="display: flex; align-items: center; flex-wrap: wrap;">
-            <a href="{% url 'patient_login' %}" class="hero-btn">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
-            <a href="{% url 'doctor_list' %}" class="hero-outline-btn">Find a Doctor <i class="fa-solid fa-user-doctor"></i></a>
+        <div class="hero-badge">
+            <i class="fa-solid fa-hospital-user"></i>
+            Civil Hospital Ghumarwin
+        </div>
+        <h1 style="font-size: 56px; margin-bottom: 20px;">Dedicated to Your <br><span class="highlight">Health & Well-being</span></h1>
+        <p style="margin-bottom: 35px;">Providing compassionate healthcare services with modern facilities and expert specialists for the citizens of Bilaspur and surrounding districts.</p>
+
+        <div class="hero-actions">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'patient_book' %}" class="btn-hero-primary">
+                <i class="fa-solid fa-calendar-check"></i> Book Appointment
+            </a>
+            {% else %}
+            <a href="{% url 'patient_login' %}?next={% url 'patient_book' %}" class="btn-hero-primary">
+                <i class="fa-solid fa-calendar-check"></i> Book Appointment
+            </a>
+            {% endif %}
+            <a href="{% url 'departments_page' %}" class="btn-hero-outline">
+                <i class="fa-regular fa-building"></i> Our Departments
+            </a>
         </div>
     </div>
 </div>
 
-<!-- ================= QUICK STATS ================= -->
-<div class="quick-stats">
-    <div class="stats-container">
-        <div class="stat-item">
-            <div class="stat-icon"><i class="fa-solid fa-user-doctor"></i></div>
-            <div class="stat-number">150+</div>
-            <div class="stat-text">Expert Specialists</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-icon"><i class="fa-solid fa-bed-pulse"></i></div>
-            <div class="stat-number">500+</div>
-            <div class="stat-text">Hospital Beds</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-icon"><i class="fa-solid fa-flask-vial"></i></div>
-            <div class="stat-number">30+</div>
-            <div class="stat-text">Modern Labs</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-icon"><i class="fa-solid fa-truck-medical"></i></div>
-            <div class="stat-number">24/7</div>
-            <div class="stat-text">Emergency Care</div>
-        </div>
+<!-- ===================== STATS BAR ===================== -->
+<div class="stats-bar reveal">
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-user-doctor"></i></div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Expert Doctors</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-bed-pulse"></i></div>
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Hospital Beds</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-flask-vial"></i></div>
+        <div class="stat-num">15+</div>
+        <div class="stat-label">Departments</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-truck-medical"></i></div>
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Emergency Care</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="stat-num">50K+</div>
+        <div class="stat-label">Patients Served</div>
     </div>
 </div>
 
-<!-- ================= DEPARTMENTS ================= -->
-<section id="departments" class="departments">
+<!-- ===================== DEPARTMENTS ===================== -->
+<section class="departments-section">
     <div class="container">
-        <h2 class="section-title">Our Departments</h2>
-        <p class="section-subtitle">Comprehensive medical services</p>
-
-        <div class="department-grid">
-            <div class="department-card reveal">
-                <div class="department-img" style="background-image: url('{% static "images/depts/dept_generalsurgery.png" %}');"></div>
-                <div class="department-card-content">
-                    <h3>General Medicine</h3>
-                    <a href="{% url 'doctor_list' %}?q=General">View Doctors <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+        <div class="section-header-flex reveal">
+            <div>
+                <div class="section-eyebrow">Our Specialities</div>
+                <h2 class="section-title">Medical Departments</h2>
+                <p class="section-sub">Comprehensive, specialized healthcare across all major medical disciplines.</p>
             </div>
-            <div class="department-card reveal" style="transition-delay: 0.1s;">
-                <div class="department-img" style="background-image: url('{% static "images/gallery/bg2.png" %}');"></div>
-                <div class="department-card-content">
-                    <h3>Cardiology</h3>
-                    <a href="{% url 'doctor_list' %}?q=Cardio">View Doctors <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="department-card reveal" style="transition-delay: 0.3s;">
-                <div class="department-img" style="background-image: url('{% static "images/depts/dept_orthopedics.png" %}');"></div>
-                <div class="department-card-content">
-                    <h3>Orthopedics</h3>
-                    <a href="{% url 'doctor_list' %}?q=Ortho">View Doctors <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="department-card reveal" style="transition-delay: 0.4s;">
-                <div class="department-img" style="background-image: url('{% static "images/depts/dept_pediatrics.png" %}');"></div>
-                <div class="department-card-content">
-                    <h3>Pediatrics</h3>
-                    <a href="{% url 'doctor_list' %}?q=Pediatric">View Doctors <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="department-card reveal" style="transition-delay: 0.5s;">
-                <div class="department-img" style="background-image: url('{% static "images/depts/dept_ophthalmology.png" %}');"></div>
-                <div class="department-card-content">
-                    <h3>Ophthalmology</h3>
-                    <a href="{% url 'doctor_list' %}?q=Ophthal">View Doctors <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="department-card reveal" style="transition-delay: 0.6s;">
-                <div class="department-img" style="background-image: url('{% static "images/gallery/ghumarwin_civil_9.jpeg" %}');"></div>
-                <div class="department-card-content">
-                    <h3>Gynecology</h3>
-                    <a href="{% url 'doctor_list' %}?q=Gyne">View Doctors <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="department-card reveal" style="transition-delay: 0.7s;">
-                <div class="department-img" style="background-image: url('{% static "images/gallery/ghumarwin_civil_10.jpeg" %}');"></div>
-                <div class="department-card-content">
-                    <h3>Dental</h3>
-                    <a href="{% url 'doctor_list' %}?q=Dental">View Doctors <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="{% url 'departments_page' %}" class="hero-outline-btn" style="color:#1b5e20; border-color:#1b5e20;">View All Departments</a>
-        </div>
-    </div>
-</section>
-
-<!-- ================= WHY ================= -->
-<section class="why">
-    <div class="container">
-        <div class="why-split">
-            <div class="why-image-wrapper">
-                <img src="{% static 'images/gallery/ghumarwin_actual_entrance.png' %}" alt="Civil Hospital Ghumarwin Entrance" style="width:100%; height:100%; object-fit:cover; border-radius:18px; filter: contrast(1.1) brightness(1.05);">
-                <div class="experience-badge" style="background: rgba(46, 125, 50, 0.95); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.3); border-radius: 18px; padding: 25px 35px;">
-                    <span>50+</span><br><small style="font-weight: 700; font-size: 16px; letter-spacing: 1px;">YEARS OF</small><br><strong style="font-size: 20px;">LEGACY</strong>
-                </div>
-            </div>
-            <div class="why-content">
-                <h2 class="section-title" style="text-align: left;">Why Civil Hospital Ghumarwin</h2>
-                <p class="section-subtitle" style="text-align: left;">Trusted healthcare with compassion for the people of Bilaspur and beyond.</p>
-                
-                <div class="why-list">
-                    <div class="why-list-item">
-                        <div class="why-icon-small"><i class="fa-solid fa-user-doctor"></i></div>
-                        <div>
-                            <h4>Experienced Specialists</h4>
-                            <p>Our medical board consists of highly trained government-appointed doctors and surgeons.</p>
-                        </div>
-                    </div>
-                    <div class="why-list-item">
-                        <div class="why-icon-small"><i class="fa-solid fa-microscope"></i></div>
-                        <div>
-                            <h4>Advanced Technology</h4>
-                            <p>Fully equipped diagnostic labs, MRI, and digital X-Ray centers available 24/7.</p>
-                        </div>
-                    </div>
-                    <div class="why-list-item">
-                        <div class="why-icon-small"><i class="fa-solid fa-truck-medical"></i></div>
-                        <div>
-                            <h4>Critical Emergency Care</h4>
-                            <p>Immediate response trauma units and a fleet of advanced life support ambulances.</p>
-                        </div>
-                    </div>
-                    <div class="why-list-item">
-                        <div class="why-icon-small"><i class="fa-solid fa-hand-holding-medical"></i></div>
-                        <div>
-                            <h4>Patient-First Approach</h4>
-                            <p>Free standard medications, subsidized treatments, and dedicated patient helpdesks.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= GALLERY ================= -->
-<section class="gallery" style="background: white;">
-    <div class="container">
-        <h2 class="section-title">Hospital Infrastructure</h2>
-        <p class="section-subtitle">A glimpse into our world-class medical facilities</p>
-
-        <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-            <div class="gallery-card" style="border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08);">
-                <img src="{% static 'images/gallery/ghumarwin_civil_2.jpeg' %}" alt="Civil Hospital Building" style="width: 100%; height: 250px; object-fit: cover; display: block;">
-            </div>
-            <div class="gallery-card" style="border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08);">
-                <img src="{% static 'images/gallery/ghumarwin_civil_4.jpeg' %}" alt="Hospital Facilities" style="width: 100%; height: 250px; object-fit: cover; display: block;">
-            </div>
-            <div class="gallery-card" style="border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08);">
-                <img src="{% static 'images/gallery/ghumarwin_civil_6.jpeg' %}" alt="Hospital Ward" style="width: 100%; height: 250px; object-fit: cover; display: block;">
-            </div>
-            <div class="gallery-card" style="border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08);">
-                <img src="{% static 'images/gallery/ghumarwin_civil_8.jpeg' %}" alt="Hospital Corridor" style="width: 100%; height: 250px; object-fit: cover; display: block;">
-            </div>
+            <a href="{% url 'departments_page' %}" class="btn-outline-green">View All <i
+                    class="fa-solid fa-arrow-right"></i></a>
         </div>
 
-        <div class="gallery-btn" style="text-align: center; margin-top: 40px;">
-            <a href="{% url 'gallery' %}" class="hero-outline-btn" style="color: #1b5e20; border-color: #1b5e20;">
-                View Full Gallery <i class="fa-solid fa-arrow-right"></i>
+        <div class="dept-grid">
+            <a href="{% url 'doctor_list' %}?q=Emergency" class="dept-card reveal">
+                <div class="dept-img"
+                    style="background-image:url('{% static 'images/gallery/dept_emergency_1774677142172.png' %}');">
+                </div>
+                <div class="dept-body">
+                    <h3><i class="fa-solid fa-circle-h" style="color:#e53935; margin-right:7px;"></i>Emergency Medicine
+                    </h3>
+                    <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <a href="{% url 'doctor_list' %}?q=Ortho" class="dept-card reveal" style="transition-delay:0.07s;">
+                <div class="dept-img"
+                    style="background-image:url('{% static 'images/gallery/dept_orthopedics_1774677196971.png' %}');">
+                </div>
+                <div class="dept-body">
+                    <h3><i class="fa-solid fa-bone" style="color:#1e7e34; margin-right:7px;"></i>Orthopedics</h3>
+                    <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <a href="{% url 'doctor_list' %}?q=Pediatric" class="dept-card reveal" style="transition-delay:0.14s;">
+                <div class="dept-img"
+                    style="background-image:url('{% static 'images/gallery/dept_pediatrics_1774677216840.png' %}');">
+                </div>
+                <div class="dept-body">
+                    <h3><i class="fa-solid fa-baby" style="color:#1e7e34; margin-right:7px;"></i>Pediatrics</h3>
+                    <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <a href="{% url 'doctor_list' %}?q=Surgery" class="dept-card reveal" style="transition-delay:0.21s;">
+                <div class="dept-img"
+                    style="background-image:url('{% static 'images/gallery/dept_generalsurgery_1774677253875.png' %}');">
+                </div>
+                <div class="dept-body">
+                    <h3><i class="fa-solid fa-scalpel" style="color:#1e7e34; margin-right:7px;"></i>General Surgery</h3>
+                    <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <a href="{% url 'doctor_list' %}?q=Ophthal" class="dept-card reveal" style="transition-delay:0.28s;">
+                <div class="dept-img"
+                    style="background-image:url('{% static 'images/gallery/dept_ophthalmology_1774677178169.png' %}');">
+                </div>
+                <div class="dept-body">
+                    <h3><i class="fa-solid fa-eye" style="color:#1e7e34; margin-right:7px;"></i>Ophthalmology</h3>
+                    <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <a href="{% url 'doctor_list' %}?q=Derma" class="dept-card reveal" style="transition-delay:0.35s;">
+                <div class="dept-img"
+                    style="background-image:url('{% static 'images/gallery/dept_dermatology_1774677158877.png' %}');">
+                </div>
+                <div class="dept-body">
+                    <h3><i class="fa-solid fa-hand-dots" style="color:#1e7e34; margin-right:7px;"></i>Dermatology</h3>
+                    <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <a href="{% url 'doctor_list' %}?q=Radio" class="dept-card reveal" style="transition-delay:0.42s;">
+                <div class="dept-img"
+                    style="background-image:url('{% static 'images/gallery/dept_radiotherapy_1774677336398.png' %}');">
+                </div>
+                <div class="dept-body">
+                    <h3><i class="fa-solid fa-radiation" style="color:#1e7e34; margin-right:7px;"></i>Radiotherapy</h3>
+                    <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <a href="{% url 'doctor_list' %}?q=Anesthesia" class="dept-card reveal" style="transition-delay:0.49s;">
+                <div class="dept-img"
+                    style="background-image:url('{% static 'images/gallery/dept_anesthesia_1774677284557.png' %}');">
+                </div>
+                <div class="dept-body">
+                    <h3><i class="fa-solid fa-syringe" style="color:#1e7e34; margin-right:7px;"></i>Anesthesia</h3>
+                    <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
             </a>
         </div>
     </div>
 </section>
 
-<a href="tel:9876543210" class="floating-emergency" title="Emergency Help 24/7">
-    <i class="fa-solid fa-phone"></i>
-</a>
+<!-- ===================== WHY US ===================== -->
+<section class="why-section">
+    <div class="container">
+        <div class="why-grid">
+            <div class="why-img-wrap reveal">
+                <img src="{% static 'images/gallery/media__1774794118047.jpg' %}" alt="Civil Hospital Ghumarwin Gate">
+                <div class="why-badge">
+                    <span class="num">50+</span>
+                    <span class="sub">Years of Service</span>
+                </div>
+            </div>
+            <div class="reveal" style="transition-delay:0.15s;">
+                <div class="section-eyebrow">Why Choose Us</div>
+                <h2 class="section-title">Civil Hospital<br>Ghumarwin</h2>
+                <p class="section-sub">Your trusted government hospital in Bilaspur district — delivering free, quality
+                    healthcare with compassion to every patient since 1974.</p>
+
+                <div class="why-features">
+                    <div class="why-feat">
+                        <div class="why-feat-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                        <div>
+                            <h4>Government-Appointed Specialists</h4>
+                            <p>Our panel includes MBBS, MD, MS and super-specialist doctors trained from top medical
+                                institutions across India.</p>
+                        </div>
+                    </div>
+                    <div class="why-feat">
+                        <div class="why-feat-icon"><i class="fa-solid fa-flask-vial"></i></div>
+                        <div>
+                            <h4>Diagnostic Lab & X-Ray Centre</h4>
+                            <p>Fully equipped pathology lab and X-Ray facilities with subsidized or free testing for BPL
+                                card holders.</p>
+                        </div>
+                    </div>
+                    <div class="why-feat">
+                        <div class="why-feat-icon"><i class="fa-solid fa-truck-medical"></i></div>
+                        <div>
+                            <h4>Free Emergency & Ambulance</h4>
+                            <p>24×7 emergency ward with free ambulance services — call 108 for immediate response
+                                anywhere in the district.</p>
+                        </div>
+                    </div>
+                    <div class="why-feat">
+                        <div class="why-feat-icon"><i class="fa-solid fa-hand-holding-medical"></i></div>
+                        <div>
+                            <h4>Ayushman Bharat / HP Jan Arogya</h4>
+                            <p>Empanelled under Ayushman Bharat and HP state health schemes for cashless treatment up to
+                                ₹5 lakh.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== REAL PHOTOS OF CIVIL HOSPITAL GHUMARWIN ===================== -->
+<section class="real-photos-section">
+    <div class="container">
+        <div class="section-header-flex reveal">
+            <div>
+                <div class="section-eyebrow">Our Facilities</div>
+                <h2 class="section-title">Civil Hospital Ghumarwin</h2>
+                <p class="section-sub">Real photos of our hospital, campus, wards, and services.</p>
+            </div>
+            <a href="{% url 'gallery' %}" class="btn-outline-green">Full Gallery <i class="fa-solid fa-images"></i></a>
+        </div>
+
+        <div class="photo-masonry reveal">
+            <!-- Large image: Actual hospital building (OPD) -->
+            <div class="photo-item large" onclick="openLb('{% static 'images/gallery/media__1774794117989.jpg' %}')">
+                <img src="{% static 'images/gallery/media__1774794117989.jpg' %}"
+                    alt="Civil Hospital Ghumarwin OPD Building">
+                <div class="photo-overlay">
+                    <span><i class="fa-solid fa-hospital"></i> OPD — Bahu Rogi Bhavan</span>
+                </div>
+            </div>
+
+            <!-- Hospital Gate Sign -->
+            <div class="photo-item" onclick="openLb('{% static 'images/gallery/media__1774794118047.jpg' %}')">
+                <img src="{% static 'images/gallery/media__1774794118047.jpg' %}" alt="Civil Hospital Ghumarwin Gate">
+                <div class="photo-overlay">
+                    <span><i class="fa-solid fa-gate-open"></i> Hospital Gate</span>
+                </div>
+            </div>
+
+            <!-- Hospital Corridor -->
+            <div class="photo-item" onclick="openLb('{% static 'images/gallery/media__1774794117880.jpg' %}')">
+                <img src="{% static 'images/gallery/media__1774794117880.jpg' %}" alt="Hospital Corridor">
+                <div class="photo-overlay">
+                    <span><i class="fa-solid fa-house-medical"></i> Indoor Corridor</span>
+                </div>
+            </div>
+
+            <!-- Ambulance -->
+            <div class="photo-item" onclick="openLb('{% static 'images/gallery/media__1774796371288.jpg' %}')">
+                <img src="{% static 'images/gallery/media__1774796371288.jpg' %}" alt="Hospital Ambulance">
+                <div class="photo-overlay">
+                    <span><i class="fa-solid fa-truck-medical"></i> Free Ambulance Service</span>
+                </div>
+            </div>
+
+            <!-- X-Ray Room -->
+            <div class="photo-item" onclick="openLb('{% static 'images/gallery/media__1774934413702.png' %}')">
+                <img src="{% static 'images/gallery/media__1774934413702.png' %}" alt="X-Ray Centre">
+                <div class="photo-overlay">
+                    <span><i class="fa-solid fa-x-ray"></i> X-Ray Centre</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="testimonials-section">
+    <div class="container">
+        <div class="reveal" style="text-align:center; margin-bottom: 0;">
+            <div class="section-eyebrow" style="justify-content:center;">Patient Voices</div>
+            <h2 class="section-title">What Our Patients Say</h2>
+            <p class="section-sub" style="margin:0 auto;">Real experiences from patients treated at Civil Hospital
+                Ghumarwin.</p>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal" style="transition-delay:0.1s;">
+                <div class="quote-icon">"</div>
+                <p>The emergency team at Civil Hospital Ghumarwin saved my father's life when he had a stroke at
+                    midnight. The doctors responded immediately and the treatment was completely free. Forever grateful.
+                </p>
+                <div class="testimonial-author">
+                    <div class="t-avt">R</div>
+                    <div>
+                        <div class="t-name">Rajesh Kumar</div>
+                        <div class="t-detail">Ghumarwin, Bilaspur</div>
+                        <div class="t-stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal" style="transition-delay:0.2s;">
+                <div class="quote-icon">"</div>
+                <p>I had my delivery here under the Janani Suraksha Yojana scheme. The nursing staff and doctors were
+                    incredibly caring and professional. The facilities were clean and well-maintained.</p>
+                <div class="testimonial-author">
+                    <div class="t-avt">S</div>
+                    <div>
+                        <div class="t-name">Sunita Devi</div>
+                        <div class="t-detail">Berthin, Bilaspur</div>
+                        <div class="t-stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal" style="transition-delay:0.3s;">
+                <div class="quote-icon">"</div>
+                <p>Got my eyes checked at the Ophthalmology OPD — the specialist was thorough and medicines were
+                    provided free under the government scheme. Excellent service for a public hospital.</p>
+                <div class="testimonial-author">
+                    <div class="t-avt">M</div>
+                    <div>
+                        <div class="t-name">Mohan Lal</div>
+                        <div class="t-detail">Swarghat, Bilaspur</div>
+                        <div class="t-stars">★★★★☆</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== CTA BANNER ===================== -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-inner">
+            <div class="cta-text">
+                <h2>Ready to Book Your Appointment?</h2>
+                <p>Civil Hospital Ghumarwin offers free OPD consultations and specialist care. Register online or walk
+                    in during OPD hours (Mon–Sat, 9AM–2PM).</p>
+            </div>
+            <div class="cta-actions">
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'patient_book' %}" class="btn-cta-white">
+                    <i class="fa-solid fa-calendar-plus"></i> Book Now
+                </a>
+                {% else %}
+                <a href="{% url 'patient_login' %}?next={% url 'patient_book' %}" class="btn-cta-white">
+                    <i class="fa-solid fa-calendar-plus"></i> Book Now
+                </a>
+                {% endif %}
+                <a href="{% url 'doctor_list' %}" class="btn-cta-outline">
+                    <i class="fa-solid fa-user-doctor"></i> Find a Doctor
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lbOverlay" onclick="closeLb()">
+    <span class="lb-close" onclick="closeLb()">×</span>
+    <img class="lb-img" id="lbImg" src="" alt="Hospital photo">
+</div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    // Scroll Reveal Animation (Adding dynamic classes)
-    document.querySelectorAll('.section-title, .why-list-item, .stat-item, .department-card, .gallery-card').forEach(el => {
-        if (!el.classList.contains('reveal')) {
-            el.classList.add('reveal');
-        }
+    function openLb(src) {
+        document.getElementById('lbImg').src = src;
+        document.getElementById('lbOverlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLb() {
+        document.getElementById('lbOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLb();
     });
 
-    const revealOnScroll = () => {
-        const windowHeight = window.innerHeight;
-        const elementVisible = 120;
-
-        document.querySelectorAll(".reveal").forEach((reveal) => {
-            const elementTop = reveal.getBoundingClientRect().top;
-            if (elementTop < windowHeight - elementVisible) {
-                reveal.classList.add("active");
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
             }
         });
-    };
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
-    window.addEventListener("scroll", revealOnScroll);
-    revealOnScroll(); // Trigger immediately
-});
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 </script>
+
 {% endblock %}

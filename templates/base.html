@@ -1,259 +1,661 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospinex | Smart & Reliable Healthcare</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <title>Hospinex | Civil Hospital Ghumarwin — Smart & Reliable Healthcare</title>
+    <meta name="description" content="Civil Hospital Ghumarwin (Hospinex) — Quality government healthcare in Bilaspur, H.P. Book appointments, find doctors, and access 24/7 emergency services.">
+
+    <!-- Favicon / Address-bar icon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.ico.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/favicon.ico.png' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --hospinex-green: #2e7d32;
-            --hospinex-dark: #1b5e20;
+            --green-primary: #1e7e34;
+            --green-dark: #145a26;
+            --green-light: #e8f5e9;
+            --green-accent: #43a047;
             --white: #ffffff;
-            --light-bg: #f8faf9;
-            --transition: all 0.3s ease;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-700: #334155;
+            --gray-900: #0f172a;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.10);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 12px;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light-bg);
-            color: #333;
+            font-family: 'Inter', 'Poppins', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
         }
 
-        /* --- NAVBAR --- */
-        .navbar {
-            background-color: var(--hospinex-green);
+        /* ==================== TOP INFO BAR ==================== */
+        .top-info-bar {
+            background: var(--green-dark);
+            color: rgba(255,255,255,0.88);
+            padding: 8px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 60px;
-            height: 100px;
+            font-size: 12.5px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+
+        .top-info-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .top-info-left span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-info-left span i {
+            color: #a5d6a7;
+            font-size: 11px;
+        }
+
+        .top-info-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .top-info-right a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-info-right a:hover { color: #fff; }
+
+        .emergency-pill {
+            background: #d32f2f;
+            color: white !important;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px !important;
+            letter-spacing: 0.5px;
+            animation: pulse-bg 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-bg {
+            0%, 100% { background: #d32f2f; }
+            50% { background: #c62828; }
+        }
+
+        /* ==================== NAVBAR ==================== */
+        .navbar {
+            background: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            height: 82px;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+            border-bottom: 3px solid var(--green-primary);
         }
 
-        /* --- LOGO BOX --- */
-        .nav-logo-box {
-            background: white;
-            padding: 0 12px;
-            border-radius: 10px;
+        /* ==================== LOGO (IMAGE-BASED) ==================== */
+        .nav-logo-link {
+            text-decoration: none;
             display: flex;
             align-items: center;
-            justify-content: center;
-            height: 55px;  
-            width: 90px; 
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            gap: 0;
+            flex-shrink: 0;
             transition: var(--transition);
         }
 
-        .nav-logo-box img {
-            height: 100%;
-            width: 100%;
-            object-fit: contain;
-            display: block;
-            transform: scale(1.7); 
+        .nav-logo-link:hover {
+            opacity: 0.9;
+            transform: scale(1.01);
         }
 
-        /* --- NAVIGATION LINKS --- */
+        .nav-logo-img {
+            height: 62px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* ==================== NAV LINKS ==================== */
         .nav-links {
             display: flex;
-            gap: 25px;
+            gap: 4px;
+            align-items: center;
         }
 
         .nav-links a {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--gray-700);
             text-decoration: none;
             font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
+            font-size: 13.5px;
+            letter-spacing: 0.3px;
+            padding: 8px 14px;
+            border-radius: 8px;
             transition: var(--transition);
-            padding: 10px 0;
+            position: relative;
+            white-space: nowrap;
         }
 
         .nav-links a:hover {
-            color: #ffffff;
+            color: var(--green-primary);
+            background: var(--green-light);
         }
 
-        /* --- RIGHT SECTION --- */
+        .nav-links a.active {
+            color: var(--green-primary);
+            background: var(--green-light);
+        }
+
+        /* ==================== NAV RIGHT ==================== */
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 12px;
         }
 
-        /* FIXED SEARCH BAR VISIBILITY */
-        .search-bar {
-            background: rgba(255, 255, 255, 0.25); /* Increased opacity */
-            border-radius: 25px;
-            padding: 6px 18px;
+        .search-wrap {
             display: flex;
             align-items: center;
-            border: 1.5px solid #ffffff; /* Solid white border for clarity */
-        }
-
-        .search-bar input {
-            background: transparent;
-            border: none;
-            color: white;
-            outline: none;
-            width: 160px;
-            font-size: 13px;
-        }
-
-        /* Placeholder color for better visibility */
-        .search-bar input::placeholder {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* --- LOGIN DROPDOWN STYLING --- */
-        .login-dropdown {
-            position: relative;
-        }
-
-        .login-toggle {
-            background: white;
-            color: var(--hospinex-green);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
+            background: var(--gray-100);
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 7px 14px;
             gap: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: var(--transition);
         }
 
-        .login-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 60px;
+        .search-wrap:focus-within {
+            border-color: var(--green-primary);
             background: white;
-            min-width: 220px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            overflow: hidden;
-            z-index: 1001;
-            animation: fadeIn 0.3s ease;
+            box-shadow: 0 0 0 3px rgba(30,126,52,0.12);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .search-wrap input {
+            background: none;
+            border: none;
+            outline: none;
+            width: 160px;
+            font-size: 13.5px;
+            color: var(--gray-700);
+            font-family: inherit;
         }
 
-        .login-menu-header {
-            padding: 12px 20px;
-            font-size: 11px;
-            background: #f8f9fa;
-            font-weight: bold;
-            color: #888;
-            letter-spacing: 1px;
-        }
+        .search-wrap input::placeholder { color: var(--gray-400); }
 
-        .login-menu a {
-            display: block;
-            padding: 12px 20px;
-            text-decoration: none;
-            color: #333;
-            font-size: 14px;
-            border-bottom: 1px solid #eee;
-            transition: 0.2s;
-        }
-
-        .login-menu a:hover {
-            background: #e8f5e9;
-            color: var(--hospinex-green);
-            padding-left: 25px;
-        }
-
-        /* --- FOOTER SECTIONS --- */
-        .main-footer {
-            background: #ffffff;
-            padding: 60px 60px 30px;
-            border-top: 1px solid #eee;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1.5fr;
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .emergency-footer {
-            background: var(--hospinex-dark);
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .btn-up {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--hospinex-green);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .search-wrap button {
+            background: none;
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            color: var(--gray-400);
+            display: flex;
+            align-items: center;
+            padding: 0;
+            transition: var(--transition);
+        }
+
+        .search-wrap button:hover { color: var(--green-primary); }
+
+        .btn-book-appt {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #1e7e34, #145a23);
+            color: white;
+            text-decoration: none;
+            padding: 11px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 0.2px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(30,126,52,0.3);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-book-appt::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: width 0.5s, left 0.5s;
+        }
+
+        .btn-book-appt:hover::before {
+            left: 150%;
+        }
+
+        .btn-book-appt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30,126,52,0.45);
+            color: white;
+        }
+
+        /* ==================== PORTAL DROPDOWN ==================== */
+        .portal-dropdown { position: relative; }
+
+        .portal-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--gray-100);
+            border: 1.5px solid var(--gray-200);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--gray-500);
+            font-size: 17px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .portal-btn:hover {
+            background: var(--green-light);
+            color: var(--green-primary);
+            border-color: var(--green-primary);
+        }
+
+        .portal-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 10px);
+            background: white;
+            min-width: 240px;
+            border-radius: 14px;
+            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0,0,0,0.06);
+            overflow: hidden;
+            z-index: 2000;
+            animation: menuFadeIn 0.2s ease;
+        }
+
+        @keyframes menuFadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .portal-menu-label {
+            padding: 12px 20px 8px;
+            font-size: 10.5px;
+            font-weight: 800;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .portal-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 20px;
+            text-decoration: none;
+            color: var(--gray-700);
+            font-size: 13.5px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--gray-100);
+            transition: 0.15s;
+        }
+
+        .portal-menu a:last-child { border-bottom: none; }
+
+        .portal-menu a i {
+            width: 18px;
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 15px;
+        }
+
+        .portal-menu a:hover {
+            background: var(--green-light);
+            color: var(--green-primary);
+            padding-left: 26px;
+        }
+
+        .portal-menu a:hover i { color: var(--green-primary); }
+
+        /* ==================== FOOTER ==================== */
+        .site-footer {
+            background: var(--gray-900);
+            color: rgba(255,255,255,0.75);
+            padding: 70px 60px 0;
+        }
+
+        .footer-inner {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.4fr;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .footer-brand-logo {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 18px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 20px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 15px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            background: var(--green-primary);
+            color: white;
+        }
+
+        .footer-col h5 {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: white;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--green-primary);
+            display: inline-block;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-col ul li a {
+            color: rgba(255,255,255,0.55);
+            text-decoration: none;
+            font-size: 13.5px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-col ul li a::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: var(--green-primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .footer-col ul li a:hover { color: white; padding-left: 4px; }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 13.5px;
+            color: rgba(255,255,255,0.55);
+        }
+
+        .footer-contact-item i {
+            color: var(--green-accent);
+            font-size: 15px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .footer-contact-item strong {
+            display: block;
+            color: rgba(255,255,255,0.85);
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 22px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12.5px;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .footer-bottom a {
+            color: rgba(255,255,255,0.35);
+            text-decoration: none;
+        }
+
+        .footer-bottom a:hover { color: rgba(255,255,255,0.7); }
+
+        /* Emergency Footer Banner */
+        .emergency-banner {
+            background: linear-gradient(90deg, #c62828, #e53935);
+            color: white;
+            text-align: center;
+            padding: 22px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .emergency-banner .emrg-icon {
+            font-size: 24px;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .emergency-banner h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .emergency-banner .emrg-number {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        /* Scroll to top */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--green-primary);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(30,126,52,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .scroll-top-btn:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Floating emergency call */
+        .floating-emergency {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #e53935;
+            color: white;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 16px rgba(229,57,53,0.45);
+            z-index: 9999;
+            text-decoration: none;
+            animation: pulse-ring 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .floating-emergency:hover {
+            background: #c62828;
+            color: white;
+            width: 200px;
+            border-radius: 30px;
+            justify-content: flex-start;
+            padding-left: 18px;
+            gap: 10px;
+        }
+
+        .floating-emergency .emrg-label {
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 0;
+            transition: max-width 0.3s ease;
+        }
+
+        .floating-emergency:hover .emrg-label { max-width: 150px; }
+
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(229,57,53,0.5); }
+            70% { box-shadow: 0 0 0 16px rgba(229,57,53,0); }
+            100% { box-shadow: 0 0 0 0 rgba(229,57,53,0); }
         }
     </style>
 </head>
+
 <body>
 
-    <header class="navbar">
-        <div class="nav-logo-box">
-            <a href="{% url 'home' %}">
-                <img src="{% static 'images/logo.png' %}" alt="Hospinex">
-            </a>
+    <!-- TOP INFO BAR -->
+    <div class="top-info-bar">
+        <div class="top-info-left">
+            <span><i class="fa-solid fa-location-dot"></i> Ghumarwin, Distt. Bilaspur, Himachal Pradesh — 174021</span>
+            <span><i class="fa-solid fa-clock"></i> OPD: Mon–Sat, 9AM – 2PM</span>
         </div>
+        <div class="top-info-right">
+            <a href="tel:01978234567"><i class="fa-solid fa-phone"></i> 01978-234567</a>
+            <a href="tel:108" class="emergency-pill"><i class="fa-solid fa-ambulance"></i> Emergency: 108</a>
+        </div>
+    </div>
 
-        <nav class="nav-links">
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="{% url 'home' %}" class="nav-logo-link" aria-label="Hospinex Home">
+            <img src="{% static 'images/logo.png' %}" alt="Hospinex — Civil Hospital Ghumarwin" class="nav-logo-img">
+        </a>
+
+        <nav class="nav-links" aria-label="Main navigation">
             <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'departments_page' %}">Departments</a>
             <a href="{% url 'doctor_list' %}">Doctors</a>
             <a href="{% url 'gallery' %}">Gallery</a>
-            <a href="{% url 'about' %}">About Us</a>
+            <a href="{% url 'about' %}">About</a>
             <a href="{% url 'contact' %}">Contact</a>
         </nav>
 
         <div class="nav-right">
-            <form action="{% url 'doctor_list' %}" method="get" class="search-bar">
-                <input type="text" name="q" placeholder="Search specialists/doctors...">
-                <button type="submit" style="background:none; border:none; cursor:pointer; font-size: 16px;">🔍</button>
-            </form>
 
-            <div class="login-dropdown">
-                <button class="login-toggle" id="loginBtn">
-                    🔐 Portal Login ▾
+
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'patient_book' %}" class="btn-book-appt">
+                <i class="fa-solid fa-calendar-check"></i>
+                Book Appointment
+            </a>
+            {% else %}
+            <a href="{% url 'patient_login' %}?next={% url 'patient_book' %}" class="btn-book-appt">
+                <i class="fa-solid fa-calendar-check"></i>
+                Book Appointment
+            </a>
+            {% endif %}
+
+            <div class="portal-dropdown">
+                <button class="portal-btn" id="portalBtn" aria-label="Staff portals" aria-expanded="false">
+                    <i class="fa-solid fa-user-shield"></i>
                 </button>
-                <div class="login-menu" id="loginMenu">
-                    <div class="login-menu-header">HEALTHCARE PORTAL</div>
-                    <a href="{% url 'doctor_login' %}">👨‍⚕️ Doctor Portal</a>
-                    <a href="{% url 'receptionist_login' %}">🧾 Reception Desk</a>
-                    <a href="{% url 'patient_login' %}" style="color:var(--hospinex-green); font-weight:bold;">🧑 Patient Login</a>
-                    
-                    <div class="login-menu-header">MANAGEMENT</div>
-                    <a href="/admin/" style="border-bottom: none;">🛡️ System Admin</a>
+                <div class="portal-menu" id="portalMenu" role="menu">
+                    <div class="portal-menu-label">Healthcare Portals</div>
+                    <a href="{% url 'doctor_login' %}" role="menuitem"><i class="fa-solid fa-user-doctor"></i> Doctor Portal</a>
+                    <a href="{% url 'receptionist_login' %}" role="menuitem"><i class="fa-solid fa-clipboard-list"></i> Reception Desk</a>
+                    <a href="{% url 'patient_login' %}" style="color:var(--green-primary); font-weight:700;" role="menuitem"><i class="fa-solid fa-user"></i> Patient Login</a>
+                    <div class="portal-menu-label" style="border-top:1px solid var(--gray-100);">Administration</div>
+                    <a href="/admin/" role="menuitem"><i class="fa-solid fa-shield-halved"></i> System Admin</a>
+                    {% if request.user.is_authenticated %}
+                    <div class="portal-menu-label" style="border-top:1px solid var(--gray-100);">Account</div>
+                    <a href="{% url 'logout' %}" style="color:#dc2626;" role="menuitem"><i class="fa-solid fa-power-off"></i> Logout</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -263,53 +665,123 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="main-footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4 style="color: var(--hospinex-green); margin-top:0;">Hospinex Healthcare</h4>
-                <p style="color:#777; font-size:14px; line-height:1.6;">Providing world-class healthcare with state-of-the-art technology and compassionate medical professionals.</p>
+    <!-- EMERGENCY BANNER -->
+    <div class="emergency-banner">
+        <span class="emrg-icon"><i class="fa-solid fa-circle-exclamation"></i></span>
+        <h3>24 × 7 Emergency Services</h3>
+        <div class="emrg-number">108 &nbsp;|&nbsp; 01978-234567</div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="{% static 'images/logo.png' %}" alt="Hospinex" class="footer-brand-logo" style="background-color: white; padding: 4px; border-radius: 6px;">
+                <p>Civil Hospital Ghumarwin has been providing compassionate, accessible healthcare to the people of Bilaspur district and surrounding areas for over 50 years. Managed by the Government of Himachal Pradesh.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
             </div>
+
             <div class="footer-col">
-                <h4 style="color: var(--hospinex-green);">Quick Links</h4>
-                <ul style="list-style:none; padding:0; font-size:14px;">
-                    <li style="margin-bottom:10px;"><a href="{% url 'home' %}" style="text-decoration:none; color:#666;">Home</a></li>
-                    <li style="margin-bottom:10px;"><a href="{% url 'doctor_list' %}" style="text-decoration:none; color:#666;">Find a Doctor</a></li>
-                    <li style="margin-bottom:10px;"><a href="{% url 'departments_page' %}" style="text-decoration:none; color:#666;">Our Departments</a></li>
+                <h5>Quick Links</h5>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'doctor_list' %}">Find a Doctor</a></li>
+                    <li><a href="{% url 'departments_page' %}">Our Departments</a></li>
+                    <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
                 </ul>
             </div>
+
             <div class="footer-col">
-                <h4 style="color: var(--hospinex-green);">Support</h4>
-                <ul style="list-style:none; padding:0; font-size:14px;">
-                    <li style="margin-bottom:10px;"><a href="#" style="text-decoration:none; color:#666;">Emergency 24/7</a></li>
-                    <li style="margin-bottom:10px;"><a href="#" style="text-decoration:none; color:#666;">Consultation</a></li>
+                <h5>Services</h5>
+                <ul>
+                    <li><a href="#">Emergency Care 24/7</a></li>
+                    <li><a href="#">OPD Consultation</a></li>
+                    <li><a href="#">Laboratory Services</a></li>
+                    <li><a href="#">X-Ray & Imaging</a></li>
+                    <li><a href="#">Maternity Care</a></li>
+                    <li><a href="#">Blood Bank</a></li>
                 </ul>
             </div>
+
             <div class="footer-col">
-                <h4 style="color: var(--hospinex-green);">Contact</h4>
-                <p style="color:#777; font-size:14px;">📍 123 Health Ave<br>📞 +91 98765 43210</p>
+                <h5>Contact Us</h5>
+                <div class="footer-contact-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <strong>Address</strong>
+                        Civil Hospital Ghumarwin, Distt. Bilaspur, Himachal Pradesh — 174021
+                    </div>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <div>
+                        <strong>Phone</strong>
+                        01978-234567
+                    </div>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fa-solid fa-ambulance"></i>
+                    <div>
+                        <strong>Emergency (Free)</strong>
+                        108
+                    </div>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fa-solid fa-clock"></i>
+                    <div>
+                        <strong>OPD Timings</strong>
+                        Monday – Saturday, 9:00 AM – 2:00 PM
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2025 Civil Hospital Ghumarwin (Hospinex). Government of Himachal Pradesh. All Rights Reserved.</span>
+            <span>
+                <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+                <a href="#">Disclaimer</a> &nbsp;·&nbsp;
+                <a href="#">RTI</a>
+            </span>
         </div>
     </footer>
 
-    <footer class="emergency-footer">
-        <h2 style="margin: 0; font-size: 28px;">Emergency: +91 98765 43210</h2>
-    </footer>
+    <!-- SCROLL TO TOP -->
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="scroll-top-btn" aria-label="Scroll to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 
-    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="btn-up">↑</button>
+    <!-- FLOATING EMERGENCY -->
+    <a href="tel:108" class="floating-emergency" title="Emergency: 108" aria-label="Call emergency 108">
+        <i class="fa-solid fa-phone-volume"></i>
+        <span class="emrg-label">Emergency: 108</span>
+    </a>
 
     <script>
-        const loginBtn = document.getElementById('loginBtn');
-        const loginMenu = document.getElementById('loginMenu');
+        const portalBtn = document.getElementById('portalBtn');
+        const portalMenu = document.getElementById('portalMenu');
 
-        loginBtn.addEventListener('click', (e) => {
+        portalBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const currentDisplay = window.getComputedStyle(loginMenu).display;
-            loginMenu.style.display = (currentDisplay === 'none') ? 'block' : 'none';
+            const isOpen = portalMenu.style.display === 'block';
+            portalMenu.style.display = isOpen ? 'none' : 'block';
+            portalBtn.setAttribute('aria-expanded', !isOpen);
         });
 
         document.addEventListener('click', () => {
-            loginMenu.style.display = 'none';
+            portalMenu.style.display = 'none';
+            portalBtn.setAttribute('aria-expanded', 'false');
         });
+
+        portalMenu.addEventListener('click', (e) => e.stopPropagation());
     </script>
 </body>
+
 </html>
