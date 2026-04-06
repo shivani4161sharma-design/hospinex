@@ -77,6 +77,13 @@ class ContactMessage(models.Model):
     email = models.EmailField(max_length=254)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+# --- CHAT MESSAGE MODEL ---
+class ChatMessage(models.Model):
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE)
+    patient_name = models.CharField(max_length=100)
+    message = models.TextField()
+    sender = models.CharField(max_length=20) # 'doctor' or 'patient'
+    created_at = models.DateTimeField(auto_now_add=True)
 
 # --- GALLERY MODEL ---
 class Gallery(models.Model):

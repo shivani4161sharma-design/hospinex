@@ -33,7 +33,8 @@ class DoctorAdmin(admin.ModelAdmin):
         return format_html(
             '<div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#27ae60,#1e8449);'
             'display:flex;align-items:center;justify-content:center;color:white;font-size:18px;'
-            'box-shadow:0 2px 8px rgba(0,0,0,0.2);">👨‍⚕️</div>'
+            'box-shadow:0 2px 8px rgba(0,0,0,0.2);">{}</div>',
+            '👨‍⚕️'
         )
     doctor_photo_thumb.short_description = 'Photo'
 
@@ -170,8 +171,8 @@ class DoctorNotificationAdmin(admin.ModelAdmin):
 
     def read_status(self, obj):
         if obj.is_read:
-            return format_html('<span style="color:#27ae60;font-weight:700;">✅ Read</span>')
-        return format_html('<span style="color:#e74c3c;font-weight:700;">🔔 Unread</span>')
+            return format_html('<span style="color:#27ae60;font-weight:700;">{}</span>', '✅ Read')
+        return format_html('<span style="color:#e74c3c;font-weight:700;">{}</span>', '🔔 Unread')
     read_status.short_description = 'Read Status'
 
 
