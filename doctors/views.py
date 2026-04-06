@@ -66,19 +66,30 @@ def appointment_success(request, appointment_id):
 # DOCTOR LOGIN
 # =========================
 def doctor_login(request):
-    if request.user.is_authenticated and request.user.is_staff:
-        return redirect("doctor_dashboard")
+    if request.user.is_authenticated:
+        is_doctor = Doctor.objects.filter(user=request.user).exists()
+        is_receptionist = request.user.groups.filter(name="Receptionist").exists()
+        
+        if is_doctor:
+            return redirect("doctor_dashboard")
+        elif is_receptionist:
+            return redirect("receptionist_dashboard")
+        return redirect("patient_dashboard")
 
     if request.method == "POST":
-        user = authenticate(
-            request,
-            username=request.POST.get("username"),
-            password=request.POST.get("password"),
-        )
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password")
+        
+        user = authenticate(request, username=username, password=password)
 
-        if user and user.is_staff:
-            login(request, user)
-            return redirect("doctor_dashboard")
+        if user:
+            # More direct check using ID to evade relationship caching issues
+            if Doctor.objects.filter(user_id=user.id).exists():
+                login(request, user)
+                return redirect("doctor_dashboard")
+            else:
+                messages.error(request, f"Access Denied: You ({username}) do not have a Doctor profile.")
+                return redirect("doctor_login")
 
         messages.error(request, "Invalid credentials")
 
@@ -285,10 +296,15 @@ def patient_book(request):
 
 @login_required(login_url="patient_login")
 def patient_dashboard(request):
-    # Check if the logged-in user is actually a patient
-    if hasattr(request, 'user') and hasattr(request.user, 'doctor'): 
+    # Redirect Doctors
+    if Doctor.objects.filter(user=request.user).exists(): 
         messages.error(request, "Access Denied: Doctors cannot access the Patient Dashboard.")
         return redirect('doctor_dashboard')
+    
+    # Redirect Receptionists
+    if request.user.groups.filter(name="Receptionist").exists():
+        messages.error(request, "Access Denied: Staff cannot access the Patient Dashboard.")
+        return redirect('receptionist_dashboard')
     
     # Fetch patient appointments using user email
     appointments = Appointment.objects.filter(patient_email=request.user.email).order_by('-appointment_date', 'queue_number')
@@ -299,6 +315,10 @@ def patient_dashboard(request):
     
     # Check if any appointment is in progress right now
     current_queue = appointments.filter(status='in_progress').first()
+
+    # Check for active emergencies for the patient's doctors
+    doctor_ids = appointments.values_list('doctor__user_id', flat=True).distinct()
+    active_emergencies = EmergencyAlert.objects.filter(doctor_id__in=doctor_ids, status='pending')
     
     context = {
         'appointments': appointments,
@@ -306,6 +326,7 @@ def patient_dashboard(request):
         'upcoming': upcoming,
         'completed': completed,
         'current_queue': current_queue,
+        'active_emergencies': active_emergencies,
     }
     
     return render(request, 'patient_dashboard.html', context)
@@ -372,8 +393,12 @@ def view_notification_appointment(request, appointment_id):
         {"appointment": appointment}
     )
 def receptionist_login(request):
-    if request.user.is_authenticated and request.user.groups.filter(name="Receptionist").exists():
-        return redirect("receptionist_dashboard")
+    if request.user.is_authenticated:
+        if request.user.groups.filter(name="Receptionist").exists():
+            return redirect("receptionist_dashboard")
+        elif Doctor.objects.filter(user=request.user).exists():
+            return redirect("doctor_dashboard")
+        return redirect("patient_dashboard")
 
     if request.method == "POST":
         user = authenticate(
@@ -382,23 +407,35 @@ def receptionist_login(request):
             password=request.POST.get("password"),
         )
 
-        if user and user.groups.filter(name="Receptionist").exists():
-            login(request, user)
-            return redirect("receptionist_dashboard")
+        if user:
+            if user.groups.filter(name="Receptionist").exists():
+                login(request, user)
+                return redirect("receptionist_dashboard")
+            else:
+                messages.error(request, "Access Denied: You do not have Receptionist permissions.")
+                return redirect("receptionist_login")
 
         messages.error(request, "Invalid receptionist credentials")
 
     return render(request, "receptionist/receptionist_login.html")
 @login_required(login_url="receptionist_login")
 def receptionist_dashboard(request):
-    doctors = User.objects.filter(is_staff=True)
+    # Only pick staff members who actually have a Doctor profile
+    doctors = User.objects.filter(is_staff=True, doctor__isnull=False)
     today = timezone.now().date()
     appointments = Appointment.objects.filter(appointment_date=today).order_by('-created_at')
+    
+    # Fetch active emergencies to show the receptionist
+    active_emergencies = EmergencyAlert.objects.filter(status='pending').order_by('-created_at')
 
     return render(
         request,
         "receptionist/dashboard.html",
-        {"doctors": doctors, "appointments": appointments}
+        {
+            "doctors": doctors, 
+            "appointments": appointments,
+            "active_emergencies": active_emergencies
+        }
     )
 @login_required(login_url="receptionist_login")
 def receptionist_logout(request):

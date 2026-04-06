@@ -522,16 +522,35 @@
 </style>
 
 <!-- ═══ EMERGENCY STATUS BANNER ═══ -->
+{% if active_emergencies %}
+    <div style="padding: 0 40px; margin-top: 20px;">
+        {% for emergency in active_emergencies %}
+            <div style="background: linear-gradient(135deg, #fee2e2, #fff); border: 2px solid #ef4444; color: #b91c1c; padding: 20px; border-radius: 12px; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15); margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fa-solid fa-truck-medical fa-lg fa-beat" style="color:#ef4444;"></i>
+                    <div>
+                    <strong style="display: block; font-size: 20px;">ACTIVE EMERGENCY ALERT:</strong>
+                    Dr. {{ emergency.doctor.get_full_name|default:emergency.doctor.username }} is alerted.
+                    </div>
+                </div>
+                <span style="font-size: 12px; background: #fee2e2; padding: 5px 12px; border-radius: 20px; border: 1px solid #fca5a5;">Awaiting Doctor Response</span>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
 {% if messages %}
     <div style="padding: 0 40px; margin-top: 20px;">
         {% for message in messages %}
-            <div style="background: #fee2e2; border: 2px solid #ef4444; color: #b91c1c; padding: 20px; border-radius: 12px; font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);">
-                <i class="fa-solid fa-circle-exclamation fa-lg"></i>
+            {% if message.tags != 'error' and message.tags != 'success' %}
+            <div style="background: #eff6ff; border: 2px solid #3b82f6; color: #1e40af; padding: 20px; border-radius: 12px; font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);">
+                <i class="fa-solid fa-circle-info fa-lg"></i>
                 <div>
-                   <strong style="display: block; font-size: 20px;">URGENT STATUS:</strong>
+                   <strong style="display: block; font-size: 20px;">STATUS UPDATE:</strong>
                    {{ message }}
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endif %}

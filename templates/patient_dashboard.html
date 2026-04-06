@@ -271,6 +271,25 @@
             </div>
         </div>
 
+        {% if active_emergencies %}
+        <div style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(239, 68, 68, 0.2); border: 2px solid #fecaca; animation: pulse-border 2s infinite;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <i class="fa-solid fa-circle-exclamation fa-2x fa-beat"></i>
+                <div>
+                   <h3 style="margin:0; font-size: 20px; font-weight: 800;">ACTIVE EMERGENCY ALERT</h3>
+                   <p style="margin:5px 0 0 0; font-size: 14px; opacity: 0.9;">A medical emergency has been reported for your doctor. <strong>Appointment queue is temporarily paused.</strong> Please bear with us.</p>
+                </div>
+            </div>
+        </div>
+        <style>
+            @keyframes pulse-border {
+                0% { border-color: #fca5a5; }
+                50% { border-color: #ffffff; }
+                100% { border-color: #fca5a5; }
+            }
+        </style>
+        {% endif %}
+
         <!-- QUEUE -->
         {% if current_queue %}
         <div class="queue-banner">
