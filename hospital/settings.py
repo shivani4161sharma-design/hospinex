@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-xk4!eded*3!x&@v_*gwby+!)g1(k8y1!(#a3dfgrn3fd7u%_i^')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,.vercel.app').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://*.vercel.app').split(',')
 
 
 # =========================
@@ -146,8 +147,9 @@ STATICFILES_DIRS = [
 # For production: python manage.py collectstatic
 STATIC_ROOT = BASE_DIR / 'staticfiles_build' / 'static'
 
-# WhiteNoise compression & caching
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# WhiteNoise: serve static files directly from STATICFILES_DIRS (no collectstatic needed)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+WHITENOISE_USE_FINDERS = True
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
