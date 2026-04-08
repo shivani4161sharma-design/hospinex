@@ -144,7 +144,7 @@ STATICFILES_DIRS = [
 ]
 
 # For production: python manage.py collectstatic
-STATIC_ROOT = BASE_DIR / 'static_root'
+STATIC_ROOT = BASE_DIR / 'staticfiles_build' / 'static'
 
 # WhiteNoise compression & caching
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
